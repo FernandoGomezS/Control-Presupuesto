@@ -24,14 +24,13 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('commune');
-            $table->enum('afp', ['Transitorio', 'Permanente']);
-            $table->enum('Health', ['Transitorio', 'Permanente']);
+            $table->enum('afp', ['Capital', 'Cuprum','Habitat','Modelo','Plan Vital','Provida','Pensionado','No tiene', 'Otra']);
+            $table->enum('Health', ['Fonasa', 'Banmédica','Colmena','Consalud','Cruz Blanca','Mas Vida','Vida Tres','No Tiene','Otra']);
             $table->string('profession');
             $table->enum('quality_studies', ['Tecnico', 'Profesional','Experto']);
             $table->bigInteger('semesters')->unsigned()->nullable();
             $table->string('url_certificate');
-            $table->string('url_identification');  
-            $table->date('upgrade_date');           
+            $table->string('url_identification'); 
             $table->timestamps();
         });
     }

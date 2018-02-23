@@ -17,8 +17,8 @@ class CreateBudgetsTable extends Migration
             $table->bigIncrements('id')->unsigned()->index(); 
             $table->bigInteger('year')->unsigned()->unique();
             $table->bigInteger('amount_total')->unsigned();
-            $table->bigInteger('numbers_employees')->unsigned();
-            $table->date('upgrade_date');               
+            $table->bigInteger('numbers_employees')->unsigned(); 
+            $table->enum('state', ['Activo', 'Inactivo']);
             $table->timestamps();
         });
     }

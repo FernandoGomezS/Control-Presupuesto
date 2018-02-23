@@ -18,6 +18,7 @@
 
     {{--Head--}}
     @yield('head')
+    <title>control de Presupuesto </title>
 
 </head>
 <body class="nav-md">
@@ -55,25 +56,25 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Contratos <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">      
-                          <li><a href="/contratos/crear/">Crear contratos</a></li>                      
-                          <li><a href="/contratos/buscar">Buscar contratos</a></li>                     
+                          <li><a href="{{route('contracts.create') }} ">Crear contratos</a></li>                      
+                          <li><a href="{{ route('contracts.search') }}">Buscar contratos</a></li>                     
                       </ul>
                   </li>
                   <li><a><i class="fa fa-list-alt"></i> Presupuesto <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">                      
-                          <li><a href="/presupuestos/buscar">Buscar Presupuestos</a></li>                      
+                          <li><a href="{{ route('budgets.search') }}">Buscar Presupuestos</a></li>                      
                       </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i> Empleados <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                          <li><a href="/empleados/crear">Crear Empleado</a></li>
-                          <li><a href="/empleados/buscar">Buscar Empleados</a></li>                 
+                          <li><a href="{{ route('employees.create') }}">Crear Empleado</a></li>
+                          <li><a href="{{ route('employees.search') }}">Buscar Empleados</a></li>                 
                       </ul>
                   </li>  
                   <li><a><i class="fa fa-users"></i> Responsables <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                          <li><a href="/responsables/crear">Crear Responsable</a></li>
-                          <li><a href="/responsables/buscar">Buscar Responsables</a></li>                 
+                          <li><a href="{{ route('responsables.create') }}">Crear Responsable</a></li>
+                          <li><a href="{{ route('responsables.search') }}">Buscar Responsables</a></li>                 
                       </ul>
                   </li>                    
               </ul>
@@ -83,14 +84,14 @@
               <ul class="nav side-menu">
                   <li><a><i class="fa fa-user"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                          <li><a href="/usuarios/crear">Crear Usuario</a></li>
-                          <li><a href="/usuarios/buscar">Buscar Usuarios</a></li>                 
+                          <li><a href="{{ route('users.create') }}">Crear Usuario</a></li>
+                          <li><a href="{{ route('users.search') }}">Buscar Usuarios</a></li>                 
                       </ul>
                   </li>  
                   <li><a><i class="fa fa-list-alt"></i> Presupuesto <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                          <li><a href="/presupuestos/crear">Crear Presupuesto</a></li>
-                          <li><a href="/presupuestos/buscar">Buscar Presupuestos</a></li>                 
+                          <li><a href="{{ route('budgets.create') }}">Crear Presupuesto</a></li>
+                          <li><a href="{{ route('budgets.search') }}">Buscar Presupuestos</a></li>                 
                       </ul>
                   </li>                                               
               </ul>

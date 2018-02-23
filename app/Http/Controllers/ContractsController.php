@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ResponsablesController extends Controller
+class ContractsController extends Controller
 {
      public function create()
     {
-    	return view('responsables.create');
+    	return view('contracts.create');
     }
 
     public function search()
     {
-    	return view('responsables.search');
+    	return view('contracts.search');
     }
 
     public function edit()
     {
-    	return view('responsables.edit');
+    	return view('contracts.edit');
     }
 
     public function show()
     {
-        return view('responsables.show');
+        return view('contracts.show');
     }
 }
