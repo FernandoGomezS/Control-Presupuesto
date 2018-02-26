@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\CustomResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email','role_id' ,'password',
+        'name', 'email','password',
     ];
 
     /**
@@ -30,12 +31,48 @@ class User extends Authenticatable
     /**
      * Function that associates the user with a role
      *
-     * @return Role
-     */
-    public function role()
+     * @return Roles
+     */   
+    public function roles()
     {
-        return $this->belongsTo(Role::class);
+        return $this
+        ->belongsToMany('App\Role')
+        ->withTimestamps();
+    }
+    public function authorizeRoles($roles)
+    {
+        if ($this->hasAnyRole($roles)) {
+            return true;
+        }
+        abort(401, 'Esta acción no está autorizada.');
+    }
+    public function hasAnyRole($roles)
+    {
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if ($this->hasRole($role)) {
+                    return true;
+                }
+            }
+        } else {
+            if ($this->hasRole($roles)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public function hasRole($role)
+    {
+        if ($this->roles()->where('name', $role)->first()) {
+            return true;
+        }
+        return false;
     }
 
 
+    public function sendPasswordResetNotification($token)
+    {
+     $this->notify(new CustomResetPasswordNotification($token));
+
+    }
 }

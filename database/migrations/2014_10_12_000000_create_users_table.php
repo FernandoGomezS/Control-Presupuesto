@@ -17,8 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('password');
-            $table->bigInteger('role_id')->unsigned()->index();
+            $table->string('password');           
             $table->rememberToken();
             $table->timestamps();
         });

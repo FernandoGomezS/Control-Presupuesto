@@ -28,7 +28,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-archive"></i> <span>Presupuesto </span></a>
+            <a href="index.html" class="site_title"><i class="fa fa-archive"></i> <span>Presupuesto</span> <small>2018 </small></a>
         </div>
 
         <div class="clearfix"></div>
@@ -119,7 +119,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                       <li><a href="javascript:;"> Mi Perfil</a></li>
-                      <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
+                      <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                   </ul>
               </li>
           </ul>

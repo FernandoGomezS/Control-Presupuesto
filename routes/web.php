@@ -11,9 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('web.index');
-});
+Route::get('/', 'HomeController@index');
+Route::auth();
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+
+Route::group(['middleware' => ['auth','web']], function()
+{
+
+
 
 
 	//rutas usuarios
@@ -47,3 +53,4 @@ Route::get('/', function () {
 	Route::get('contratos/buscar', 'ContractsController@search')->name('contracts.search');
 	Route::get('contratos/editar', 'ContractsController@edit')->name('contracts.edit');
 	Route::get('contratos/ver', 'ContractsController@show')->name('contracts.show');
+	});
