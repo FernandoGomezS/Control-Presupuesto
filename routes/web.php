@@ -16,11 +16,9 @@ Route::auth();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 
+
 Route::group(['middleware' => ['auth','web']], function()
 {
-
-
-
 
 	//rutas usuarios
 	Route::get('usuarios/', 'UsersController@users')->name('users');
@@ -29,6 +27,10 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('usuarios/editar/{user}', 'UsersController@edit')->name('users.edit');
 	Route::get('usuarios/ver/{user}', 'UsersController@show')->name('users.show');
 	Route::get('usuarios/perfil', 'UsersController@perfil')->name('users.perfil');
+	Route::post('usuarios/crear', 'UsersController@store')->name('users.store');
+	Route::post('usuarios/editar/', 'UsersController@update')->name('users.update');
+	Route::delete('/usuarios/borrar/{user}', 'UsersController@destroy')->name('users.destroy');
+
 	//rutas empleados
 	Route::get('empleados/', 'Employeesontroller@employees')->name('employees');
 	Route::get('empleados/crear', 'Employeesontroller@create')->name('employees.create');

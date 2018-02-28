@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class HomeController extends Controller
 {
     public function __construct()
@@ -13,6 +14,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $request->user()->authorizeRoles(['Usuario', 'Administrador']);
+        
         return view('web.index');
     }
 }

@@ -18,7 +18,6 @@
           </div>
           <div class="x_content">
 
-
             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
@@ -40,10 +39,10 @@
                   @endif
                 </td>  
                 <td>               
-                    @if( strlen($user->role->name) < 20 )
-                    {{ $user->role->name }}
+                    @if( strlen($user->roles->first()->name) < 20 )
+                    {{ $user->roles->first()->name}}
                     @else
-                    {{ substr($user->role->name,0 ,10) . "..." }}
+                    {{ substr($user->roles->first()->name,0 ,10) . "..." }}
                   @endif
                 </td>  
                 <td>               
@@ -54,9 +53,13 @@
                   @endif
                 </td>  
                   <td>
+                    <form action="{{ route('users.destroy', $user) }}" method="POST">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
                     <a href="{{ route('users.show',['id'=>$user->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
                     <a href="{{ route('users.edit',['id'=>$user->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                    <a href="{{ route('users.show',['id'=>$user->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
+                     <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar</button>
+                  </form>
                   </td>
                 </tr>
                 @endforeach
@@ -68,5 +71,7 @@
     </div>
   </div>
 </div>
+
+
 <!-- /page content -->
 @endsection

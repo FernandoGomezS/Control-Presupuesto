@@ -4938,7 +4938,23 @@ if (typeof NProgress != 'undefined') {
 				  keys: true
 				});
 
-				$('#datatable-responsive').DataTable();
+				$('#datatable-responsive').DataTable({
+
+          responsive: true,
+            language: {              
+               
+                search: "Buscar:",
+                "lengthMenu": "Ver _MENU_  por pagina",
+            "zeroRecords": "Nada Encontrado -",
+            "info":           "Mostrando _START_ a _END_ de _TOTAL_ ",
+            "infoEmpty":      "Mostrando 0 a 0 de 0 ",
+             "paginate": {
+            "first":      "Primero",
+            "last":       "Último",
+            "next":       "Siguiente",
+            "previous":   "Anterior"},
+            }}
+          );
 
 				$('#datatable-scroller').DataTable({
 				  ajax: "js/datatables/json/scroller-demo.json",
