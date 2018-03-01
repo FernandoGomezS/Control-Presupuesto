@@ -37,7 +37,7 @@ class UsersController extends Controller
 
 	public function edit(User $user)
 	{
-		if(auth()->user()->hasRole('Administrador')){
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->id == $user->id){
 
 			return view('users.edit')->with('user',$user)->with('roles',Role::get());
 		}
@@ -45,7 +45,7 @@ class UsersController extends Controller
 
 	public function show(User $user)
 	{
-		if(auth()->user()->hasRole('Administrador')){
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->id == $user->id){
 
 			return view('users.show')->with('user',$user);
 		}
@@ -91,7 +91,7 @@ class UsersController extends Controller
 	public function update(Request $request)
 	{		
 
-		if(auth()->user()->hasRole('Administrador')){
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->id == $request->id ){
 
 			$validator = Validator::make($request->all(), [
 				'name' => 'required|max:255',
@@ -125,7 +125,14 @@ class UsersController extends Controller
 					$role = Role::where('name', 'Administrador')->first();
 				}  
 				$user->roles()->attach($role);
-				return redirect()->intended(route('users.search'));
+
+				if(auth()->user()->hasRole('Administrador') ){
+					return redirect()->intended(route('users.search'));
+				}
+				else{
+
+					return view('web.index');;
+				}
 			}
 
 		}
@@ -133,11 +140,13 @@ class UsersController extends Controller
 
 	public function destroy(User $user){
 
+
+
 		if(auth()->user()->hasRole('Administrador'))
 		{
-		
-    $user->delete();
- 
+
+			$user->delete();
+
 			return redirect()->intended(route('users.search'));
 		}
 	}

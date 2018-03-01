@@ -26,7 +26,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-archive"></i> <span>Presupuesto </span><small>{{ $budget->year}}</small></a>
+            <a href="/" class="site_title"><i class="fa fa-archive"></i> <span>Presupuesto </span><small>{{ $budget_active}}</small></a>
         </div>
 
         <div class="clearfix"></div>
@@ -139,9 +139,17 @@
 <!-- /footer content -->
 
 {{--Common Scripts--}}
+ <!-- jQuery -->
+    <script src="{{asset('/assets/app/js/jquery.min.js')}}" ></script>
+    <!-- Bootstrap -->
+    <script src="{{asset('/assets/app/js/bootstrap.min.js')}}"></script>
 
 <script src="{{ asset('/assets/app/js/app.js')}}"></script>
 <script src="{{ asset('/assets/admin/js/admin.js')}}"></script>
+
+
+
+  
 {{--Scripts--}}
 @yield('scripts')
 </body>

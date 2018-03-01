@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
     	//borra la base de datos
     	$this->truncateTables([
-    		'users','contracts','employees','roles','responsables','budgets','components','stages','type_stages','quotas'
+    		'users','contracts','employees','roles','role_user','responsables','budgets','components','stages','type_stages','quotas'
 
     	]);
     	//llama a las clases para cargar  BD

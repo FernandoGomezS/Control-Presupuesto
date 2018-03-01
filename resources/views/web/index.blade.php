@@ -1,7 +1,6 @@
 @extends('layouts.home')
 @section('content')
 <div class="right_col" role="main">
-                <h2>Presupuesto 2018</h2>
           <!-- top tiles -->
           <div class="row top_tiles">
               <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -22,7 +21,6 @@
               <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon"><i class="fa fa-usd"></i></div>
-                  <div class="count">173.000.432</div>
                   <h3>Saldo Presupuesto</h3>                  
                 </div>
               </div>              

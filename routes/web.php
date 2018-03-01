@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('usuarios/perfil', 'UsersController@perfil')->name('users.perfil');
 	Route::post('usuarios/crear', 'UsersController@store')->name('users.store');
 	Route::post('usuarios/editar/', 'UsersController@update')->name('users.update');
-	Route::delete('/usuarios/borrar/{user}', 'UsersController@destroy')->name('users.destroy');
+	Route::delete('usuarios/borrar/{user}', 'UsersController@destroy')->name('users.destroy');
 
 	//rutas empleados
 	Route::get('empleados/', 'Employeesontroller@employees')->name('employees');
@@ -47,8 +47,11 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('presupuestos/', 'BudgetsController@budgets')->name('budgets');
 	Route::get('presupuestos/crear', 'BudgetsController@create')->name('budgets.create');
 	Route::get('presupuestos/buscar', 'BudgetsController@search')->name('budgets.search');
-	Route::get('presupuestos/editar', 'BudgetsController@edit')->name('budgets.edit');
+	Route::get('presupuestos/editar/{budget}', 'BudgetsController@edit')->name('budgets.edit');
 	Route::get('presupuestos/ver', 'BudgetsController@show')->name('budgets.show');
+	Route::post('presupuestos/crear', 'BudgetsController@store')->name('budgets.store');
+	Route::post('presupuestos/editar/', 'BudgetsController@update')->name('budgets.update');
+	Route::delete('presupuestos/borrar/{budget}', 'BudgetsController@destroy')->name('budgets.destroy');
 	//rutas contratos
 	Route::get('contratos/', 'ContractsController@contracts')->name('contracts');
 	Route::get('contratos/crear', 'ContractsController@create')->name('contracts.create');

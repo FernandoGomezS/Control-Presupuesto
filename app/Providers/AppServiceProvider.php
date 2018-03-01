@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         //Presupuesto Activo
         $budget= Budget::where('state', 'Activo')->get();    
-        View::share('budget', $budget[0]);
+        View::share('budget_active', $budget[0]->year);   
     }
 
     /**
