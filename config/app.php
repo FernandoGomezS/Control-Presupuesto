@@ -164,6 +164,8 @@ return [
         Laraveles\Spanish\SpanishServiceProvider::class,
         //From
         Collective\Html\HtmlServiceProvider::class,
+        //flash mensajes
+        Laracasts\Flash\FlashServiceProvider::class,
 
     ],
 

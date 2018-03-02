@@ -128,6 +128,7 @@
 <!-- /top navigation -->
 
 {{--Page--}}
+
 @yield('content')
 <!-- footer content -->
 <footer>
@@ -146,10 +147,10 @@
 
 <script src="{{ asset('/assets/app/js/app.js')}}"></script>
 <script src="{{ asset('/assets/admin/js/admin.js')}}"></script>
-
-
-
-  
+<script>
+    $('#flash-overlay-modal').modal();
+$('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+</script>
 {{--Scripts--}}
 @yield('scripts')
 </body>

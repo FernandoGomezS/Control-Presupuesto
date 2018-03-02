@@ -14,6 +14,7 @@
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content"> 
+						@include('flash::message') 
 						<form class="form-horizontal form-label-left" role="form" method="POST" action="{{ url('/usuarios/editar') }}">
 							{!! csrf_field() !!}
 							{{ Form::hidden('id', $user['id']) }}

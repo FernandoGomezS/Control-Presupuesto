@@ -15,8 +15,7 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">               
-
-
+            @include('flash::message') 
             <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ url('/usuarios/crear') }}">
               {!! csrf_field() !!}             
               <h4 class="section">Completar Información</h4>
@@ -27,7 +26,7 @@
                   <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="name" type="text" class="form-control col-md-7 col-xs-12 @if($errors->has('name')) parsley-error @endif"
+                  <input id="name" type="text" value="{{ old('name') }}" class="form-control col-md-7 col-xs-12 @if($errors->has('name')) parsley-error @endif"
                   name="name"  required>
                   @if($errors->has('name'))
                   <ul class="parsley-errors-list filled">
@@ -44,7 +43,7 @@
                   <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="name" type="text" class="form-control col-md-7 col-xs-12 @if($errors->has('last_name')) parsley-error @endif"
+                  <input id="name" type="text" value="{{ old('last_name') }}" class="form-control col-md-7 col-xs-12 @if($errors->has('last_name')) parsley-error @endif"
                   name="last_name"  required>
                   @if($errors->has('last_name'))
                   <ul class="parsley-errors-list filled">
@@ -61,7 +60,7 @@
                   <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="email" type="email" class="form-control col-md-7 col-xs-12 @if($errors->has('email')) parsley-error @endif"
+                  <input id="email" type="email" value="{{ old('email') }}" class="form-control col-md-7 col-xs-12 @if($errors->has('email')) parsley-error @endif"
                   name="email"  required>
                   @if($errors->has('email'))
                   <ul class="parsley-errors-list filled">

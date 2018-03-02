@@ -43,23 +43,22 @@ class BudgetsController extends Controller
 	{
 		if(auth()->user()->hasRole('Administrador')){
 
-			$validator = Validator::make($request->all(), [
-				'year' => 'required|unique:budgets,year',
+			$validator = Validator::make($request->all(), [				
+				 'year' => 'required|unique:budgets,year|digits:4|integer|min:1900',
 				'amount_total' => 'required|max:255',
 				'numbers_employees' => 'required|max:255',
 
 			]);         
-			if ($validator->fails()) {				
-				return redirect()->back()->withErrors($validator->errors());
+			if ($validator->fails()) {	
+			flash('Error, Por favor Ingresa valores correctos.')->error();			
+				return redirect()->back()->withErrors($validator->errors())->withInput();;
 			}           
 			else{
 				$data= request()->all();
 
 				if($data['state']=='Activo')
 				{
-
 					 $budget= Budget::where('state', 'Activo')->get(); 
-
 					 $budget[0]->state='Inactivo';
 					 $budget[0]->save();
 				}		
@@ -69,7 +68,7 @@ class BudgetsController extends Controller
 					$user->numbers_employees = $data['numbers_employees']; 
 					$user->state = $data['state'];                
 					$user->save();
-				
+				flash('Se Creó Correctamente el Presupuesto.')->success();
 				return redirect()->route('budgets.search');
 			}
 		}
@@ -82,18 +81,18 @@ class BudgetsController extends Controller
 		if(auth()->user()->hasRole('Administrador')){
 
 			$validator = Validator::make($request->all(), [
-				'year' => 'required|max:255',
-				'amount_total' => 'required|max:255',
+				'year' => 'required|digits:4|integer|min:1900',
+				'amount_total' => 'required|integer',
 				'numbers_employees' => 'required|max:255',         
 			]);
 			$budget = Budget::findOrFail($request->id);	
-			$validator->sometimes('year', 'unique:budgets', function ($input) use ($budget) {
-
+			$validator->sometimes('year', 'unique:budgets', function ($input) use ($budget) {				
 				return strtolower($input->year) != strtolower($budget->year);
 			});
 
 			if ($validator->fails()) {
-				return redirect()->back()->withErrors($validator->errors());
+				flash('Error, Por favor Ingresa valores correctos.')->error();
+				return redirect()->back()->withErrors($validator->errors())->withInput();
 			}			
 			else{
 
@@ -105,12 +104,16 @@ class BudgetsController extends Controller
 				{
 
 					 $budgetActive= Budget::where('state', 'Activo')->get();
+					 //Si no existe ningun activo
+					 if(!$budgetActive->isEmpty()){
 					 $budgetActive[0]->state='Inactivo';					 
 					 $budgetActive[0]->save();
+					 }
+					
 				}	
 				$budget->state = $request->get('state');
 				$budget->save();
-				
+				flash('Se Modificó Correctamente el Presupuesto.')->success();
 				return redirect()->intended(route('budgets.search'));
 			}
 
@@ -121,9 +124,11 @@ class BudgetsController extends Controller
 
 		if(auth()->user()->hasRole('Administrador'))
 		{
-				
+			if($budget->state=='Activo'){
+				flash('No existe Presupuestos Activo.')->warning();
+			}
 			$budget->delete();
-			
+			flash('Se eliminó Correctamente el Presupuesto.')->success();
 			return redirect()->intended(route('budgets.search'));
 		}
 	}

@@ -11,13 +11,14 @@
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
+
           <div class="x_title">
             <h2>Usuarios</h2>
 
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-
+            @include('flash::message') 
             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
@@ -61,13 +62,9 @@
                     @endif
                   </td>  
                   <td>                    
-                    <a href="{{ route('users.show',['id'=>$user->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
+                    <a href="{{ route('users.show',['id'=>$user->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Ver </a>
                     <a href="{{ route('users.edit',['id'=>$user->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
                     <button type="button" data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('users.destroy', $user) }}" class="btn btn-danger btn-xs delete-court-button"><i class="fa fa-trash-o"></i> Eliminar</button>
-
-               
-                 
-
                   </td>
                 </tr>
                 @endforeach
@@ -80,7 +77,6 @@
   </div>
 </div>
 <!-- Small modal -->
-
 <div class="modal fade bs-example-modal-sm" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">

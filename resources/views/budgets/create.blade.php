@@ -14,6 +14,7 @@
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">  
+						@include('flash::message')  
 						<form class="form-horizontal form-label-left" role="form" method="POST" action="{{ url('/presupuestos/crear') }}">
 							{!! csrf_field() !!}             
 							<h4 class="section">Completar Información</h4>
@@ -24,7 +25,7 @@
 									<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<input id="year" type="number" pattern="\d{4}" class="form-control col-md-7 col-xs-12 @if($errors->has('year')) parsley-error @endif"
+									<input id="year" type="number" value= "{{ old('year') }}"   class="form-control col-md-7 col-xs-12 @if($errors->has('year')) parsley-error @endif"
 									name="year"  required>
 									@if($errors->has('year'))
 									<ul class="parsley-errors-list filled">
@@ -41,7 +42,7 @@
 									<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<input id="amount_total" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('amount_total')) parsley-error @endif"
+									<input id="amount_total" value="{{ old('amount_total') }}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('amount_total')) parsley-error @endif"
 									name="amount_total"  required>
 									@if($errors->has('amount_total'))
 									<ul class="parsley-errors-list filled">
@@ -58,7 +59,7 @@
 									<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<input id="numbers_employees" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('numbers_employees')) parsley-error @endif"
+									<input id="numbers_employees" value="{{ old('numbers_employees') }}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('numbers_employees')) parsley-error @endif"
 									name="numbers_employees"  required>
 									@if($errors->has('numbers_employees'))
 									<ul class="parsley-errors-list filled">
@@ -75,8 +76,8 @@
 								<div class="col-md-6 col-sm-6 col-xs-12">  
 									<select class='form-control' id='state' name="state" required="">
 										<option value="">-- Por favor seleccione --</option>										
-										<option value="Activo">Activo</option>	
-										<option value="Inactivo">Inactivo</option>											
+										<option {{(old('state')=='Activo')?'selected' : ''}}  value="Activo">Activo</option>	
+										<option {{(old('state')=='Inactivo')?'selected' : ''}} value="Inactivo">Inactivo</option>
 									</select>                      
 								</div>
 							</div>							

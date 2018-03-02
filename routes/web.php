@@ -32,26 +32,35 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::delete('usuarios/borrar/{user}', 'UsersController@destroy')->name('users.destroy');
 
 	//rutas empleados
-	Route::get('empleados/', 'Employeesontroller@employees')->name('employees');
-	Route::get('empleados/crear', 'Employeesontroller@create')->name('employees.create');
-	Route::get('empleados/buscar', 'Employeesontroller@search')->name('employees.search');
-	Route::get('empleados/editar', 'Employeesontroller@edit')->name('employees.edit');
-	Route::get('empleados/ver', 'Employeesontroller@show')->name('employees.show');
+	Route::get('empleados/', 'EmployeesController@employees')->name('employees');
+	Route::get('empleados/crear', 'EmployeesController@create')->name('employees.create');
+	Route::get('empleados/buscar', 'EmployeesController@search')->name('employees.search');
+	Route::get('empleados/editar/{employees}', 'EmployeesController@edit')->name('employees.edit');
+	Route::get('empleados/ver/{employees}', 'EmployeesController@show')->name('employees.show');
+	Route::post('empleados/crear', 'EmployeesController@store')->name('employees.store');
+	Route::post('empleados/editar/', 'EmployeesController@update')->name('employees.update');
+	Route::delete('empleados/borrar/{responsable}', 'EmployeesController@destroy')->name('employees.destroy');
+
 	//rutas responsables
 	Route::get('responsables/', 'ResponsablesController@responsables')->name('responsables');
 	Route::get('responsables/crear', 'ResponsablesController@create')->name('responsables.create');
 	Route::get('responsables/buscar', 'ResponsablesController@search')->name('responsables.search');
-	Route::get('responsables/editar', 'ResponsablesController@edit')->name('responsables.edit');
-	Route::get('responsables/ver', 'ResponsablesController@show')->name('responsables.show');
+	Route::get('responsables/editar/{responsable}', 'ResponsablesController@edit')->name('responsables.edit');
+	Route::get('responsables/ver/{responsable}', 'ResponsablesController@show')->name('responsables.show');
+	Route::post('responsables/crear', 'ResponsablesController@store')->name('responsables.store');
+	Route::post('responsables/editar/', 'ResponsablesController@update')->name('responsables.update');
+	Route::delete('responsables/borrar/{responsable}', 'ResponsablesController@destroy')->name('responsables.destroy');
+
 	//rutas presupuesto
 	Route::get('presupuestos/', 'BudgetsController@budgets')->name('budgets');
 	Route::get('presupuestos/crear', 'BudgetsController@create')->name('budgets.create');
 	Route::get('presupuestos/buscar', 'BudgetsController@search')->name('budgets.search');
 	Route::get('presupuestos/editar/{budget}', 'BudgetsController@edit')->name('budgets.edit');
-	Route::get('presupuestos/ver', 'BudgetsController@show')->name('budgets.show');
+	//Route::get('presupuestos/ver', 'BudgetsController@show')->name('budgets.show');
 	Route::post('presupuestos/crear', 'BudgetsController@store')->name('budgets.store');
 	Route::post('presupuestos/editar/', 'BudgetsController@update')->name('budgets.update');
 	Route::delete('presupuestos/borrar/{budget}', 'BudgetsController@destroy')->name('budgets.destroy');
+
 	//rutas contratos
 	Route::get('contratos/', 'ContractsController@contracts')->name('contracts');
 	Route::get('contratos/crear', 'ContractsController@create')->name('contracts.create');

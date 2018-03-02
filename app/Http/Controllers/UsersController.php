@@ -66,7 +66,10 @@ class UsersController extends Controller
 				'email'=>'required|email|unique:users,email',         
 			]);			
 			if ($validator->fails()) {
-				return redirect()->back()->withErrors($validator->errors());
+				flash('Error, Por favor Ingresa valores correctos.')->error();
+				return redirect()->back()->withErrors($validator->errors())->withInput(
+    $request->except('password')
+);;
 			}			
 			else{
 				$data= request()->all();
@@ -82,6 +85,7 @@ class UsersController extends Controller
 				$user->password = bcrypt($data['password']);
 				$user->save();
 				$user->roles()->attach($role);
+				flash('Se Creó Correctamente el usuario.')->success();
 				return redirect()->route('users.search');
 			}
 		}
@@ -106,7 +110,10 @@ class UsersController extends Controller
 			});
 
 			if ($validator->fails()) {
-				return redirect()->back()->withErrors($validator->errors());
+				flash('Error, Por favor Ingresa valores correctos.')->error();
+				return redirect()->back()->withErrors($validator->errors())->withInput(
+    $request->except('password')
+);
 			}			
 			else{
 
@@ -127,10 +134,11 @@ class UsersController extends Controller
 				$user->roles()->attach($role);
 
 				if(auth()->user()->hasRole('Administrador') ){
+					flash('Se Modificó Correctamente el Usuario '.$user->name.'.')->success();
 					return redirect()->intended(route('users.search'));
 				}
 				else{
-
+					flash('Se Modificó Correctamente el Usuario '.$user->name.'.')->success();
 					return view('web.index');;
 				}
 			}
@@ -146,7 +154,7 @@ class UsersController extends Controller
 		{
 
 			$user->delete();
-
+			flash('Se eliminó Correctamente el Usuario.')->success();
 			return redirect()->intended(route('users.search'));
 		}
 	}

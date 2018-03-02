@@ -116,6 +116,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+
+    'year' => 'Año',
+    'birth_date'=>'Fecha de Nacimiento',
+],
 
 ];

@@ -3,20 +3,16 @@
 <!-- page content -->
 <div class="right_col" role="main">
 	<div class="">
-
-
 		<div class="clearfix"></div>
-
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>Perfil de Usuario</h2>
-
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
-
+						@include('flash::message') 
 						<div class="col-md-6 col-sm-4 col-xs-12 col-md-offset-3 profile_details">
 							<div class="well profile_view">
 								<div class="col-sm-12">
@@ -44,15 +40,12 @@
 									</div>
 								</div>
 								<div class="col-xs-12 bottom text-center">
-
 									<div class="col-xs-12 col-sm-6 emphasis pull-right"> 
-									<a href="{{ route('users.edit',['id'=>$user->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-user"></i> Editar Perfil</a>                             
-										
+										<a href="{{ route('users.edit',['id'=>$user->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-user"></i> Editar Perfil</a> 
 									</div>
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -60,6 +53,4 @@
 	</div>
 </div>
 <!-- /page content -->
-
-
 @endsection
