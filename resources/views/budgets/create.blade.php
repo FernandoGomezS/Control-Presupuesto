@@ -75,7 +75,7 @@
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">  
 									<select class='form-control' id='state' name="state" required="">
-										<option value="">-- Por favor seleccione --</option>										
+										<option value="">-- Por favor seleccione --</option>									
 										<option {{(old('state')=='Activo')?'selected' : ''}}  value="Activo">Activo</option>	
 										<option {{(old('state')=='Inactivo')?'selected' : ''}} value="Inactivo">Inactivo</option>
 									</select>                      

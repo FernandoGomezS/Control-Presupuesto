@@ -72,7 +72,8 @@ class ResponsablesController extends Controller
 				$responsable->last_name_mother = $request['last_name_mother'];  
 				$responsable->rut = $request['rut'];  
 				$responsable->address = $request['address'];  
-				$responsable->birth_date = '2018-03-01 21:17:33';       
+				$date = Carbon::createFromFormat('d/m/Y', $request['birth_date']);
+				$responsable->birth_date = $date;       
 				$responsable->phone = $request['phone']; 
 				$responsable->save();
 				flash('Se Creó Correctamente el Responsable.')->success();
@@ -93,7 +94,7 @@ class ResponsablesController extends Controller
 				'last_name' => 'required|max:255',                
 				'last_name_mother' => 'required|max:255',
 				'address' => 'required|max:255',
-				'birth_date' => 'required|max:255',
+				'birth_date' => 'required|date_format:d/m/Y',
 				'phone' => 'required|max:255',
 				'rut' => 'required|max:255',
 				'email' => 'required|email|max:255',          

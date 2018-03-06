@@ -24,10 +24,10 @@ return [
     'before'               => 'El campo :attribute debe ser una fecha anterior a :date.',
     'before_or_equal'      => 'El campo :attribute debe ser una fecha anterior o igual a :date.',
     'between'              => [
-        'numeric' => 'El campo :attribute debe ser un valor entre :min y :max.',
-        'file'    => 'El archivo :attribute debe pesar entre :min y :max kilobytes.',
-        'string'  => 'El campo :attribute debe contener entre :min y :max caracteres.',
-        'array'   => 'El campo :attribute debe contener entre :min y :max elementos.',
+    	'numeric' => 'El campo :attribute debe ser un valor entre :min y :max.',
+    	'file'    => 'El archivo :attribute debe pesar entre :min y :max kilobytes.',
+    	'string'  => 'El campo :attribute debe contener entre :min y :max caracteres.',
+    	'array'   => 'El campo :attribute debe contener entre :min y :max elementos.',
     ],
     'boolean'              => 'El campo :attribute debe ser verdadero o falso.',
     'confirmed'            => 'El campo confirmación de :attribute no coincide.',
@@ -51,18 +51,18 @@ return [
     'ipv6'                 => 'El campo :attribute debe ser una dirección IPv6 válida.',
     'json'                 => 'El campo :attribute debe ser una cadena de texto JSON válida.',
     'max'                  => [
-        'numeric' => 'El campo :attribute debe ser :max como máximo.',
-        'file'    => 'El archivo :attribute debe pesar :max kilobytes como máximo.',
-        'string'  => 'El campo :attribute debe contener :max caracteres como máximo.',
-        'array'   => 'El campo :attribute debe contener :max elementos como máximo.',
+    	'numeric' => 'El campo :attribute debe ser :max como máximo.',
+    	'file'    => 'El archivo :attribute debe pesar :max kilobytes como máximo.',
+    	'string'  => 'El campo :attribute debe contener :max caracteres como máximo.',
+    	'array'   => 'El campo :attribute debe contener :max elementos como máximo.',
     ],
     'mimes'                => 'El campo :attribute debe ser un archivo de tipo :values.',
     'mimetypes'            => 'El campo :attribute debe ser un archivo de tipo :values.',
     'min'                  => [
-        'numeric' => 'El campo :attribute debe tener al menos :min.',
-        'file'    => 'El archivo :attribute debe pesar al menos :min kilobytes.',
-        'string'  => 'El campo :attribute debe contener al menos :min caracteres.',
-        'array'   => 'El campo :attribute no debe contener más de :min elementos.',
+    	'numeric' => 'El campo :attribute debe tener al menos :min.',
+    	'file'    => 'El archivo :attribute debe pesar al menos :min kilobytes.',
+    	'string'  => 'El campo :attribute debe contener al menos :min caracteres.',
+    	'array'   => 'El campo :attribute no debe contener más de :min elementos.',
     ],
     'not_in'               => 'El campo :attribute seleccionado es inválido.',
     'numeric'              => 'El campo :attribute debe ser un número.',
@@ -77,10 +77,10 @@ return [
     'required_without_all' => 'El campo :attribute es obligatorio cuando ninguno de los campos :values está presente.',
     'same'                 => 'Los campos :attribute y :other deben coincidir.',
     'size'                 => [
-        'numeric' => 'El campo :attribute debe ser :size.',
-        'file'    => 'El archivo :attribute debe pesar :size kilobytes.',
-        'string'  => 'El campo :attribute debe contener :size caracteres.',
-        'array'   => 'El campo :attribute debe contener :size elementos.',
+    	'numeric' => 'El campo :attribute debe ser :size.',
+    	'file'    => 'El archivo :attribute debe pesar :size kilobytes.',
+    	'string'  => 'El campo :attribute debe contener :size caracteres.',
+    	'array'   => 'El campo :attribute debe contener :size elementos.',
     ],
     'string'               => 'El campo :attribute debe contener sólo caracteres.',
     'timezone'             => 'El campo :attribute debe contener una zona válida.',
@@ -100,9 +100,9 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+    	'attribute-name' => [
+    		'rule-name' => 'custom-message',
+    	],
     ],
 
     /*
@@ -118,8 +118,10 @@ return [
 
     'attributes' => [
 
-    'year' => 'Año',
-    'birth_date'=>'Fecha de Nacimiento',
-],
+    	'year' => 'Año',
+    	'birth_date'=>'Fecha de Nacimiento',
+    	'file_cedula'=>' cedula de identidad',
+    	'file_cretificado'=>'certificado',
+    ],
 
 ];

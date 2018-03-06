@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         //Presupuesto Activo
+       
         $budget= Budget::where('state', 'Activo')->get();       
         if($budget->isEmpty()){
             flash()->overlay('No Existe Presupuesto Activo. Ir a Presupuestos y Activar.', 'Presupuesto');

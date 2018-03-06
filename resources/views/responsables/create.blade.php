@@ -140,9 +140,9 @@
 									</ul>
 									@endif
 								</div>
-							</div> 
+							</div> 							
 							<div class="item form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="rut" >
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="birth_date" >
 									Fecha de Nacimiento
 									<span class="required">*</span>
 								</label>

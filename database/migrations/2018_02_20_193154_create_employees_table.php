@@ -24,10 +24,10 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('commune');
-            $table->enum('afp', ['Capital', 'Cuprum','Habitat','Modelo','Plan Vital','Provida','Pensionado','No tiene', 'Otra']);
-            $table->enum('Health', ['Fonasa', 'Banmédica','Colmena','Consalud','Cruz Blanca','Mas Vida','Vida Tres','No Tiene','Otra']);
+            $table->bigInteger('afp_id')->unsigned();
+            $table->bigInteger('health_id')->unsigned();
             $table->string('profession');
-            $table->enum('quality_studies', ['Tecnico', 'Profesional','Experto']);
+            $table->enum('quality_studies', ['Técnico', 'Profesional','Experto']);
             $table->bigInteger('semesters')->unsigned()->nullable();
             $table->string('url_certificate');
             $table->string('url_identification'); 
