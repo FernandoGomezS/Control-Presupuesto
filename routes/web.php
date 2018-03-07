@@ -35,11 +35,11 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('empleados/', 'EmployeesController@employees')->name('employees');
 	Route::get('empleados/crear', 'EmployeesController@create')->name('employees.create');
 	Route::get('empleados/buscar', 'EmployeesController@search')->name('employees.search');
-	Route::get('empleados/editar/{employees}', 'EmployeesController@edit')->name('employees.edit');
-	Route::get('empleados/ver/{employees}', 'EmployeesController@show')->name('employees.show');
+	Route::get('empleados/editar/{employee}', 'EmployeesController@edit')->name('employees.edit');
+	Route::get('empleados/ver/{employee}', 'EmployeesController@show')->name('employees.show');
 	Route::post('empleados/crear', 'EmployeesController@store')->name('employees.store');
 	Route::post('empleados/editar/', 'EmployeesController@update')->name('employees.update');
-	Route::delete('empleados/borrar/{responsable}', 'EmployeesController@destroy')->name('employees.destroy');
+	Route::delete('empleados/borrar/{employee}', 'EmployeesController@destroy')->name('employees.destroy');
 
 	//rutas responsables
 	Route::get('responsables/', 'ResponsablesController@responsables')->name('responsables');
@@ -67,4 +67,5 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('contratos/buscar', 'ContractsController@search')->name('contracts.search');
 	Route::get('contratos/editar', 'ContractsController@edit')->name('contracts.edit');
 	Route::get('contratos/ver', 'ContractsController@show')->name('contracts.show');
-	});
+	
+});

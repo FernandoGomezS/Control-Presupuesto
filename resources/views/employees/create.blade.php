@@ -231,7 +231,7 @@
 									</select>                      
 								</div>
 							</div>
-							<div class="item form-group" id='semesters_div' hidden>
+							<div class="item form-group" id='semesters_div' @if(old('semesters')==null) hidden @endif>
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="semesters" >
 									Semestres
 									<span class="required">*</span>
@@ -253,7 +253,7 @@
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<div class="btn-group">                                    
-										<input type="file" id='file_certificado'  data-role="magic-overlay" value="{{ old('file_cedula') }}" class="form-control col-md-7 col-xs-12 @if($errors->has('file_cedula')) parsley-error @endif" name="file_cedula" data-target="#pictureBtn" data-edit="insertImage"  required>										
+										<input type="file" id='file_certificado'  data-role="magic-overlay" value="{{ old('file_cedula') }}" class="form-control col-md-7 col-xs-12 @if($errors->has('file_cedula')) parsley-error @endif" name="file_cedula"   required>										
 									</div>
 									@if($errors->has('file_cedula'))
 										<ul class="parsley-errors-list filled">
@@ -272,7 +272,7 @@
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<div class="btn-group">
-										<input id='file_cedula' type="file" data-role="magic-overlay" value="{{ old('file_certificado') }}" class="form-control col-md-7 col-xs-12 @if($errors->has('file_certificado')) parsley-error @endif" name="file_certificado" data-target="#pictureBtn" data-edit="insertImage"  required>									
+										<input id='file_cedula' type="file"  value="Hola" class="form-control col-md-7 col-xs-12 @if($errors->has('file_certificado')) parsley-error @endif" name="file_certificado"  required>									
 									</div>
 									@if($errors->has('file_certificado'))
 										<ul class="parsley-errors-list filled">

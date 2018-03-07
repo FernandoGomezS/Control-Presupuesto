@@ -116,7 +116,6 @@
                       <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-
                       <li> <a href="{{ route('users.show',['id'=>auth()->user()->id]) }}" > Mi Perfil </a></li>
                       <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                   </ul>
@@ -140,10 +139,7 @@
 <!-- /footer content -->
 
 {{--Common Scripts--}}
- <!-- jQuery -->
-    <script src="{{asset('/assets/app/js/jquery.min.js')}}" ></script>
-    <!-- Bootstrap -->
-    <script src="{{asset('/assets/app/js/bootstrap.min.js')}}"></script>
+
 
 <script src="{{ asset('/assets/app/js/app.js')}}"></script>
 <script src="{{ asset('/assets/admin/js/admin.js')}}"></script>
