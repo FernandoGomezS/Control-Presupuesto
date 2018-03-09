@@ -22,4 +22,4 @@ class TypeStage extends Model
         'component_id', 'name'
     ];   
 
-
+}

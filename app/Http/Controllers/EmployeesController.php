@@ -15,6 +15,7 @@ class EmployeesController extends Controller
 {
 	public function create()
 	{
+
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario')){
 			return view('employees.create')->with('afps',Afp::get())->with('healths',Health::get());
 		}
@@ -40,9 +41,9 @@ class EmployeesController extends Controller
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario')){
 			//contratos del empleado
 			$contracts = Contract::where('employee_id', $employee->id)
-               ->orderBy('created_at', 'desc')              
-               ->get();			
-               $date = Carbon::createFromFormat('Y-m-d', $employee->birth_date);
+			->orderBy('created_at', 'desc')              
+			->get();			
+			$date = Carbon::createFromFormat('Y-m-d', $employee->birth_date);
 			//formato fecha
 			$employee->birth_date=$date->format('d/m/Y');
 
@@ -208,5 +209,37 @@ class EmployeesController extends Controller
 			flash('Se eliminó Correctamente el empleado.')->success();
 			return redirect()->intended(route('employees.search'));
 		}
+	}
+
+	public function searchEmployee(Request $request)
+	{
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
+			if($request->ajax())
+			{
+				$output="";		
+			//buscamos empleado	
+				$employee = Employee::where('rut',$request->rut)->get();
+
+				if($employee->count() > 0)
+				{					
+					$output='<div class="well profile_view">
+					<div class="col-sm-12">
+					<h4 class="brief"><i>Empleado Seleccionado</i></h4>
+					<div class="left col-xs-12">
+					<h2 id="employee_name">'.$employee[0]->names.' '.$employee[0]->last_name.' '.$employee[0]->last_name_mother.'</h2>                          
+					<ul class="list-unstyled">
+					<li id="employee_rut"><i class="fa fa-id-card-o"></i> '.$employee[0]->rut.'</li>
+					<li id="employee_email"><i class="fa fa-envelope"></i> '.$employee[0]->email. '</li>
+					<li id="employee_phone"><i class="fa fa-phone"></i> '.$employee[0]->phone.'</li>
+					</ul>
+					</div>
+					</div>
+					</div>';
+					return Response($output);
+				}
+				else
+					return Response('<h4>No existe empleados con ese Rut !!<h4>');
+			}
+		}	
 	}
 }

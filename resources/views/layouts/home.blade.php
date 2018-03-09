@@ -11,13 +11,11 @@
     <link href="{{ asset('/assets/app/css/app.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/admin/css/admin.css')}}" rel="stylesheet">  
      <link href="{{ asset('/assets/app/css/custom.css')}}" rel="stylesheet"> 
-
     {{--Styles--}}
     @yield('styles')
     {{--Head--}}
     @yield('head')
     <title>control de Presupuesto </title>
-
 </head>
 <body class="nav-md">
 
@@ -54,17 +52,10 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Contratos <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">      
-                          <li><a href="{{route('contracts.create') }} ">Crear contratos</a></li>                      
+                          <li><a href="{{route('contracts.create') }} ">Crear contrato</a></li>                      
                           <li><a href="{{ route('contracts.search') }}">Buscar contratos</a></li>                     
                       </ul>
-                  </li>
-                   @if(auth()->user()->hasRole('Usuario'))
-                  <li><a><i class="fa fa-list-alt"></i> Presupuesto <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">                      
-                          <li><a href="{{ route('budgets.search') }}">Buscar Presupuestos</a></li>                      
-                      </ul>
-                  </li>
-                  @endif
+                  </li>                 
                   <li><a><i class="fa fa-users"></i> Empleados <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                           <li><a href="{{ route('employees.create') }}">Crear Empleado</a></li>
@@ -145,7 +136,7 @@
 <script src="{{ asset('/assets/admin/js/admin.js')}}"></script>
 <script>
     $('#flash-overlay-modal').modal();
-$('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+$('div.alert').not('.alert-important').delay(3000).fadeOut(550);
 </script>
 {{--Scripts--}}
 @yield('scripts')

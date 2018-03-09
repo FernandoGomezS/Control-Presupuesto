@@ -13,13 +13,13 @@ class ComponentsSeeder extends Seeder
     public function run()
     {
         DB::table('components')->insert([
-        	'name'=>'Escolar'	
+        	'name'=>'Competencia Escolar'	
         ]);
          DB::table('components')->insert([
-        	'name'=>'Federado'	
+        	'name'=>'Competencia Federada'	
         ]);
           DB::table('components')->insert([
-        	'name'=>'Ligas de Educación superior'	
+        	'name'=>'Competencia Educación superior'	
         ]);         
     }
 }

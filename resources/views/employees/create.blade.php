@@ -108,7 +108,7 @@
 								</div>
 							</div>
 							<div class="item form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="rut" >
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone" >
 									Teléfono
 									<span class="required">*</span>
 								</label>
@@ -125,7 +125,7 @@
 								</div>
 							</div> 
 							<div class="item form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="rut" >
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="address" >
 									Dirección
 									<span class="required">*</span>
 								</label>
@@ -159,7 +159,7 @@
 								</div>
 							</div> 
 							<div class="item form-group">
-								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="rut" >
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="birth_date" >
 									Fecha de Nacimiento
 									<span class="required">*</span>
 								</label>

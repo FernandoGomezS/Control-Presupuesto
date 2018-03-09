@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::post('empleados/crear', 'EmployeesController@store')->name('employees.store');
 	Route::post('empleados/editar/', 'EmployeesController@update')->name('employees.update');
 	Route::delete('empleados/borrar/{employee}', 'EmployeesController@destroy')->name('employees.destroy');
+	//ajax contratos empleados
+	Route::get('empleados/buscar/empleado', 'EmployeesController@searchEmployee');
 
 	//rutas responsables
 	Route::get('responsables/', 'ResponsablesController@responsables')->name('responsables');
@@ -65,7 +67,13 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('contratos/', 'ContractsController@contracts')->name('contracts');
 	Route::get('contratos/crear', 'ContractsController@create')->name('contracts.create');
 	Route::get('contratos/buscar', 'ContractsController@search')->name('contracts.search');
-	Route::get('contratos/editar', 'ContractsController@edit')->name('contracts.edit');
-	Route::get('contratos/ver', 'ContractsController@show')->name('contracts.show');
+	Route::get('contratos/editar/{contrato}', 'ContractsController@edit')->name('contracts.edit');
+	Route::get('contratos/ver/{contrato}', 'ContractsController@show')->name('contracts.show');
+	Route::post('contratos/crear', 'ContractsController@store')->name('contracts.store');
+	Route::post('contratos/editar/', 'ContractsController@update')->name('contracts.update');
+	Route::delete('contratos/borrar/{contrato}', 'ContractsController@destroy')->name('contracts.destroy');
+	//ajax contratos
+	Route::get('contratos/buscar/competencia', 'ContractsController@searchComponent');
+	Route::get('contratos/buscar/tipos', 'ContractsController@searchTypes');
 	
 });

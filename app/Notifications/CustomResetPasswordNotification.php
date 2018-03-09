@@ -9,13 +9,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class CustomResetPasswordNotification extends Notification
 {
-    
+	
 /**
      * The password reset token.
      *
      * @var string
      */
-    public $token;
+public $token;
 
     /**
      * The callback that should be used to build the mail message.
@@ -32,7 +32,7 @@ class CustomResetPasswordNotification extends Notification
      */
     public function __construct($token)
     {
-        $this->token = $token;
+    	$this->token = $token;
     }
 
     /**
@@ -43,7 +43,7 @@ class CustomResetPasswordNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+    	return ['mail'];
     }
 
     /**
@@ -54,17 +54,17 @@ class CustomResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        if (static::$toMailCallback) {
-            return call_user_func(static::$toMailCallback, $notifiable, $this->token);
-        }
+    	if (static::$toMailCallback) {
+    		return call_user_func(static::$toMailCallback, $notifiable, $this->token);
+    	}
 
-        return (new MailMessage)
-           ->subject('Recuperar contraseña')
-        ->greeting('Hola')
-        ->line('Estás recibiendo este correo porque hiciste una solicitud de recuperación de contraseña para tu cuenta.')
-        ->action('Recuperar contraseña', route('password.reset', $this->token))
-        ->line('Si no realizaste esta solicitud, no se requiere realizar ninguna otra acción.')
-        ->salutation('Saludos, '. config('app.name'));
+    	return (new MailMessage)
+    	->subject('Recuperar contraseña')
+    	->greeting('Hola')
+    	->line('Estás recibiendo este correo porque hiciste una solicitud de recuperación de contraseña para tu cuenta.')
+    	->action('Recuperar contraseña', route('password.reset', $this->token))
+    	->line('Si no realizaste esta solicitud, no se requiere realizar ninguna otra acción.')
+    	->salutation('Saludos, '. config('app.name'));
     }
 
     /**
@@ -75,7 +75,7 @@ class CustomResetPasswordNotification extends Notification
      */
     public static function toMailUsing($callback)
     {
-        static::$toMailCallback = $callback;
+    	static::$toMailCallback = $callback;
     }
 }
 
