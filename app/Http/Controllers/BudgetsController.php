@@ -59,15 +59,21 @@ class BudgetsController extends Controller
 				if($data['state']=='Activo')
 				{
 					 $budget= Budget::where('state', 'Activo')->get(); 
-					 $budget[0]->state='Inactivo';
-					 $budget[0]->save();
+					 if($budget->count() >0){
+					 	 $budget[0]->state='Inactivo';
+						 $budget[0]->save();
+					 }					
 				}		
-					$user = new Budget();
-					$user->year = $data['year'];
-					$user->amount_total = $data['amount_total'];
-					$user->numbers_employees = $data['numbers_employees']; 
-					$user->state = $data['state'];                
-					$user->save();
+					$budget_new = new Budget();
+					$budget_new->year = $data['year'];
+					$budget_new->amount_total = $data['amount_total'];
+					//0 gastado inicial
+					$budget_new->amount_spent = 0;
+					//0 empleados coontratados
+					$budget_new->contracted_employees = 0;					
+					$budget_new->numbers_employees = $data['numbers_employees']; 
+					$budget_new->state = $data['state'];                
+					$budget_new->save();
 				flash('Se Creó Correctamente el Presupuesto.')->success();
 				return redirect()->route('budgets.search');
 			}

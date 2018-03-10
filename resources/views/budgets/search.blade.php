@@ -19,7 +19,8 @@
 							<thead>
 								<tr>
 									<th>Año</th> 
-									<th>Monto</th>                                         
+									<th>Monto Total</th>   
+									<th>Monto Gastado</th>                                         
 									<th>Numero Empleados</th>  
 									<th>Estado</th> 
 									<th>Acción</th>              
@@ -34,6 +35,9 @@
 									<td>               
 										{{ $budget->amount_total }}
 									</td> 
+									<td>               
+										{{ $budget->amount_spent }}
+									</td>
 									<td>               
 										{{ $budget->numbers_employees }}
 									</td>  

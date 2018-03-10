@@ -67,13 +67,14 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('contratos/', 'ContractsController@contracts')->name('contracts');
 	Route::get('contratos/crear', 'ContractsController@create')->name('contracts.create');
 	Route::get('contratos/buscar', 'ContractsController@search')->name('contracts.search');
-	Route::get('contratos/editar/{contrato}', 'ContractsController@edit')->name('contracts.edit');
-	Route::get('contratos/ver/{contrato}', 'ContractsController@show')->name('contracts.show');
+	Route::get('contratos/editar/{contract}', 'ContractsController@edit')->name('contracts.edit');
+	Route::get('contratos/ver/{contract}', 'ContractsController@show')->name('contracts.show');
 	Route::post('contratos/crear', 'ContractsController@store')->name('contracts.store');
 	Route::post('contratos/editar/', 'ContractsController@update')->name('contracts.update');
-	Route::delete('contratos/borrar/{contrato}', 'ContractsController@destroy')->name('contracts.destroy');
+	Route::delete('contratos/borrar/{contract}', 'ContractsController@destroy')->name('contracts.destroy');
 	//ajax contratos
 	Route::get('contratos/buscar/competencia', 'ContractsController@searchComponent');
 	Route::get('contratos/buscar/tipos', 'ContractsController@searchTypes');
+	Route::get('contratos/buscar/presupuesto', 'ContractsController@searchBudget');
 	
 });

@@ -7,6 +7,12 @@ use App\Responsable;
 use App\Component;
 use App\TypeStage;
 use App\Stage;
+use App\Contract;
+use App\Budget;
+use App\Quota;
+use App\Employee;
+use Validator;
+use Carbon\Carbon;
 
 class ContractsController extends Controller
 {
@@ -23,7 +29,8 @@ class ContractsController extends Controller
 	public function search()
 	{        
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-			return view('contracts.search');
+			$contractAll= Contract::all();
+			return view('contracts.search')->with('contracts',$contractAll);
 		}
 	}
 
@@ -81,25 +88,58 @@ class ContractsController extends Controller
 			}			
 		}	
 	}
+	public function searchBudget(Request $request)
+	{			
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){			
+
+			if($request->ajax())
+			{				
+			   	//buscando presupuesto activo 
+				$budget=Budget::where('state','Activo')->get();
+
+				if($budget->count() > 0)
+				{	
+					$disponible=$budget[0]->amount_total-$budget[0]->amount_spent;
+
+					if($request->amount_year<=$disponible){
+						return Response('true');
+					}					
+
+					else{
+						return Response('false');
+					}
+				}	
+			}	
+		}
+	}
+	
 
 	public function store(Request $request)
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario')){
+			
 
 			$validator = Validator::make($request->all(), [
-				'names' => 'required|max:255',
-				'last_name' => 'required|max:255',                
-				'last_name_mother' => 'required|max:255',
-				'address' => 'required|max:255',
-				'birth_date' => 'required|date_format:d/m/Y',
-				'phone' => 'required|max:255',
-				'rut' => 'required|unique:employees,rut',
-				'email' => 'required|email|unique:employees,email',
-				'commune' => 'required|max:255',				
-				'profession' => 'required|max:255',
-				'semesters' => 'max:255',
-				'file_certificado' => 'mimes:jpeg,jpg,png,pdf|required|max:5000', 
-				'file_cedula' => 'mimes:jpeg,jpg,png,pdf|required|max:5000',  
+				'rut_employee' => 'required|max:255',
+
+				'position' => 'required|max:255',
+				'function' => 'required|max:255',                
+				'sport' => 'required|max:255',
+				'duration' => 'required|max:255',			
+				'amount_year' => 'required|max:255',
+				'amount_month' => 'required|max:255',
+				'quotas' => 'required|max:255',
+				'hours' => 'required|max:255',
+				'date_start' => 'required|date_format:d/m/Y',
+				'date_finish' => 'required|date_format:d/m/Y',
+
+				
+				'program' => 'required|max:255',
+				'responsable' => 'required',
+				'component' => 'required|max:255',				
+				'type_stages' => 'required|max:255',
+				'stage' => 'max:255',
+				'category' => 'max:255',			
 			]);         
 			if ($validator->fails()) {
 				flash('Error, Por favor Ingresa valores correctos.')->error();				
@@ -107,45 +147,79 @@ class ContractsController extends Controller
 			}           
 			else{
 				
-       			//obtenemos el campo file definido en el formulario y lo guardamos
-				$file = $request->file('file_certificado'); 
-				$nombre = $file->getClientOriginalName(); 
-				$type = \File::extension($nombre);	
-				$nombreCert = 'certificado_'.$request['rut'].'.'.$type;        
-				\Storage::disk('local')->put($nombreCert,  \File::get($file));
-
-         		//obtenemos el campo file definido en el formulario  lo guardamos
-				$file = $request->file('file_cedula'); 
-				$nombre = $file->getClientOriginalName(); 
-				$type = \File::extension($nombre);	
-				$nombreCed = 'cedula_'.$request['rut'].'.'.$type;        
-				\Storage::disk('local')->put($nombreCed,  \File::get($file));
+       			//buscando id empleado
+				$employee=Employee::where('rut',$request['rut_employee'])->get();
+				//buscando presupuesto activo 
+				$budget=Budget::where('state','Activo')->get();
 
 				$request= request()->all();
-				$employee = new Employee();
-				$employee->names = $request['names'];
-				$employee->email = $request['email']; 
-				$employee->last_name = $request['last_name'];  
-				$employee->last_name_mother = $request['last_name_mother'];  
-				$employee->rut = $request['rut'];  
-				$employee->phone = $request['phone']; 
-				$employee->address = $request['address'];  
-				$date = Carbon::createFromFormat('d/m/Y', $request['birth_date']);
-				$employee->birth_date = $date;       
-				$employee->commune = $request['commune']; 
-				$employee->profession = $request['profession']; 
-				if($request['semesters']!=null){
-					$employee->semesters = $request['semesters']; 
+				$contract = new Contract();
+				$contract->employee_id = $employee[0]->id;
+				$contract->position = $request['position']; 
+				$contract->function = $request['function'];  
+				$contract->sport = $request['sport'];  
+				$contract->duration = $request['duration'];  
+				$contract->amount_year = $request['amount_year']; 
+				$contract->amount_month = $request['amount_month']; 
+				$contract->amount_total = $request['amount_year']; 
+				$contract->quotas = $request['quotas']; 
+				$contract->hours = $request['hours']; 			
+				$contract->budget_id= $budget[0]->id; 
+
+				$date_start = Carbon::createFromFormat('d/m/Y', $request['date_start']);
+				$contract->date_start = $date_start;
+				$date_finish = Carbon::createFromFormat('d/m/Y', $request['date_finish']);
+				$contract->date_finish = $date_finish;     
+
+				$contract->program = $request['program']; 
+				$contract->responsable_id = $request['responsable']; 					
+				$contract->type_stage_id= $request['type_stages']; 
+
+				if( isset($request['stage'])){
+					$contract->stage_id = $request['stage']; 
 				}
+				if( isset($request['category'])){
+					$contract->category = $request['category']; 
+				}
+				$contract->state_contract = 'Firma contrato';  
+				$contract->save();	
+
+				//actualizamos el presupuesto con los datos del contrato
+
+				$budget[0]->contracted_employees=$budget[0]->contracted_employees+1;
+				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
+				$budget[0]->save();		
+
+				$i=0;
+
+					$quota=new Quota();
+					$quota->contract_id=$contract->id;
+					$quota->amount=$request['amount_month'];
+					$quota->type_stage_id=1;
+					$quota->date_to_pay=$date_start->addMonths(1); 
+					$quota->state_quota='A Pagar';   
+					if(isset($request['stage'])){
+						$quota->stage_id = $request['stage']; 
+					}
+					$quota->save();	
+				//creamos las cuotas del contrato
+				/*
+				while ($i <$request['quotas']) {
+					$quota=new Quota();
+					$quota->contract_id=$contract->id;
+					$quota->amount=$request['amount_month'];
+					$quota->type_stage_id=$request['type_stages'];
+					$quota->date_to_pay=$date_start->addMonths(1); 
+					$quota->state_quota='A Pagar';   
+					if(isset($request['stage'])){
+						$quota->stage_id = $request['stage']; 
+					}
+					$quota->save();	
+					$i++; 
+				}			*/	
 				
-				$employee->quality_studies = $request['quality_studies'];
-				$employee->afp_id = $request['afp'];
-				$employee->health_id = $request['health'];  
-				$employee->url_certificate = $nombreCert; 
-				$employee->url_identification = $nombreCed;
-				$employee->save();
-				flash('Se Creó Correctamente el empleado '.$employee->name.'.')->success();
-				return redirect()->route('employees.search');
+				flash('Se Creó Correctamente el Contrato.')->success();
+				return redirect()->route('contracts.search');
 			}
 		}
 	}
@@ -154,91 +228,70 @@ class ContractsController extends Controller
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
 
 			$validator = Validator::make($request->all(), [
-				'names' => 'required|max:255',
-				'last_name' => 'required|max:255',                
-				'last_name_mother' => 'required|max:255',
-				'address' => 'required|max:255',
-				'birth_date' => 'required|date_format:d/m/Y',
-				'phone' => 'required|max:255',
-				'rut' => 'required|max:255',
-				'email' => 'required|email|max:255',
-				'commune' => 'required|max:255',				
-				'profession' => 'required|max:255',
-				'semesters' => 'max:255',
-				'file_certificado' => 'mimes:jpeg,jpg,png,pdf|max:5000', 
-				'file_cedula' => 'mimes:jpeg,jpg,png,pdf|max:5000',        
+				'rut_employee' => 'required|max:255',
+
+				'position' => 'required|max:255',
+				'function' => 'required|max:255',                
+				'sport' => 'required|max:255',
+				'duration' => 'required|max:255',			
+				'amount_year' => 'required|max:255',
+				'amount_month' => 'required|max:255',
+				'quotas' => 'required|max:255',
+				'hours' => 'required|max:255',
+				'date_start' => 'required|date_format:d/m/Y',
+				'date_finish' => 'required|date_format:d/m/Y',
+
+				
+				'program' => 'required|max:255',
+				'responsable' => 'required',
+				'component' => 'required|max:255',				
+				'type_stages' => 'required|max:255',
+				'stage' => 'max:255',
+				'category' => 'max:255',       
 			]);
-			$employee = Employee::findOrFail($request->id);
-			$validator->sometimes('email', 'unique:employees', function ($input) use ($employee) {
-
-				return strtolower($input->email) != strtolower($employee->email);
-			});
-			$validator->sometimes('rut', 'unique:employees', function ($input) use ($employee) {
-
-				return strtolower($input->rut) != strtolower($employee->rut);
-			});
-
+			$contract = Contract::findOrFail($request->id);			
 			if ($validator->fails()) {
 				flash('Error, Por favor Ingresa valores correctos.')->error();
 				return redirect()->back()->withErrors($validator->errors())->withInput();
 			}           
 			else{
 
-				if($request->has('file_certificado')){
-					//obtenemos el campo file definido en el formulario y lo guardamos
-					$file = $request->file('file_certificado'); 
-					$nombre = $file->getClientOriginalName(); 
-					$type = \File::extension($nombre);	
-					$nombreCert = 'certificado_'.$request['rut'].'.'.$type;        
-					\Storage::disk('local')->put($nombreCert,  \File::get($file));
-					$employee->url_certificate = $nombreCert; 				
-				}
-				if($request->has('file_cedula')){
-					//obtenemos el campo file definido en el formulario  lo guardamos
-					$file = $request->file('file_cedula'); 
-					$nombre = $file->getClientOriginalName(); 
-					$type = \File::extension($nombre);	
-					$nombreCed = 'cedula_'.$request['rut'].'.'.$type;        
-					\Storage::disk('local')->put($nombreCed,  \File::get($file));				
-					$employee->url_identification = $nombreCed;
-				}				
 				$request= request()->all();				
-				$employee->names = $request['names'];
-				$employee->email = $request['email']; 
-				$employee->last_name = $request['last_name'];  
-				$employee->last_name_mother = $request['last_name_mother'];  
-				$employee->rut = $request['rut'];  
-				$employee->phone = $request['phone']; 
-				$employee->address = $request['address'];  
+				$contract->names = $request['names'];
+				$contract->email = $request['email']; 
+				$contract->last_name = $request['last_name'];  
+				$contract->last_name_mother = $request['last_name_mother'];  
+				$contract->rut = $request['rut'];  
+				$contract->phone = $request['phone']; 
+				$contract->address = $request['address'];  
 				$date = Carbon::createFromFormat('d/m/Y', $request['birth_date']);
-				$employee->birth_date = $date;       
-				$employee->commune = $request['commune']; 
-				$employee->profession = $request['profession']; 
+				$contract->birth_date = $date;       
+				$contract->commune = $request['commune']; 
+				$contract->profession = $request['profession']; 
 				if($request['semesters']!=null){
-					$employee->semesters = $request['semesters']; 
+					$contract->semesters = $request['semesters']; 
 				}
 				else{
-					$employee->semesters = null; 
+					$contract->semesters = null; 
 				}
-				$employee->quality_studies = $request['quality_studies'];
-				$employee->afp_id = $request['afp'];
-				$employee->health_id = $request['health']; 
-				$employee->save();
-				flash('Se Modificó Correctamente el empelado '.$employee->name.'.')->success();
+				$contract->quality_studies = $request['quality_studies'];
+				$contract->afp_id = $request['afp'];
+				$contract->health_id = $request['health']; 
+				$contract->save();
+				flash('Se Modificó Correctamente el empelado '.$contract->name.'.')->success();
 				return redirect()->intended(route('employees.search'));
 			}
 		}
 	}
 
-	public function destroy(Employee $employee){
+	public function destroy(Contract $contract){
 
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario'))
 		{
-			//elimina los archivos
-			Storage::delete([$employee->url_identification, $employee->url_certificate]);
-			$employee->delete();
-			flash('Se eliminó Correctamente el empleado.')->success();
-			return redirect()->intended(route('employees.search'));
+	
+			$contract->delete();
+			flash('Se eliminó Correctamente el Contrato.')->success();
+			return redirect()->intended(route('contracts.search'));
 		}
 	}
 }

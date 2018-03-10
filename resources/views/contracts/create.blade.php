@@ -66,14 +66,14 @@
  											<div class="col-md-6 col-md-offset-3">
  												<div class="col-md-6 col-sm-6 col-xs-12   ">  
  													<div class="input-group">
- 														<input id="rut" type="text" placeholder="Ingrese Rut" maxlength="12" value="{{ old('rut') }}"  class="form-control @if($errors->has('rut')) parsley-error @endif " name="rut" >  
+ 														<input id="rut_employee" type="text" placeholder="Ingrese Rut" maxlength="12" value="{{ old('rut_employee') }}"  class="form-control @if($errors->has('rut_employee')) parsley-error @endif " name="rut_employee" >  
  														<span class="input-group-btn">
  															<button type="button" id="button_rut" class="btn btn-primary">Buscar</button>
  														</span>
  													</div>
- 													@if($errors->has('rut'))
+ 													@if($errors->has('rut_employee'))
  													<ul class="parsley-errors-list filled">
- 														@foreach($errors->get('rut') as $error)
+ 														@foreach($errors->get('rut_employee') as $error)
  														<li class="parsley-required">{{ $error }}</li>
  														@endforeach
  													</ul>                  
@@ -90,11 +90,11 @@
  										<br>                    
 
  										<div class="row">
- 											<div class="col-md-8 col-sm-6 col-xs-12 col-md-offset-4 profile_details" id="div_employee"> 
+ 											<div class="col-md-8 col-sm-6 col-xs-12 col-md-offset-3 profile_details" id="div_employee">  
  												<br>
  												<br>
  												<br>                  
- 												<br>
+ 												<h4>Realice la busqueda de un empelado o cree uno.</h4>
  												<br>
  												<br>
  												<br>
@@ -174,44 +174,6 @@
  									</div>
 
  									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="differential_month">Mes Diferencial <span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">  
- 											<select class='form-control' id='duration' name="differential_month" required="">
- 												<option value="">-- Por favor seleccione --</option>  
- 												<option {{(old('differential_month')=='Enero')?'selected' : ''}}  value="Enero">Enero</option>  
- 												<option {{(old('differential_month')=='Febrero')?'selected' : ''}}  value="Febrero">Febrero</option> 
- 												<option {{(old('differential_month')=='Marzo')?'selected' : ''}}  value="Marzo">Marzo</option>  
- 												<option {{(old('differential_month')=='Abril')?'selected' : ''}}  value="Abril">Abril</option> 
- 												<option {{(old('differential_month')=='Mayo')?'selected' : ''}}  value="Mayo">Mayo</option>
- 												<option {{(old('differential_month')=='Junio')?'selected' : ''}}  value="Junio">Junio</option>  
- 												<option {{(old('differential_month')=='Julio')?'selected' : ''}}  value="Permanente">Julio</option> 
- 												<option {{(old('differential_month')=='Agosto')?'selected' : ''}}  value="Agosto">Agosto</option>  
- 												<option {{(old('differential_month')=='Septiembre')?'selected' : ''}}  value="Septiembre">Septiembre</option> 
- 												<option {{(old('differential_month')=='Octubre')?'selected' : ''}}  value="Octubre">Octubre</option>  
- 												<option {{(old('differential_month')=='Noviembre')?'selected' : ''}}  value="Noviembre">Noviembre</option> 
- 												<option {{(old('differential_month')=='Diciembre')?'selected' : ''}}  value="Diciembre">Diciembre</option>
- 											</select>                      
- 										</div>
- 									</div>
- 									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="differential_month_amount" >
- 											Monto Mes Diferencial
- 											<span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">
- 											<input id="differential_month_amount" value="{{ old('differential_month_amount') }}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('differential_month_amount')) parsley-error @endif"
- 											name="differential_month_amount"  required>
- 											@if($errors->has('differential_month_amount'))
- 											<ul class="parsley-errors-list filled">
- 												@foreach($errors->get('differential_month_amount') as $error)
- 												<li class="parsley-required">{{ $error }}</li>
- 												@endforeach
- 											</ul>
- 											@endif
- 										</div>
- 									</div> 
- 									<div class="item form-group">
  										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="amount_year" >
  											Monto Anual
  											<span class="required">*</span>
@@ -226,6 +188,9 @@
  												@endforeach
  											</ul>
  											@endif
+ 											<ul id="errorAmount" class="parsley-errors-list hidden">                    
+ 												<li class="parsley-required">Monto sobrepasa el presupuesto total.</li>
+ 											</ul>
  										</div>
  									</div> 
  									<div class="item form-group">
@@ -332,7 +297,7 @@
  											<span class="required">*</span>
  										</label>
  										<div class="col-md-6 col-sm-6 col-xs-12">
- 											<input id="position" value="{{ old('program') }}" type="text" class="form-control col-md-7 col-xs-12 @if($errors->has('program')) parsley-error @endif"
+ 											<input id="program" value="{{ old('program') }}" type="text" class="form-control col-md-7 col-xs-12 @if($errors->has('program')) parsley-error @endif"
  											name="program"  required>
  											@if($errors->has('program'))
  											<ul class="parsley-errors-list filled">
@@ -344,7 +309,7 @@
  										</div>
  									</div>  
  									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="health">Responsable <span class="required">*</span>
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="responsable">Responsable <span class="required">*</span>
  										</label>
  										<div class="col-md-6 col-sm-6 col-xs-12">  
  											<select class='form-control' id='responsable' name="responsable" required="">
@@ -356,7 +321,7 @@
  										</div>
  									</div>  
  									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="health">Competencia <span class="required">*</span>
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="component">Competencia <span class="required">*</span>
  										</label>
  										<div class="col-md-6 col-sm-6 col-xs-12">  
  											<select class='form-control' id='component' name="component" required="">
@@ -408,206 +373,96 @@
  														<!-- title row -->
  														<div class="x_title">
  															<h3>
- 																<i class="fa fa-id-card-o" aria-hidden="true"></i> Contrato
+ 																<i class="fa fa-id-card-o" aria-hidden="true"></i> Resumen Contrato
  																<small class="pull-right">Estado: Firma Contrato </small>                                    
  															</h3>
  															<div class="clearfix"></div>
  														</div>
  														<!-- info row -->
  														<div class="row invoice-info">
- 															<div class="col-sm-3 invoice-col">
- 																<address>          
- 																	<br>Empleado: <strong>Iron Admin Inc.</strong>                        
- 																	<br>Rut : 12.345.678-9                                 
- 																	<br>Teléfono: 1 (804) 123-9876
- 																	<br>Correo: iron12312@ironadmin.com
- 																</address>
+ 															<div id="contract_datos1" class="col-sm-4 invoice-col">
+ 																
  															</div>
  															<!-- /.col -->
- 															<div class="col-sm-3 invoice-col">
- 																<address> 
- 																	<br>Responsable: <strong>John Doe</strong>                                 
- 																	<br>Rut : 12.345.678-9                                  
- 																	<br>Teléfono: 1 (804) 123-9876
- 																	<br>correo: jon@ironadmin.com
- 																</address>
+ 															<div id="contract_datos2" class="col-sm-4 invoice-col">
+ 																
  															</div>
  															<!-- /.col -->
- 															<div class="col-sm-3 invoice-col">
- 																<br>
- 																<b>Numero: 007612</b>                                
- 																<br>
- 																<b>Fecha Inicio:</b> 02/02/2018
- 																<br>
- 																<b>Fecha Termino:</b> 02/12/2018
- 																<br>
- 																<b>Monto:</b> 3.630.000
- 															</div>
- 															<!-- /.col -->
- 															<div class="col-sm-3 invoice-col">
- 																<address>  
- 																	<br>   
- 																	<b>Función:</b>
- 																	Monitor deportivo                                 
- 																	<br>
- 																	<b>Componente:</b> Componente Escolar
- 																	<br>
- 																	<b>Tipo Etapa:</b> Etapa Comunal
- 																	<br>
- 																	<b>Etapa:</b> La Granja
- 																</address>
- 															</div>
+ 															<div id="contract_datos3" class="col-sm-4 invoice-col"> 																
+ 															</div> 														
  														</div>
  														<!-- /.row -->
- 														<!-- Table row -->
- 														<div class="row">
- 															<div class="col-xs-12 table">
- 																<table class="table table-striped">
- 																	<thead>
- 																		<tr>
- 																			<th>Pago</th>
- 																			<th>Estado</th>
- 																			<th>Fecha de Pago</th>
- 																			<th>Subtotal</th>
- 																		</tr>
- 																	</thead>
- 																	<tbody>
- 																		<tr>
- 																			<td>1</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>2</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>3</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>4</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>5</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>6</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>7</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>8</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>9</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>10</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>11</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																		<tr>
- 																			<td>12</td>
- 																			<td>Por pagar</td>
- 																			<td>02/03//2018</td>
- 																			<td>$302.500</td>
- 																		</tr>
- 																	</tbody>
- 																</table>
+ 														<!-- info row -->
+ 														<div class="row invoice-info">
+ 															<div id="contract_datos4" class="col-sm-4 invoice-col">
+ 																
  															</div>
  															<!-- /.col -->
- 														</div>
- 														<!-- /.row -->
- 														<div class="row">
- 															<!-- column -->
- 															<div class="col-md-8 col-xs-12 invoice-col">
+ 															<div id="contract_datos5" class="col-sm-4 invoice-col">
+ 																
  															</div>
  															<!-- /.col -->
- 															<div class="col-md-4 col-xs-12">
- 																<p class="lead">Resumen al 02/02/2018</p>
- 																<div class="table-responsive">
- 																	<table class="table">
- 																		<tbody>
- 																			<th>Pagado:</th>
- 																			<td>$0</td>
- 																		</tr>
- 																		<tr>
- 																			<th>Por pagar:</th>
- 																			<td>$3.630.000</td>
- 																		</tr>
- 																		<tr>
- 																			<th>Total:</th>
- 																			<td>$3.630.000</td>
- 																		</tr>
- 																	</tbody>
- 																</table>
+ 															<div id="contract_datos6" class="col-sm-4 invoice-col">
+ 																
  															</div>
+ 															<!-- /.col -->
+
  														</div>
- 														<!-- /.col -->
- 													</div>
- 													<!-- /.row -->                  
- 												</section>
+ 														<!-- /.row -->	
+ 														<!-- /.row -->                  
+ 													</section>
+ 												</div>
  											</div>
  										</div>
  									</div>
  								</div>
  							</div>
  						</div>
- 					</div>
- 					<!-- End SmartWizard Content -->  
- 				</form>                 
+ 						<!-- End SmartWizard Content -->  
+ 					</form>                 
+ 				</div>
  			</div>
  		</div>
  	</div>
  </div>
-</div>
-<!-- /page content -->
-@endsection
-@section('scripts')
-<script src="{{ asset('/assets/app/js/jquery.smartWizard.js')}}"></script>
-<script src="{{ asset('/assets/app/js/pnotify.js')}}"></script>
-<script src="{{asset('/assets/app/js/jquery.inputmask.bundle.js')}}"></script>
-<script src="{{asset('/assets/app/js/moment.js')}}"></script>
+ <!-- /page content -->
+ @endsection
+ @section('scripts')
+ <script src="{{ asset('/assets/app/js/jquery.smartWizard.js')}}"></script>
+ <script src="{{ asset('/assets/app/js/pnotify.js')}}"></script>
+ <script src="{{asset('/assets/app/js/jquery.inputmask.bundle.js')}}"></script>
+ <script src="{{asset('/assets/app/js/moment.js')}}"></script>
 
 
-<script type="text/javascript">
+ <script type="text/javascript">
+ 	$('#amount_year').focusout(function(){
+ 	var amount_year = $( "#amount_year" ).val(); 
+  //validamos si no esta en la opcion inicial
+      
+      	$.ajax({
+      		type : 'get',
+      		url : '{{URL::to('contratos/buscar/presupuesto')}}',
+      		data:{'amount_year':amount_year},
+      		success:function(data){ 
+      			if(data=="false"){
+      				$('#errorAmount').removeClass('hidden');
+      				$('#amount_year').addClass('parsley-error');
+      				 
+      			}
+      			else{
 
+      				$('#errorAmount').addClass('hidden');
+      				$('#amount_year').removeClass('parsley-error'); 
+      			}
+      			
+      		}
+      	});  
+
+ 	});
   //ajax search rut empleado
   $("#button_rut").click(function(){
 
-  	$value=$("#rut").val();
+  	$value=$("#rut_employee").val();
   	$.ajax({
   		type : 'get',
   		url : '{{URL::to('empleados/buscar/empleado')}}',
@@ -665,7 +520,7 @@
       //validamos si no esta en la opcion inicial
       
       if(id_type_stages!="" && id_component==1){ 
-            
+
       	$.ajax({
       		type : 'get',
       		url : '{{URL::to('contratos/buscar/tipos')}}',
@@ -687,27 +542,27 @@
     //valida rut
     $(document).ready(function(){
 
-    	$('#rut').focusout(function(){
-    		var rut = $('#rut').val();
+    	$('#rut_employee').focusout(function(){
+    		var rut = $('#rut_employee').val();
     		if( rut != "" ){
       //Agrega guion, si no lo tiene
       //Elimina los puntos, si los tiene
       var np = parseRut(rut);
       if( Fn.validaRut(np)){
       	$('#errorRut').addClass('hidden');
-      	$('#rut').removeClass('parsley-error');  
+      	$('#rut_employee').removeClass('parsley-error');  
       	$(':input[type="submit"]').prop('disabled', false); 
       }
       else{
       	$('#errorRut').removeClass('hidden');
-      	$('#rut').addClass('parsley-error');
+      	$('#rut_employee').addClass('parsley-error');
       	$(':input[type="submit"]').prop('disabled', true);           
       }
       rut = addDots(np);
-      $('#rut').val( rut );
+      $('#rut_employee').val( rut );
   }
   else{            
-  	$('#rut').removeClass('parsley-error');
+  	$('#rut_employee').removeClass('parsley-error');
   	$('#errorRut').addClass('hidden');  
   	$(':input[type="submit"]').prop('disabled', false);      
   }

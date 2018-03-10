@@ -11,6 +11,12 @@
     <link href="{{ asset('/assets/app/css/app.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/admin/css/admin.css')}}" rel="stylesheet">  
      <link href="{{ asset('/assets/app/css/custom.css')}}" rel="stylesheet"> 
+
+     <link href="{{ asset('/assets/app/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
     {{--Styles--}}
     @yield('styles')
     {{--Head--}}
@@ -134,6 +140,15 @@
 
 <script src="{{ asset('/assets/app/js/app.js')}}"></script>
 <script src="{{ asset('/assets/admin/js/admin.js')}}"></script>
+
+  <!-- Datatables -->
+  <script src="{{ asset('/assets/app/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ asset('/assets/app/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/buttons.bootstrap.min.js')}}"></script>
+        <script src="{{ asset('/assets/app/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/responsive.bootstrap.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/dataTables.scroller.min.js')}}"></script>
 <script>
     $('#flash-overlay-modal').modal();
 $('div.alert').not('.alert-important').delay(3000).fadeOut(550);

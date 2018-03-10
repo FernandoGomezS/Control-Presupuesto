@@ -17,6 +17,7 @@ class CreateStagesTable extends Migration
             $table->bigIncrements('id')->unsigned()->index();
             $table->bigInteger('type_stage_id')->unsigned();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

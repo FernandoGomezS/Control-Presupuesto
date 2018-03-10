@@ -20,21 +20,22 @@ class CreateContractsTable extends Migration
             $table->bigInteger('type_stage_id')->unsigned();
             $table->bigInteger('responsable_id')->unsigned()->index();  
             $table->bigInteger('employee_id')->unsigned()->index();
-            $table->bigInteger('budget_id')->unsigned();                
+            $table->bigInteger('budget_id')->unsigned()->onDelete('cascade');                
             $table->enum('function', ['Control de Competencia', 'Monitor','Gestor Territorial','Administrador Contable','Coordimador','Encargado','Apoyo al Programa','Técnico','Ayudante Técnico','Delegado','Mecánico']);
             $table->string('sport'); //deporte
             $table->string('program'); //programa
             $table->string('position');
             $table->string('matches_working')->nullable();             
             $table->enum('duration', ['Transitorio', 'Permanente']);
-            $table->enum('category', ['Sub14', 'Segunda Categoria']);
-            $table->string('differential_month');//mes diferencial
+            $table->enum('category', ['Sub14', 'Segunda Categoria'])->nullable();
+            
 
             $table->date('date_signature_contract')->nullable();
             $table->bigInteger('number_memo_contract')->unsigned()->nullable();
             $table->date('date_memo_contract')->nullable();
 
-            $table->bigInteger('differential_month_amount')->unsigned();// monto mes diferencial
+            $table->bigInteger('differential_month_amount')->unsigned()->nullable();// monto mes diferencial
+            $table->string('differential_month')->nullable();//mes diferencial
 
             $table->bigInteger('quotas')->unsigned(); //cuotas
             $table->bigInteger('hours')->unsigned(); //horas
@@ -45,6 +46,7 @@ class CreateContractsTable extends Migration
             $table->bigInteger('amount_paid')->unsigned()->nullable();
             $table->bigInteger('amount_year')->unsigned();
             $table->bigInteger('amount_month')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

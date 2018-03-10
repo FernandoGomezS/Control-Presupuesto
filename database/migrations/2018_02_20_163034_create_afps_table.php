@@ -15,7 +15,7 @@ class CreateAfpsTable extends Migration
     {
         Schema::create('afps', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned()->index();
-            $table->string('name');
+            $table->string('name');      
             $table->timestamps();
         });
     }

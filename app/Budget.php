@@ -16,4 +16,5 @@ class Budget extends Model
 		'year', 'amount_total','numbers_employees','state' 
 	];
 	
+
 }
