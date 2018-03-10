@@ -21,7 +21,7 @@
 									<th>Año</th> 
 									<th>Monto Total</th>   
 									<th>Monto Gastado</th>                                         
-									<th>Numero Empleados</th>  
+									<th>Empleados Máximos </th>  
 									<th>Estado</th> 
 									<th>Acción</th>              
 								</tr>
@@ -32,14 +32,14 @@
 									<td>
 										{{ $budget->year }}
 									</td> 
-									<td>               
-										{{ $budget->amount_total }}
+									<td> $              
+										{{ number_format($budget->amount_total,0,",",".") }}
 									</td> 
-									<td>               
-										{{ $budget->amount_spent }}
+									<td>$               
+										{{ number_format($budget->amount_spent ,0,",",".")  }}
 									</td>
 									<td>               
-										{{ $budget->numbers_employees }}
+										{{ number_format($budget->numbers_employees,0,",",".")  }}
 									</td>  
 									<td>               
 										{{ $budget->state }}

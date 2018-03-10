@@ -32,6 +32,10 @@ class EmployeesController extends Controller
 	public function edit(Employee $employee)
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario')){
+
+			$date = Carbon::createFromFormat('Y-m-d', $employee->birth_date);
+			//formato fecha
+			$employee->birth_date=$date->format('d/m/Y');
 			return view('employees.edit')->with('afps',Afp::get())->with('healths',Health::get())->with('employee',$employee);
 		}
 	}
@@ -46,7 +50,6 @@ class EmployeesController extends Controller
 			$date = Carbon::createFromFormat('Y-m-d', $employee->birth_date);
 			//formato fecha
 			$employee->birth_date=$date->format('d/m/Y');
-
 			return view('employees.show')->with('employee',$employee)->with('contracts',$contracts);
 		}
 	}
@@ -171,8 +174,9 @@ class EmployeesController extends Controller
 					\Storage::disk('local')->put($nombreCed,  \File::get($file));				
 					$employee->url_identification = $nombreCed;
 				}				
-				$request= request()->all();				
-				$employee->names = $request['names'];
+				$request= request()->all();		
+
+				$employee->names = $request['names'];				
 				$employee->email = $request['email']; 
 				$employee->last_name = $request['last_name'];  
 				$employee->last_name_mother = $request['last_name_mother'];  
@@ -203,11 +207,22 @@ class EmployeesController extends Controller
 
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario'))
 		{
-			//elimina los archivos
+			//buscamos si tiene contratos
+			$contracts=Contract::where('employee_id',$employee->id)->get();
+			if($contracts->count() > 0){
+				//no se puede eliminar ya que tiene contratos
+				flash('No se puede eliminar al Empleado, ya que tiene Contratos activos actualmente.')->error();
+				return redirect()->intended(route('employees.search'));
+			}
+			else{
+				//elimina los archivos y al empleado
 			Storage::delete([$employee->url_identification, $employee->url_certificate]);
 			$employee->delete();
 			flash('Se eliminó Correctamente el empleado.')->success();
 			return redirect()->intended(route('employees.search'));
+			}
+
+			
 		}
 	}
 

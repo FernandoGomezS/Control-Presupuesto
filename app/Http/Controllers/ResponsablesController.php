@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Responsable;
 use Validator;
 use Carbon\Carbon;
+use App\Contract;
 
 class ResponsablesController extends Controller
 {
@@ -138,9 +139,19 @@ class ResponsablesController extends Controller
 
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario'))
 		{
-			$responsable->delete();
-			flash('Se eliminó Correctamente el Responsable.')->success();
-			return redirect()->intended(route('responsables.search'));
+			//buscamos si tiene contratos
+			$contracts=Contract::where('responsable_id',$responsable->id)->get();
+			if($contracts->count() > 0){
+				//no se puede eliminar ya que tiene contratos
+				flash('No Se puede eliminar el Responsable, ya que tiene Contratos activos actualmente.')->error();
+				return redirect()->intended(route('responsables.search'));
+			}
+			else{
+				//se elimina 
+				$responsable->delete();
+				flash('Se eliminó Correctamente el Responsable.')->success();
+				return redirect()->intended(route('responsables.search'));
+			}
 		}
 	}
 }

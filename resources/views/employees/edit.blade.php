@@ -253,7 +253,7 @@
 								<label class="col-md-3 col-sm-3 col-xs-12 control-label">Editar Archivos Adjuntos                         
 								</label>
 								<div class="col-md-9 col-sm-9 col-xs-12">		
-									<input id="checkbox_file" type="checkbox" value="">	
+									<input id="checkbox_file" type="checkbox" value="{{ old('checkbox_file') }}">	
 								</div>
 							</div>
 							<div id="cedula_div" class="form-group" hidden>
@@ -261,7 +261,7 @@
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<div class="btn-group">                                    
-										<input type="file" id='file_certificado'   class="form-control col-md-7 col-xs-12 @if($errors->has('file_cedula')) parsley-error @endif" name="file_cedula" >									
+										<input type="file" id='file_cedula'   class="form-control col-md-7 col-xs-12 @if($errors->has('file_cedula')) parsley-error @endif" name="file_cedula" >									
 									</div>
 									@if($errors->has('file_cedula'))
 									<ul class="parsley-errors-list filled">
@@ -280,7 +280,8 @@
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<div class="btn-group">
-										<input id='file_cedula' type="file"   class="form-control col-md-7 col-xs-12 @if($errors->has('file_certificado')) parsley-error @endif" name="file_certificado" >									</div>
+										<input id='file_cedula' type="file"   class="form-control col-md-7 col-xs-12 @if($errors->has('file_certificado')) parsley-error @endif" name="file_certificado" >									
+									</div>
 										@if($errors->has('file_certificado'))
 										<ul class="parsley-errors-list filled">
 											@foreach($errors->get('file_certificado') as $error)
@@ -468,14 +469,10 @@
 		
 		if ($(this).is(':checked') ) {    	
 			$('#certificado_div').show();
-			$('#cedula_div').show();
-			$("#file_certificado").prop('required',true);
-			$("#file_cedula").prop('required',true); 
+			$('#cedula_div').show();	
 		} else {
 			$('#certificado_div').hide();
-			$('#cedula_div').hide();
-			$("#file_certificado").prop('required',false);
-			$("#file_cedula").prop('required',false);
+			$('#cedula_div').hide();			
 		}
 	});
 

@@ -14,4 +14,8 @@ class Stage extends Model
     protected $fillable = [
         'type_stage_id', 'name'
     ];   
+    public function type_stages()
+    {
+        return $this->belongsTo('App\TypeStage','type_stage_id');
+    }
 }

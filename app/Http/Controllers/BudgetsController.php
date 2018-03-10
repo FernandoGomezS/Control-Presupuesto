@@ -131,7 +131,8 @@ class BudgetsController extends Controller
 		if(auth()->user()->hasRole('Administrador'))
 		{
 			if($budget->state=='Activo'){
-				flash('No existe Presupuestos Activo.')->warning();
+				flash('No Se puede eliminar el presupuesto, ya que esta activo actualmente..')->error();
+				return redirect()->intended(route('budgets.search'));
 			}
 			$budget->delete();
 			flash('Se eliminó Correctamente el Presupuesto.')->success();

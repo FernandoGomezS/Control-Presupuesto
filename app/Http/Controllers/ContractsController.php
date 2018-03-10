@@ -41,10 +41,14 @@ class ContractsController extends Controller
 		}
 	}
 
-	public function show()
+	public function show(Contract $contract)
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-			return view('contracts.show');
+
+			$quotas = Quota::where('contract_id', $contract->id)
+			->orderBy('created_at', 'desc')              
+			->get();
+			return view('contracts.show')->with('contract',$contract)->with('quotas',$quotas);
 		}
 	}
 	public function searchComponent(Request $request)

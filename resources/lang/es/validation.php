@@ -121,7 +121,7 @@ return [
     	'year' => 'Año',
     	'birth_date'=>'Fecha de Nacimiento',
     	'file_cedula'=>' cedula de identidad',
-    	'file_cretificado'=>'certificado',
+    	'file_certificado'=>'certificado',
     ],
 
 ];

@@ -22,7 +22,7 @@
             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                <th>Numero</th>
+                <th>Nº</th>
                 <th>Empleado</th>
                 <th>Responsable</th>                          
                 <th>Fecha inicio</th>
@@ -39,22 +39,22 @@
                     {{ $contract->id }}                    
                   </td> 
                   <td>  
-                    {{ $contract->employees->names }}                         
+                    {{ $contract->employees->names.' '.$contract->employees->last_name }}                         
                   </td>
                   <td>               
                     {{ $contract->responsables->names }}  
                   </td>  
                   <td>  
-                    {{ $contract->date_start }}
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_start)->format('d/m/Y')}}
                   </td>  
                    <td> 
-                    {{ $contract->date_finish }}
+                    {{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y')}}
                   </td>
                    <td>              
                     {{ $contract->state_contract }}
                   </td>
-                   <td>               
-                    {{ $contract->amount_total }}
+                   <td>$               
+                    {{ number_format( $contract->amount_total,0,",",".") }}
                   </td>
                   <td>                    
                     <a href="{{ route('contracts.show',['id'=>$contract->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Ver </a>

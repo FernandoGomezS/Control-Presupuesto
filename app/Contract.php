@@ -25,4 +25,8 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Responsable','responsable_id');
     }
+     public function type_stages()
+    {
+        return $this->belongsTo('App\TypeStage','type_stage_id');
+    }
 }

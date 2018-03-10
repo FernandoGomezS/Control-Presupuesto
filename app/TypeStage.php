@@ -21,5 +21,9 @@ class TypeStage extends Model
     protected $fillable = [
         'component_id', 'name'
     ];   
+    public function components()
+    {
+        return $this->belongsTo('App\Component','component_id');
+    }
 
 }

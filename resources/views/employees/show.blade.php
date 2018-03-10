@@ -66,9 +66,9 @@
 												@foreach( $contracts as $contract )  
 												<tr>
 													<td>{{ $contract->function }}</td>
-													<td>{{ $contract->date_start }}</td>
-													<td>{{ $contract->date_finish }}</td>
-													<td>{{ $contract->sate_contratc }}</td>
+													<td>{{\Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_start)->format('d/m/Y') }}</td>
+													<td>{{  \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y') }}</td>
+													<td>{{ $contract->state_contract }}</td>
 													<td> <a href="{{ route('contracts.show',['id'=>$contract->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Ver </a></td>
 												</tr>												
 												@endforeach
@@ -126,9 +126,9 @@
 												<div class="col-sm-6 invoice-col">	
 													<h5>Archivos Adjuntos</h5>
 													<ul class="list-unstyled project_files">                         
-														<li><a href="{{ Storage::url($employee->url_certificate) }}"><i class="fa fa-picture-o"></i> Ver Certificado de estudios</a>
+														<li><a target="_blank"  href="{{ Storage::url($employee->url_certificate) }}"><i class="fa fa-picture-o"></i> Ver Certificado de estudios</a>
 														</li>                            
-														<li><a href="{{ Storage::url($employee->url_identification) }}"><i class="fa fa-picture-o"></i> Ver Cédula de identidad</a>
+														<li><a target="_blank"  href="{{ Storage::url($employee->url_identification) }}"><i class="fa fa-picture-o"></i> Ver Cédula de identidad</a>
 														</li> 
                           							</ul>
 												</div>
