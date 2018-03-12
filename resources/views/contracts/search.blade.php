@@ -25,8 +25,8 @@
                 <th>Nº</th>
                 <th>Empleado</th>
                 <th>Responsable</th>                          
-                <th>Fecha inicio</th>
-                <th>Fecha termino</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Término</th>
                 <th>Estado</th>
                 <th>Monto</th>
                 <th>Acción</th>

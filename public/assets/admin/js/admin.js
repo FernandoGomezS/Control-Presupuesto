@@ -4280,7 +4280,7 @@ function init_JQVmap(){
 						$("#contract_datos3").html("<address><br><b>Monto Mensual: </b>"+amount_month+"<br><b>Monto Anual: </b>"+amount_year+"</address> ");			        		  
 
 						$("#contract_datos4").html("<address> <br><b>Cuotas: </b>"+quotas+"<br><b>Horas Mensuales: </b>"
-							+hours+"<br><b>Fecha Inicio: </b>"+date_start+"<br><b>Fecha Termino: </b>"+date_finish+"</address> ");
+							+hours+"<br><b>Fecha Inicio: </b>"+date_start+"<br><b>Fecha Término: </b>"+date_finish+"</address> ");
 						return true;
 					 }
 				 }  

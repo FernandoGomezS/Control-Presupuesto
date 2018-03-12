@@ -33,7 +33,7 @@
 								<div id="contract_datos2" class="col-sm-4 invoice-col">
 									<address> 
 										<br><b>Cargo: </b>{{ $contract->position}}
-										<br><b>Funcion: </b>{{ $contract->function}}							
+										<br><b>Función: </b>{{ $contract->function}}							
 										<br><b>Deporte: </b>{{ $contract->sport}}
 										<br><b>Continuidad: </b>{{ $contract->duration}}
 									</address>
@@ -53,8 +53,8 @@
 								<address> 
 									<br><b>Cuotas: </b>{{ $contract->quotas}}
 									<br><b>Horas Mensuales: </b>"{{ $contract->hours}}							
-									<br><b>Fecha Inicio: </b>{{ $contract->date_start}}
-									<br><b>Fecha Termino: </b>{{ $contract->date_finish}}
+									<br><b>Fecha Inicio: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_start)->format('d/m/Y')}}
+									<br><b>Fecha Término: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y')}}
 								</address>
 							</div>
 							<!-- /.col -->
@@ -134,6 +134,9 @@
 						</div>
 						<!-- /.col -->
 					</div>
+					 <a href="{{ route('contracts.pdf',$contract) }}" class="btn btn-sm btn-primary">
+            Descargar  en PDF
+        </a>
 				</div>
 			</div>
 		</div>
