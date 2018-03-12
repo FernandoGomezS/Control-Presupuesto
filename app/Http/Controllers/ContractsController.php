@@ -34,10 +34,19 @@ class ContractsController extends Controller
 		}
 	}
 
-	public function edit()
+	public function edit(Contract $contract)
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-			return view('contracts.edit');
+			$responsablesAll= Responsable::all();
+			$componentesAll= Component::all();
+			
+			$date_finish = Carbon::createFromFormat('Y-m-d', $contract->date_finish);
+			//formato fecha
+			$contract->date_finish=$date_finish->format('d/m/Y');
+			$date_start = Carbon::createFromFormat('Y-m-d', $contract->date_start);
+			//formato fecha
+			$contract->date_start=$date_start->format('d/m/Y');
+			return view('contracts.edit')->with('contract',$contract)->with('responsables',$responsablesAll)->with('components',$componentesAll);
 		}
 	}
 

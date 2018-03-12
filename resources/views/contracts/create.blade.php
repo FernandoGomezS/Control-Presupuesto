@@ -233,7 +233,7 @@
  											<span class="required">*</span>
  										</label>
  										<div class="col-md-6 col-sm-6 col-xs-12">
- 											<input id="hours" value="{{ old('quotas') }}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('hours')) parsley-error @endif"
+ 											<input id="hours" value="{{ old('hours') }}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('hours')) parsley-error @endif"
  											name="hours"  required>
  											@if($errors->has('hours'))
  											<ul class="parsley-errors-list filled">

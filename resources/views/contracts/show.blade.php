@@ -134,7 +134,7 @@
 						</div>
 						<!-- /.col -->
 					</div>
-					 <a href="{{ route('contracts.pdf',$contract) }}" class="btn btn-sm btn-primary">
+					 <a href="" class="btn btn-sm btn-primary">
             Descargar  en PDF
         </a>
 				</div>
