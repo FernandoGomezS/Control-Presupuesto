@@ -15,7 +15,7 @@ class AddForeignKeysToQuotasTable extends Migration
     {
         Schema::table('quotas', function (Blueprint $table) {           
             $table->foreign('contract_id')->references('id')->on('contracts');  
-            $table->foreign('type_stage_id')->references('id')->on('contracts');              
+            $table->foreign('type_stage_id')->references('id')->on('type_stages');              
         });
     }
 

@@ -44,13 +44,13 @@ class BudgetsController extends Controller
 		if(auth()->user()->hasRole('Administrador')){
 
 			$validator = Validator::make($request->all(), [				
-				 'year' => 'required|unique:budgets,year|digits:4|integer|min:1900',
+				'year' => 'required|unique:budgets,year|digits:4|integer|min:1900',
 				'amount_total' => 'required|max:255',
 				'numbers_employees' => 'required|max:255',
 
 			]);         
 			if ($validator->fails()) {	
-			flash('Error, Por favor Ingresa valores correctos.')->error();			
+				flash('Error, Por favor Ingresa valores correctos.')->error();			
 				return redirect()->back()->withErrors($validator->errors())->withInput();;
 			}           
 			else{
@@ -58,22 +58,22 @@ class BudgetsController extends Controller
 
 				if($data['state']=='Activo')
 				{
-					 $budget= Budget::where('state', 'Activo')->get(); 
-					 if($budget->count() >0){
-					 	 $budget[0]->state='Inactivo';
-						 $budget[0]->save();
-					 }					
+					$budget= Budget::where('state', 'Activo')->get(); 
+					if($budget->count() >0){
+						$budget[0]->state='Inactivo';
+						$budget[0]->save();
+					}					
 				}		
-					$budget_new = new Budget();
-					$budget_new->year = $data['year'];
-					$budget_new->amount_total = $data['amount_total'];
+				$budget_new = new Budget();
+				$budget_new->year = $data['year'];
+				$budget_new->amount_total = $data['amount_total'];
 					//0 gastado inicial
-					$budget_new->amount_spent = 0;
+				$budget_new->amount_spent = 0;
 					//0 empleados coontratados
-					$budget_new->contracted_employees = 0;					
-					$budget_new->numbers_employees = $data['numbers_employees']; 
-					$budget_new->state = $data['state'];                
-					$budget_new->save();
+				$budget_new->contracted_employees = 0;					
+				$budget_new->numbers_employees = $data['numbers_employees']; 
+				$budget_new->state = $data['state'];                
+				$budget_new->save();
 				flash('Se Creó Correctamente el Presupuesto.')->success();
 				return redirect()->route('budgets.search');
 			}
@@ -109,13 +109,21 @@ class BudgetsController extends Controller
 				if($request['state']=='Activo')
 				{
 
-					 $budgetActive= Budget::where('state', 'Activo')->get();
+					$budgetActive= Budget::where('state', 'Activo')->get();
 					 //Si no existe ningun activo
-					 if(!$budgetActive->isEmpty()){
-					 $budgetActive[0]->state='Inactivo';					 
-					 $budgetActive[0]->save();
-					 }
+					if(!$budgetActive->isEmpty()){
+						$budgetActive[0]->state='Inactivo';					 
+						$budgetActive[0]->save();
+					}
 					
+				}
+				else{
+
+					if($budget->state=='Activo'){
+						flash('Error, No se puede dejar sin un presupuesto activo. ')->error();
+						return redirect()->back()->withErrors($validator->errors())->withInput();
+
+					}
 				}	
 				$budget->state = $request->get('state');
 				$budget->save();

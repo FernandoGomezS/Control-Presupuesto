@@ -39,7 +39,7 @@ class ContractsController extends Controller
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
 			$responsablesAll= Responsable::all();
 			$componentesAll= Component::all();
-			
+
 			$date_finish = Carbon::createFromFormat('Y-m-d', $contract->date_finish);
 			//formato fecha
 			$contract->date_finish=$date_finish->format('d/m/Y');
@@ -49,13 +49,54 @@ class ContractsController extends Controller
 			return view('contracts.edit')->with('contract',$contract)->with('responsables',$responsablesAll)->with('components',$componentesAll);
 		}
 	}
+	public function editQuota(Contract $contract)
+	{
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
+			//quotas del contrato
+			$quotas = Quota::where('contract_id', $contract->id)
+			->orderBy('date_to_pay', 'asc')              
+			->get();	
+			return view('contracts.editQuota')->with('contract',$contract)->with('quotas',$quotas);
+		}
+	}
+	public function updateQuota(Quota $quota, Request $request){       
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
+
+			$validator = Validator::make($request->all(), [
+				'number_ticket' => 'max:255',
+				'date_memo_to_pay' => 'date_format:d/m/Y',
+				'date_to_pay' => 'date_format:d/m/Y',
+				'date_paid' => 'date_format:d/m/Y',
+				'number_memo' => 'max:255',
+				'number_certificate' => 'max:255',			
+			]);         
+			if ($validator->fails()) {
+				flash('Error, Por favor Ingresa valores correctos.')->error();				
+				return redirect()->back()->withErrors($validator->errors())->withInput();
+			}           
+			else{
+				$request= request()->all();
+
+
+				
+				if($request['state_quota']=='A Pago'){
+
+					dd('hola');
+				}
+				else{
+
+
+				}
+			}
+		}
+	}
 
 	public function show(Contract $contract)
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-
+			//quotas del contrato
 			$quotas = Quota::where('contract_id', $contract->id)
-			->orderBy('created_at', 'desc')              
+			->orderBy('date_to_pay', 'asc')              
 			->get();
 			return view('contracts.show')->with('contract',$contract)->with('quotas',$quotas);
 		}
@@ -204,32 +245,22 @@ class ContractsController extends Controller
 				$budget[0]->save();		
 
 				$i=0;
+				while ($i <$request['quotas']) {	
 
-					$quota=new Quota();
-					$quota->contract_id=$contract->id;
-					$quota->amount=$request['amount_month'];
-					$quota->type_stage_id=1;
-					$quota->date_to_pay=$date_start->addMonths(1); 
-					$quota->state_quota='A Pagar';   
-					if(isset($request['stage'])){
-						$quota->stage_id = $request['stage']; 
-					}
-					$quota->save();	
-				//creamos las cuotas del contrato
-				/*
-				while ($i <$request['quotas']) {
 					$quota=new Quota();
 					$quota->contract_id=$contract->id;
 					$quota->amount=$request['amount_month'];
 					$quota->type_stage_id=$request['type_stages'];
 					$quota->date_to_pay=$date_start->addMonths(1); 
-					$quota->state_quota='A Pagar';   
+					//estado inicial de la cuota
+					$quota->state_quota='Por Pagar'; 
 					if(isset($request['stage'])){
 						$quota->stage_id = $request['stage']; 
 					}
 					$quota->save();	
 					$i++; 
-				}			*/	
+				
+				}			
 				
 				flash('Se Creó Correctamente el Contrato.')->success();
 				return redirect()->route('contracts.search');
@@ -253,7 +284,6 @@ class ContractsController extends Controller
 				'hours' => 'required|max:255',
 				'date_start' => 'required|date_format:d/m/Y',
 				'date_finish' => 'required|date_format:d/m/Y',
-
 				
 				'program' => 'required|max:255',
 				'responsable' => 'required',
@@ -262,35 +292,71 @@ class ContractsController extends Controller
 				'stage' => 'max:255',
 				'category' => 'max:255',       
 			]);
-			$contract = Contract::findOrFail($request->id);			
+
+			
 			if ($validator->fails()) {
 				flash('Error, Por favor Ingresa valores correctos.')->error();
 				return redirect()->back()->withErrors($validator->errors())->withInput();
 			}           
 			else{
 
-				$request= request()->all();				
-				$contract->names = $request['names'];
-				$contract->email = $request['email']; 
-				$contract->last_name = $request['last_name'];  
-				$contract->last_name_mother = $request['last_name_mother'];  
-				$contract->rut = $request['rut'];  
-				$contract->phone = $request['phone']; 
-				$contract->address = $request['address'];  
-				$date = Carbon::createFromFormat('d/m/Y', $request['birth_date']);
-				$contract->birth_date = $date;       
-				$contract->commune = $request['commune']; 
-				$contract->profession = $request['profession']; 
-				if($request['semesters']!=null){
-					$contract->semesters = $request['semesters']; 
+				//buscando id empleado
+				$employee=Employee::where('rut',$request['rut_employee'])->get();
+				//buscando presupuesto activo 
+				$budget=Budget::where('state','Activo')->get();
+				//buscamos contrato existente
+				$contract = Contract::findOrFail($request->id);	
+				$request= request()->all();			
+				$contract->employee_id = $employee[0]->id;
+				$contract->position = $request['position']; 
+				$contract->function = $request['function'];  
+				$contract->sport = $request['sport'];  
+				$contract->duration = $request['duration'];  
+				$contract->amount_year = $request['amount_year']; 
+				$contract->amount_month = $request['amount_month']; 
+				$contract->amount_total = $request['amount_year']; 
+				$contract->quotas = $request['quotas']; 
+				$contract->hours = $request['hours']; 			
+				$contract->budget_id= $budget[0]->id; 
+
+				$date_start = Carbon::createFromFormat('d/m/Y', $request['date_start']);
+				$contract->date_start = $date_start;
+				$date_finish = Carbon::createFromFormat('d/m/Y', $request['date_finish']);
+				$contract->date_finish = $date_finish;     
+
+				$contract->program = $request['program']; 
+				$contract->responsable_id = $request['responsable']; 					
+				$contract->type_stage_id= $request['type_stages']; 
+
+				if( isset($request['stage'])){
+					$contract->stage_id = $request['stage']; 
 				}
-				else{
-					$contract->semesters = null; 
+				if( isset($request['category'])){
+					$contract->category = $request['category']; 
 				}
-				$contract->quality_studies = $request['quality_studies'];
-				$contract->afp_id = $request['afp'];
-				$contract->health_id = $request['health']; 
-				$contract->save();
+				$contract->state_contract = 'Firma contrato';  
+				$contract->save();	
+
+				//actualizamos el presupuesto con los datos del contrato
+
+				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
+				$budget[0]->save();		
+/*
+				$i=0;
+				while ($i <$request['quotas']) {
+					$quota=new Quota();
+					$quota->contract_id=$contract->id;
+					$quota->amount=$request['amount_month'];
+					$quota->type_stage_id=$request['type_stages'];
+					$quota->date_to_pay=$date_start->addMonths(1); 
+					$quota->state_quota='A Pagar';   
+					if(isset($request['stage'])){
+						$quota->stage_id = $request['stage']; 
+					}
+					$quota->save();	
+					$i++; 
+				}	*/
+
 				flash('Se Modificó Correctamente el empelado '.$contract->name.'.')->success();
 				return redirect()->intended(route('employees.search'));
 			}
@@ -301,7 +367,15 @@ class ContractsController extends Controller
 
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario'))
 		{
-	
+			//actualiza el presupuesto 
+			$budget=Budget::where('state','Activo')->get();
+			$budget[0]->contracted_employees=$budget[0]->contracted_employees-1;
+			$budget[0]->amount_spent=$budget[0]->amount_spent-$contract->amount_year;
+			$budget[0]->save();	
+
+			//eliminar quotas
+			$quotas_delete=Quota::where('contract_id',$contract->id)->delete();	
+			//elimina 	contrato
 			$contract->delete();
 			flash('Se eliminó Correctamente el Contrato.')->success();
 			return redirect()->intended(route('contracts.search'));

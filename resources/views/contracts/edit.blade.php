@@ -17,7 +17,8 @@
  					<div class="x_content">
  						@include('flash::message') 
  						<form class="form-horizontal form-label-left" role="form" method="POST"  action="{{ url('/contratos/editar') }}">
- 							{!! csrf_field() !!}  
+ 							{!! csrf_field() !!} 
+ 							{{ Form::hidden('id', $contract['id']) }}     
  							<!-- Smart Wizard -->
  							<p>Debe seguir los siguientes pasos para editar un  contrato.</p>
  							<div id="wizard" class="form_wizard wizard_horizontal">

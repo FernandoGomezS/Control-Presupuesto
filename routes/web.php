@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::post('contratos/crear', 'ContractsController@store')->name('contracts.store');
 	Route::post('contratos/editar/', 'ContractsController@update')->name('contracts.update');
 	Route::delete('contratos/borrar/{contract}', 'ContractsController@destroy')->name('contracts.destroy');
+	Route::get('contratos/editar/cuotas/{contract}', 'ContractsController@editQuota')->name('contracts.editQuota');
+	Route::post('contratos/editar/cuotas/{quota}', 'ContractsController@updateQuota')->name('contracts.updateQuota');
+
 	//ajax contratos
 	Route::get('contratos/buscar/competencia', 'ContractsController@searchComponent');
 	Route::get('contratos/buscar/tipos', 'ContractsController@searchTypes');

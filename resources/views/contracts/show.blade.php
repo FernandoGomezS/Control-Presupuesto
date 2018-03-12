@@ -52,7 +52,7 @@
 							<div id="contract_datos4" class="col-sm-4 invoice-col">
 								<address> 
 									<br><b>Cuotas: </b>{{ $contract->quotas}}
-									<br><b>Horas Mensuales: </b>"{{ $contract->hours}}							
+									<br><b>Horas Mensuales: </b>{{ $contract->hours}}							
 									<br><b>Fecha Inicio: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_start)->format('d/m/Y')}}
 									<br><b>Fecha Término: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y')}}
 								</address>
@@ -71,7 +71,7 @@
 							<div id="contract_datos6" class="col-sm-4 invoice-col">
 								@if($contract->category!=null && $contract->stage_id!=null )
 								<address> 
-									<br><b>Etapa: </b>{{ $contract->stage_id->name }}	
+									<br><b>Etapa: </b>{{ $contract->stages->name }}	
 									<br><b>Categoria: </b>{{ $contract->category }}										
 								</address> 
 								@endif

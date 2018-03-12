@@ -22,14 +22,14 @@
             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                <th>Nº</th>
-                <th>Empleado</th>
-                <th>Responsable</th>                          
-                <th>Fecha Inicio</th>
-                <th>Fecha Término</th>
-                <th>Estado</th>
-                <th>Monto</th>
-                <th>Acción</th>
+                  <th>Nº</th>
+                  <th>Empleado</th>
+                  <th>Responsable</th>                          
+                  <th>Fecha Inicio</th>
+                  <th>Fecha Término</th>
+                  <th>Estado</th>
+                  <th>Monto</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,30 +47,57 @@
                   <td>  
                     {{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_start)->format('d/m/Y')}}
                   </td>  
-                   <td> 
+                  <td> 
                     {{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y')}}
                   </td>
-                   <td>              
+                  <td>              
                     {{ $contract->state_contract }}
                   </td>
-                   <td>$               
+                  <td>$               
                     {{ number_format( $contract->amount_total,0,",",".") }}
                   </td>
-                  <td>                    
-                    <a href="{{ route('contracts.show',['id'=>$contract->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Ver </a>
-                    <a href="{{ route('contracts.edit',['id'=>$contract->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                    <button type="button" data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('contracts.destroy', $contract) }}" class="btn btn-danger btn-xs delete-court-button"><i class="fa fa-trash-o"></i> Eliminar</button>
+                  <td>        
+                    <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-success dropdown-toggle btn-xs" type="button">Cambiar Estado <span class="caret"></span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="#">Contrato</a>
+                        </li>
+                        <li><a href="{{ route('contracts.editQuota',['id'=>$contract->id]) }}" >Cuotas</a>
+                        </li>
+                        
+                      </ul>
+                    </div>
+
+                    <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-xs" type="button">Acciones <span class="caret"></span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="{{ route('contracts.show',['id'=>$contract->id]) }}">Ver</a>
+                        </li>
+                        <li><a href="{{ route('contracts.edit',['id'=>$contract->id]) }}">Editar</a>
+                        </li>
+                        <li><a data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('contracts.destroy', $contract) }}" class=" delete-court-button">Eliminar</a>
+                        </li>
+                        
+                      </ul>
+                    </div>
                   </td>
-                </tr>
-                @endforeach
+                </tr>           
+                @endforeach                
               </tbody>
+
             </table>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
 <!-- Small modal -->
 <div class="modal fade bs-example-modal-sm" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm">
@@ -102,9 +129,9 @@
 <!-- /page content -->
 @section('scripts')
 <script type="text/javascript">
-$('.delete-court-button').on('click', function () {
+  $('.delete-court-button').on('click', function () {
     $('#delete-court-form').attr('action', $(this).data('delete-link'));
-});
+  });
 </script>
 @endsection
 
