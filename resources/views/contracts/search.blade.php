@@ -64,8 +64,7 @@
                         <li><a href="#">Contrato</a>
                         </li>
                         <li><a href="{{ route('contracts.editQuota',['id'=>$contract->id]) }}" >Cuotas</a>
-                        </li>
-                        
+                        </li>                        
                       </ul>
                     </div>
 
