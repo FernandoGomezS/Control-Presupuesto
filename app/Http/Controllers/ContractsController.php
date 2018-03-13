@@ -238,11 +238,19 @@ class ContractsController extends Controller
 				$contract->state_contract = 'Firma contrato';  
 				$contract->save();	
 
-				//actualizamos el presupuesto con los datos del contrato
 
-				$budget[0]->contracted_employees=$budget[0]->contracted_employees+1;
+				//actualizamos el presupuesto con los datos del contrato
+				$contracts=Contract::where('employee_id', $employee[0]->id)
+				->get();
+			
+				//si tiene contratos no se suma a empelados
+				if($contracts->count()<=1){
+					$budget[0]->contracted_employees=$budget[0]->contracted_employees+1;
+				}
+
 				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
 				$budget[0]->save();		
+				
 
 				$i=0;
 				while ($i <$request['quotas']) {	
@@ -260,7 +268,7 @@ class ContractsController extends Controller
 					$quota->save();	
 					$i++; 
 				
-				}			
+				}				
 				
 				flash('Se Creó Correctamente el Contrato.')->success();
 				return redirect()->route('contracts.search');
@@ -338,10 +346,9 @@ class ContractsController extends Controller
 				$contract->save();	
 
 				//actualizamos el presupuesto con los datos del contrato
-
 				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
 				$budget[0]->save();		
-/*
+
 				$i=0;
 				while ($i <$request['quotas']) {
 					$quota=new Quota();
@@ -349,13 +356,14 @@ class ContractsController extends Controller
 					$quota->amount=$request['amount_month'];
 					$quota->type_stage_id=$request['type_stages'];
 					$quota->date_to_pay=$date_start->addMonths(1); 
-					$quota->state_quota='A Pagar';   
+					//estado inicial de la cuota
+					$quota->state_quota='Por Pagar'; 
 					if(isset($request['stage'])){
 						$quota->stage_id = $request['stage']; 
 					}
 					$quota->save();	
-					$i++; 
-				}	*/
+					$i++; 				
+				}	
 
 				flash('Se Modificó Correctamente el empelado '.$contract->name.'.')->success();
 				return redirect()->intended(route('employees.search'));

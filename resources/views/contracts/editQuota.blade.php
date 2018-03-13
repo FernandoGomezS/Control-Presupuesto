@@ -85,14 +85,16 @@
 														<button data-toggle="dropdown" class="btn btn-success dropdown-toggle btn-xs" type="button">Cambiar Estado <span class="caret"></span>
 														</button>
 														<ul role="menu" class="dropdown-menu">
-															<li><a data-toggle="modal" data-target="#modal-1" data-delete-link="{{ route('contracts.updateQuota', $quota) }}" >A Pago</a>
+															@if($quota->state_quota=='Por Pagar')
+															<li><a data-toggle="modal" data-target="#modal-1" data-delete-link="{{ route('quotas.update', $quota) }}" data-delete-link2="{{ $quota->id }}" class=" delete-court-button" >A Pago</a>
 															</li>
-															<li><a  data-toggle="modal" data-target="#modal-2" data-delete-link="{{ route('contracts.updateQuota', $quota) }}">Cuotas</a>
-															</li>                        
+															@endif
+															@if($quota->state_quota=='A Pago')
+															<li><a  data-toggle="modal" data-target="#modal-2" data-delete-link="{{ route('quotas.update', $quota) }}" data-delete-link2="{{ $quota->id }}" class=" delete-court-button2">Pagado</a>
+															</li>     
+															@endif                   
 														</ul>
-													</div>
-
-													<button type="button" data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('contracts.updateQuota', $quota) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>  Editar</button></td>		
+													</div>															
 												</tr>												
 												@endforeach
 											</tbody>
@@ -147,7 +149,8 @@
 					</div>
 					<form  id="delete-court-form" class="form-horizontal form-label-left" method="POST" action="">
 						{{ csrf_field() }}
-						{{ Form::hidden('state_quota', 'A Pago') }}  
+						{{ Form::hidden('state_quota', 'A Pago') }}
+						{{ Form::hidden('id', 'cambiar ', array('id' => 'id_quota')) }}
 						<div class="modal-body">					
 							<div class="item form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="hours" >
@@ -195,7 +198,8 @@
 					</div>
 					<form  id="delete-court-form" class="form-horizontal form-label-left" method="POST" action="">
 						{{ csrf_field() }}
-						{{ Form::hidden('state_quota', 'A Pago') }}  
+						{{ Form::hidden('state_quota', 'Pagado') }}  
+						{{ Form::hidden('id', 'cambiar ', array('id' => 'id_quota2')) }}
 						<div class="modal-body">					
 							<div class="item form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="hours" >
@@ -267,6 +271,13 @@
 
 	$('.delete-court-button').on('click', function () {
 		$('#delete-court-form').attr('action', $(this).data('delete-link'));
+		$('#id_quota').attr('value', $(this).data('delete-link2'));	
+		
+
+	});
+	$('.delete-court-button2').on('click', function () {
+		$('#delete-court-form').attr('action', $(this).data('delete-link'));
+		$('#id_quota2').attr('value', $(this).data('delete-link2'));		
 	});
 
 	$('#date_to_pay').keyup(function(){

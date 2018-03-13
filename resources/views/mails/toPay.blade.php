@@ -12,10 +12,13 @@ Los datos son los siguientes:</p>
 </div> 
 <p><u>Pago :</u></p> 
 <div>
-<p><b>Fecha a Pago:</b>&nbsp;{{ $quota->date_paid }}</p>
+<p><b>Fecha a Pago:</b>&nbsp;{{ $quota->date_to_pay}}</p>
+<p><b>Nº Certificado:</b>&nbsp;{{ $quota->number_certificate }}</p>
 <p><b>Monto:</b>&nbsp;${{ number_format( $quota->amount,0,",",".")  }}</p>
 </div>
- 
+ <br/>
 Saludos
+<br/>
+Control de Presupuesto.
 <br/>
 

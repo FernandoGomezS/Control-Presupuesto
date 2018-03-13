@@ -63,7 +63,7 @@
                       <ul role="menu" class="dropdown-menu">
                         <li><a href="#">Contrato</a>
                         </li>
-                        <li><a href="{{ route('contracts.editQuota',['id'=>$contract->id]) }}" >Cuotas</a>
+                        <li><a href="{{ route('quotas.edit',['id'=>$contract->id]) }}" >Cuotas</a>
                         </li>                        
                       </ul>
                     </div>

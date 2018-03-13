@@ -190,7 +190,7 @@
 								<div class="block">
 									<div class="block_content">
 										<h2 class="title">
-											<a>{{ $contract->employees->name.' '.$contract->employees->last_name }}</a>
+											<a>{{ $contract->employees->names.' '.$contract->employees->last_name }}</a>
 										</h2>
 										<div class="byline">
 											<span> {{ \Carbon\Carbon::parse($contract->created_at)->format('d/m/Y') }}
