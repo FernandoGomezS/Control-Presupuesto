@@ -242,7 +242,7 @@ class ContractsController extends Controller
 				//actualizamos el presupuesto con los datos del contrato
 				$contracts=Contract::where('employee_id', $employee[0]->id)
 				->get();
-			
+
 				//si tiene contratos no se suma a empelados
 				if($contracts->count()<=1){
 					$budget[0]->contracted_employees=$budget[0]->contracted_employees+1;
@@ -267,7 +267,7 @@ class ContractsController extends Controller
 					}
 					$quota->save();	
 					$i++; 
-				
+
 				}				
 				
 				flash('Se Creó Correctamente el Contrato.')->success();
@@ -387,6 +387,38 @@ class ContractsController extends Controller
 			$contract->delete();
 			flash('Se eliminó Correctamente el Contrato.')->success();
 			return redirect()->intended(route('contracts.search'));
+		}
+	}
+
+	public function updateState(Contract $contract, Request $request){  
+
+		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
+
+			$validator = Validator::make($request->all(), [
+				'number_memo_contract' => 'required|max:255',
+				'date_memo_contract' => 'required|date_format:d/m/Y',
+				'date_signature_contract' => 'required|date_format:d/m/Y',						
+			]);         
+			if ($validator->fails()) {
+				flash('Error, Por favor Ingresa valores correctos.')->error();				
+				return redirect()->back()->withErrors($validator->errors())->withInput();
+			}           
+			else{
+				$request= request()->all();				
+
+				$contract=Contract::findOrFail($request['id']);	
+				$contract->number_memo_contract=$request['number_memo_contract'];
+									
+				$contract->date_memo_contract=$date;
+				$contract->date_signature_contract=$date2;				
+
+				$contract->state_contract='Contratado';	
+				$contract->save();
+			
+				flash('Se modificó el estado del contrato  a Contratado.')->success();
+				return redirect()->back();
+
+			}
 		}
 	}
 }

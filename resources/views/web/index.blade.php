@@ -213,3 +213,6 @@
 <h1> Administrador Ir a Presupuesto->Buscar y activar un presupuesto.</h1>
 @endif
 @endsection
+@section('scripts')
+<script src="{{ asset('/assets/app/js/Chart.min.js')}}"></script>
+@endsection

@@ -3074,24 +3074,21 @@ function init_JQVmap(){
 				type: 'doughnut',
 				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 				data: {
-					labels: [
-					"Symbian",
-					"Blackberry",
-					"Other",
-					"Android",
-					"IOS"
+					labels: [	
+					"Por Pagar",						
+					"Libre",					
+					"A Pago",
+					"Pagado"
 					],
 					datasets: [{
-						data: [15, 20, 30, 10, 30],
-						backgroundColor: [
-						"#BDC3C7",
+						data: [20,20, 20, 40],
+						backgroundColor: [						
 						"#9B59B6",
 						"#E74C3C",
 						"#26B99A",
 						"#3498DB"
 						],
-						hoverBackgroundColor: [
-						"#CFD4D8",
+						hoverBackgroundColor: [						
 						"#B370CF",
 						"#E95E4F",
 						"#36CAAB",

@@ -50,9 +50,15 @@
                   <td> 
                     {{ \Carbon\Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y')}}
                   </td>
-                  <td>              
-                    {{ $contract->state_contract }}
-                  </td>
+                  @if( $contract->state_contract=='Firma contrato')
+                  <td><span class="label label-warning">{{ $contract->state_contract }}</span></td>  
+                  @endif
+                  @if( $contract->state_contract=='Contratado')
+                  <td><span class="label label label-info">{{ $contract->state_contract }}</span></td> 
+                  @endif
+                  @if( $contract->state_contract=='Pagado')
+                  <td><span class="label label label-success">{{ $contract->state_contract }}</span></td>  
+                  @endif
                   <td>$               
                     {{ number_format( $contract->amount_total,0,",",".") }}
                   </td>
@@ -61,41 +67,101 @@
                       <button data-toggle="dropdown" class="btn btn-success dropdown-toggle btn-xs" type="button">Cambiar Estado <span class="caret"></span>
                       </button>
                       <ul role="menu" class="dropdown-menu">
-                        <li><a href="#">Contrato</a>
-                        </li>
-                        <li><a href="{{ route('quotas.edit',['id'=>$contract->id]) }}" >Cuotas</a>
-                        </li>                        
-                      </ul>
-                    </div>
+                       <li><a  data-toggle="modal" data-target="#modal-2" data-delete-link="{{ route('contracts.updateState', $contract) }}" data-delete-link2="{{ $contract->id }}" class=" delete-court-button2">Contrato</a>
+                       </li>  
+                       <li><a href="{{ route('quotas.edit',['id'=>$contract->id]) }}" >Cuotas</a>
+                       </li>                        
+                     </ul>
+                   </div>
 
-                    <div class="btn-group">
-                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-xs" type="button">Acciones <span class="caret"></span>
-                      </button>
-                      <ul role="menu" class="dropdown-menu">
-                        <li><a href="{{ route('contracts.show',['id'=>$contract->id]) }}">Ver</a>
-                        </li>
-                        <li><a href="{{ route('contracts.edit',['id'=>$contract->id]) }}">Editar</a>
-                        </li>
-                        <li><a data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('contracts.destroy', $contract) }}" class=" delete-court-button">Eliminar</a>
-                        </li>
-                        
-                      </ul>
-                    </div>
-                  </td>
-                </tr>           
-                @endforeach                
-              </tbody>
-
-            </table>
-
-          </div>
+                   <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-xs" type="button">Acciones <span class="caret"></span>
+                    </button>
+                    <ul role="menu" class="dropdown-menu">
+                      <li><a href="{{ route('contracts.show',['id'=>$contract->id]) }}">Ver</a>
+                      </li>
+                      <li><a href="{{ route('contracts.edit',['id'=>$contract->id]) }}">Editar</a>
+                      </li>
+                      <li><a data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('contracts.destroy', $contract) }}" class=" delete-court-button">Eliminar</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>           
+              @endforeach                
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
 
+<!-- modal -->
+
+<div class="modal fade bs-example-modal-lg"  id="modal-2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Editar Estado  a Contratado  </h4>
+      </div>
+      <form  id="delete-court-form" class="form-horizontal form-label-left" method="POST" action="">
+        {{ csrf_field() }}
+        {{ Form::hidden('state_quota', 'Pagado') }}  
+        {{ Form::hidden('id', 'cambiar ', array('id' => 'id_quota2')) }}
+        <div class="modal-body">          
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number_memo_contract" >
+              Nº de Memo Contratación
+              <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="number_memo_contract"  type="number" class="form-control col-md-7 col-xs-12 "
+              name="number_memo_contract"  required>                       
+            </div>
+          </div> 
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date_memo_contract" >
+              Fecha Memo Contratación
+              <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="date_memo_contract" type="text" data-inputmask="'mask': '99/99/9999'" class="form-control col-md-7 col-xs-12 "
+              name="date_memo_contract"  required> 
+              <ul id="errorDateMemoToPay" class="parsley-errors-list hidden">                    
+                <li class="parsley-required">Fecha Incorrecta. (Día/Mes/Año).</li>                    
+              </ul>                     
+            </div>
+          </div>              
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date_signature_contract" >
+              Fecha Firma Contrato
+              <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="date_signature_contract" type="text" data-inputmask="'mask': '99/99/9999'" class="form-control col-md-7 col-xs-12 "
+              name="date_signature_contract"  required>
+              <ul id="errorDatePaid" class="parsley-errors-list hidden">                    
+                <li class="parsley-required">Fecha Incorrecta. (Día/Mes/Año).</li>                    
+              </ul>                       
+            </div>
+          </div>  
+
+        </div>
+        <div class="modal-footer">  
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success " id="button_2"> Editar</button>  
+        </div>
+      </form> 
+
+    </div>
+  </div>
+</div>
 
 <!-- Small modal -->
 <div class="modal fade bs-example-modal-sm" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
@@ -127,9 +193,74 @@
 
 <!-- /page content -->
 @section('scripts')
+<script src="{{asset('/assets/app/js/jquery.inputmask.bundle.js')}}"></script>
+<script src="{{asset('/assets/app/js/moment.js')}}"></script>
 <script type="text/javascript">
   $('.delete-court-button').on('click', function () {
     $('#delete-court-form').attr('action', $(this).data('delete-link'));
+  });
+
+  $('.delete-court-button2').on('click', function () {
+    $('#delete-court-form').attr('action', $(this).data('delete-link'));
+    $('#id_quota2').attr('value', $(this).data('delete-link2'));    
+  });
+
+  $('#date_signature_contract').keyup(function(){
+    var date_signature_contract = $('#date_signature_contract').val();
+    if( date_signature_contract != "" ){     
+
+      if( moment(date_signature_contract , 'DD/MM/YYYY',true).isValid()){
+        $('#errorDatePaid').addClass('hidden');
+        $('#date_signature_contract').removeClass('parsley-error'); 
+        var validate_date1 =$("#errorDateMemoToPay").is(":visible");
+        if(!validate_date1){
+          $('#button_2').prop('disabled', false);  
+        }         
+      }
+      else{
+        $('#errorDatePaid').removeClass('hidden');
+        $('#date_signature_contract').addClass('parsley-error');  
+        $('#button_2').prop('disabled', true);         
+      }       
+      $('#date_signature_contract').val( date_signature_contract );
+    }
+    else{            
+      $('#date_signature_contract').removeClass('parsley-error');
+      $('#errorDatePaid').addClass('hidden');
+      var validate_date1 =$("#errorDateMemoToPay").is(":visible");
+      if(!validate_date1){
+        $('#button_2').prop('disabled', false);  
+      }         
+    }
+  });
+  $('#date_memo_contract').keyup(function(){
+    var date_memo_contract = $('#date_memo_contract').val();
+    if( date_memo_contract != "" ){     
+
+      if( moment(date_memo_contract , 'DD/MM/YYYY',true).isValid()){
+        $('#errorDateMemoToPay').addClass('hidden');
+        $('#date_memo_contract').removeClass('parsley-error');
+        var validate_date1 =$("#errorDatePaid").is(":visible");
+        if(!validate_date1){
+          $('#button_2').prop('disabled', false);  
+        }
+
+      }
+      else{
+        $('#errorDateMemoToPay').removeClass('hidden');
+        $('#date_memo_contract').addClass('parsley-error');  
+        $('#button_2').prop('disabled', true);         
+      }       
+      $('#date_memo_contract').val( date_memo_contract );
+    }
+    else{            
+      $('#date_memo_contract').removeClass('parsley-error');
+      $('#errorDateMemoToPay').addClass('hidden');
+      var validate_date1 =$("#errorDatePaid").is(":visible");
+      if(!validate_date1){
+        $('#button_2').prop('disabled', false);  
+      }       
+    }
   });
 </script>
 @endsection
