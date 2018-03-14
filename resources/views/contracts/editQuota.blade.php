@@ -109,6 +109,9 @@
 								<div class="row">
 									<!-- column -->
 									<div class="col-md-8 col-xs-12 invoice-col">
+										<a href="{{ route('contracts.pdf', $contract) }}" class="btn btn-sm btn-primary">
+            Descargar en PDF
+        </a>
 									</div>
 									<!-- /.col -->
 									<div class="col-md-4 col-xs-12">

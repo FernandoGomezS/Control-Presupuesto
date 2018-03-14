@@ -13,6 +13,7 @@ use App\Quota;
 use App\Employee;
 use Validator;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ContractsController extends Controller
 {
@@ -377,16 +378,14 @@ class ContractsController extends Controller
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario'))
 		{
 			//actualiza el presupuesto 
-			$budget=Budget::where('state','Activo')->get();
-			
-		
+			$budget=Budget::where('state','Activo')->get();	
 			$budget[0]->amount_spent=$budget[0]->amount_spent-$contract->amount_year;
 			$budget[0]->save();	
 
 			//cambiar estado cuotas quotas
 			$quotas=Quota::where('contract_id',$contract->id)
-							->where('state_quota', '!=' ,'Pagado')
-							->get();
+			->where('state_quota', '!=' ,'Pagado')
+			->get();
 			if($quotas->count() >0){
 				foreach ($quotas as  $quota) {
 					$quota->state_quota='Anulada';
@@ -421,7 +420,7 @@ class ContractsController extends Controller
 
 				$contract=Contract::findOrFail($request['id']);	
 				$contract->number_memo_contract=$request['number_memo_contract'];
-									
+
 				$date=Carbon::createFromFormat('d/m/Y', $request['date_memo_contract']);									
 				$contract->date_memo_contract=$date;
 				$date2=Carbon::createFromFormat('d/m/Y', $request['date_signature_contract']);								
@@ -429,11 +428,18 @@ class ContractsController extends Controller
 
 				$contract->state_contract='Contratado';	
 				$contract->save();
-			
+
 				flash('Se modificó el estado del contrato  a Contratado.')->success();
 				return redirect()->back();
 
 			}
 		}
+	}
+	public function createPdf(Contract $contract){
+
+
+
+		$pdf = PDF::loadView('layouts.pdf', compact('contract'));
+		return $pdf->download('invoice.pdf');
 	}
 }
