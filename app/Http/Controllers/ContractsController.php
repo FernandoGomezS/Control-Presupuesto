@@ -373,19 +373,32 @@ class ContractsController extends Controller
 
 	public function destroy(Contract $contract){
 
+
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario'))
 		{
 			//actualiza el presupuesto 
 			$budget=Budget::where('state','Activo')->get();
-			$budget[0]->contracted_employees=$budget[0]->contracted_employees-1;
+			
+		
 			$budget[0]->amount_spent=$budget[0]->amount_spent-$contract->amount_year;
 			$budget[0]->save();	
 
-			//eliminar quotas
-			$quotas_delete=Quota::where('contract_id',$contract->id)->delete();	
-			//elimina 	contrato
-			$contract->delete();
-			flash('Se eliminó Correctamente el Contrato.')->success();
+			//cambiar estado cuotas quotas
+			$quotas=Quota::where('contract_id',$contract->id)
+							->where('state_quota', '!=' ,'Pagado')
+							->get();
+			if($quotas->count() >0){
+				foreach ($quotas as  $quota) {
+					$quota->state_quota='Anulada';
+					$quota->save();
+				}
+			}				
+
+			//cambia estado	contrato
+			$contract->state_contract ='Cancelado';
+			$contract->save();
+
+			flash('Se Cancelo Correctamente el Contrato.')->success();
 			return redirect()->intended(route('contracts.search'));
 		}
 	}
@@ -409,7 +422,9 @@ class ContractsController extends Controller
 				$contract=Contract::findOrFail($request['id']);	
 				$contract->number_memo_contract=$request['number_memo_contract'];
 									
+				$date=Carbon::createFromFormat('d/m/Y', $request['date_memo_contract']);									
 				$contract->date_memo_contract=$date;
+				$date2=Carbon::createFromFormat('d/m/Y', $request['date_signature_contract']);								
 				$contract->date_signature_contract=$date2;				
 
 				$contract->state_contract='Contratado';	

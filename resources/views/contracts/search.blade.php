@@ -59,7 +59,13 @@
                   @if( $contract->state_contract=='Pagado')
                   <td><span class="label label label-success">{{ $contract->state_contract }}</span></td>  
                   @endif
-                  <td>$               
+                   @if( $contract->state_contract=='Cancelado')
+                  <td><span class="label label label-danger">{{ $contract->state_contract }}</span></td>  
+                  @endif
+                  @if( $contract->state_contract=='Renuncia')
+                  <td><span class="label label label-default">{{ $contract->state_contract }}</span></td>  
+                  @endif
+                  <td>             
                     {{ number_format( $contract->amount_total,0,",",".") }}
                   </td>
                   <td>        
@@ -67,8 +73,10 @@
                       <button data-toggle="dropdown" class="btn btn-success dropdown-toggle btn-xs" type="button">Cambiar Estado <span class="caret"></span>
                       </button>
                       <ul role="menu" class="dropdown-menu">
-                       <li><a  data-toggle="modal" data-target="#modal-2" data-delete-link="{{ route('contracts.updateState', $contract) }}" data-delete-link2="{{ $contract->id }}" class=" delete-court-button2">Contrato</a>
-                       </li>  
+                        @if( $contract->state_contract=='Firma contrato') 
+                       <li><a  data-toggle="modal" data-target="#modal-2" onclick="modalStateContract('{{ route('contracts.updateState', $contract) }}','{{ $contract->id }}')" class=" delete-court-button2">Contrato</a>
+                       </li>
+                       @endif  
                        <li><a href="{{ route('quotas.edit',['id'=>$contract->id]) }}" >Cuotas</a>
                        </li>                        
                      </ul>
@@ -82,7 +90,7 @@
                       </li>
                       <li><a href="{{ route('contracts.edit',['id'=>$contract->id]) }}">Editar</a>
                       </li>
-                      <li><a data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('contracts.destroy', $contract) }}" class=" delete-court-button">Eliminar</a>
+                      <li><a data-toggle="modal" data-target="#modal-delete" onclick="modalCancel( '{{ route('contracts.destroy', $contract) }}' ) " class=" delete-court-button" >Cancelar</a>
                       </li>
                     </ul>
                   </div>
@@ -110,10 +118,10 @@
         </button>
         <h4 class="modal-title" id="myModalLabel">Editar Estado  a Contratado  </h4>
       </div>
-      <form  id="delete-court-form" class="form-horizontal form-label-left" method="POST" action="">
+      <form  id="delete-court-form2" class="form-horizontal form-label-left" method="POST" action="/">
         {{ csrf_field() }}
         {{ Form::hidden('state_quota', 'Pagado') }}  
-        {{ Form::hidden('id', 'cambiar ', array('id' => 'id_quota2')) }}
+        {{ Form::hidden('id', '0 ', array('id' => 'id_quota2')) }}
         <div class="modal-body">          
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number_memo_contract" >
@@ -174,15 +182,14 @@
         <h4 class="modal-title" id="myModalLabel2">Confirmación</h4>
       </div>
       <div class="modal-body">
-        <p>Está a punto de eliminar este Contrato..¿Está seguro(a) de proceder?</p>                                                 
+        <p>Está a punto de Cancelar este Contrato..¿Está seguro(a) de proceder?</p>                                                 
       </div>
       <div class="modal-footer">
         <form  id="delete-court-form" method="POST" action="">
           {{ csrf_field() }}
           {{ method_field('DELETE') }}
-          <button type="button" class="btn btn-default" data-dismiss="modal">No, cancelar</button>
-          <button type="submit" class="btn btn-danger "> Si, Eliminar</button>    
-
+          <button type="button" class="btn btn-default" data-dismiss="modal">No, Volver</button>
+          <button type="submit" class="btn btn-danger "> Si, Cancelar</button>   
         </form>                      
       </div>
 
@@ -196,14 +203,18 @@
 <script src="{{asset('/assets/app/js/jquery.inputmask.bundle.js')}}"></script>
 <script src="{{asset('/assets/app/js/moment.js')}}"></script>
 <script type="text/javascript">
-  $('.delete-court-button').on('click', function () {
-    $('#delete-court-form').attr('action', $(this).data('delete-link'));
-  });
 
-  $('.delete-court-button2').on('click', function () {
-    $('#delete-court-form').attr('action', $(this).data('delete-link'));
-    $('#id_quota2').attr('value', $(this).data('delete-link2'));    
-  });
+
+
+function modalCancel(data){ 
+ $('#delete-court-form').attr('action', data);
+};
+
+function modalStateContract(data,data2){ 
+ $('#delete-court-form2').attr('action', data);
+  $('#id_quota2').attr('value', data2); 
+};
+
 
   $('#date_signature_contract').keyup(function(){
     var date_signature_contract = $('#date_signature_contract').val();

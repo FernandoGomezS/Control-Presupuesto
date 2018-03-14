@@ -216,7 +216,7 @@
  											<span class="required">*</span>
  										</label>
  										<div class="col-md-6 col-sm-6 col-xs-12">
- 											<input id="quotas" value="{{ old('quotas') }}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('quotas')) parsley-error @endif"
+ 											<input id="quotas" value="{{ old('quotas') }}" type="number" pattern="[0-9]{2}" class="form-control col-md-7 col-xs-12 @if($errors->has('quotas')) parsley-error @endif"
  											name="quotas"  required>
  											@if($errors->has('quotas'))
  											<ul class="parsley-errors-list filled">
@@ -225,6 +225,9 @@
  												@endforeach
  											</ul>
  											@endif
+ 											<ul id="errorQuota" class="parsley-errors-list hidden">                    
+ 												<li class="parsley-required"> Entre 1 a 12 Cuotas.</li>                    
+ 											</ul>
  										</div>
  									</div> 
  									<div class="item form-group">
@@ -436,29 +439,42 @@
 
  <script type="text/javascript">
  	$('#amount_year').focusout(function(){
- 	var amount_year = $( "#amount_year" ).val(); 
-  //validamos si no esta en la opcion inicial
-      
-      	$.ajax({
-      		type : 'get',
-      		url : '{{URL::to('contratos/buscar/presupuesto')}}',
-      		data:{'amount_year':amount_year},
-      		success:function(data){ 
-      			if(data=="false"){
-      				$('#errorAmount').removeClass('hidden');
-      				$('#amount_year').addClass('parsley-error');
-      				 
-      			}
-      			else{
+ 		var amount_year = $( "#amount_year" ).val();   
+ 		$.ajax({
+ 			type : 'get',
+ 			url : '{{URL::to('contratos/buscar/presupuesto')}}',
+ 			data:{'amount_year':amount_year},
+ 			success:function(data){ 
+ 				if(data=="false"){
+ 					$('#errorAmount').removeClass('hidden');
+ 					$('#amount_year').addClass('parsley-error');
 
-      				$('#errorAmount').addClass('hidden');
-      				$('#amount_year').removeClass('parsley-error'); 
-      			}
-      			
-      		}
-      	});  
+ 				}
+ 				else{
+
+ 					$('#errorAmount').addClass('hidden');
+ 					$('#amount_year').removeClass('parsley-error'); 
+ 				}
+
+ 			}
+ 		});  
 
  	});
+ 	//valida cuotas positivas y menor a 13
+ 	$('#quotas').keyup(function(){
+
+ 		var quotas= $( "#quotas" ).val(); 
+ 		if(quotas <=12 && quotas>0 ){
+ 			$('#errorQuota').addClass('hidden');
+ 			$('#quotas').removeClass('parsley-error'); 
+ 		}
+ 		else{
+ 			$('#errorQuota').removeClass('hidden');
+ 			$('#quotas').addClass('parsley-error');
+ 		}
+
+ 	});
+
   //ajax search rut empleado
   $("#button_rut").click(function(){
 

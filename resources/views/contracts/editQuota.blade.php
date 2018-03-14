@@ -78,6 +78,9 @@
 												@if( $quota->state_quota=='Pagado')
 												<td><span class="label label label-success">{{ $quota->state_quota}}</span></td>	
 												@endif
+												@if( $quota->state_quota=='Anulada')
+												<td><span class="label label label-danger">{{ $quota->state_quota}}</span></td>
+												@endif
 												<td>{{  \Carbon\Carbon::createFromFormat('Y-m-d', $quota->date_to_pay)->format('d/m/Y') }}</td>
 												<td>$ {{ number_format($quota->amount,0,",",".")}}</td>	
 												<td>
@@ -86,11 +89,11 @@
 														</button>
 														<ul role="menu" class="dropdown-menu">
 															@if($quota->state_quota=='Por Pagar')
-															<li><a data-toggle="modal" data-target="#modal-1" data-delete-link="{{ route('quotas.update', $quota) }}" data-delete-link2="{{ $quota->id }}" class=" delete-court-button" >A Pago</a>
+															<li><a data-toggle="modal" data-target="#modal-1" onclick="toPaid('{{ route('quotas.update', $quota) }}','{{ $quota->id }}')"  class=" delete-court-button" >A Pago</a>
 															</li>
 															@endif
 															@if($quota->state_quota=='A Pago')
-															<li><a  data-toggle="modal" data-target="#modal-2" data-delete-link="{{ route('quotas.update', $quota) }}" data-delete-link2="{{ $quota->id }}" class=" delete-court-button2">Pagado</a>
+															<li><a  data-toggle="modal" data-target="#modal-2" onclick="paid('{{ route('quotas.update', $quota) }}','{{ $quota->id }}')"  class=" delete-court-button2">Pagado</a>
 															</li>     
 															@endif                   
 														</ul>
@@ -267,18 +270,18 @@
 <script src="{{asset('/assets/app/js/jquery.inputmask.bundle.js')}}"></script>
 <script src="{{asset('/assets/app/js/moment.js')}}"></script>
 <script type="text/javascript">
+	function toPaid(data,data2){
 
+		$('#delete-court-form').attr('action', data);
+		$('#id_quota').attr('value', data2);	
+	}
 
-	$('.delete-court-button').on('click', function () {
-		$('#delete-court-form').attr('action', $(this).data('delete-link'));
-		$('#id_quota').attr('value', $(this).data('delete-link2'));	
-		
+	function paid(data,data2){
 
-	});
-	$('.delete-court-button2').on('click', function () {
-		$('#delete-court-form').attr('action', $(this).data('delete-link'));
-		$('#id_quota2').attr('value', $(this).data('delete-link2'));		
-	});
+		$('#delete-court-form').attr('action', data);
+		$('#id_quota2').attr('value', data2);	
+	}
+
 
 	$('#date_to_pay').keyup(function(){
 		var date_to_pay = $('#date_to_pay').val();

@@ -4257,9 +4257,10 @@ function init_JQVmap(){
 						 var validate_date3 =$("#errorFinishStart").is(":visible");
 						 //monto valido
 						 var validate_date4 =$("#errorAmount").is(":visible");
+						 var validate_date5 =$("#errorQuota").is(":visible");
 						 
 
-					 if(validate_date1 ||validate_date2 ||validate_date3 || validate_date4){			         		
+					 if(validate_date1 ||validate_date2 ||validate_date3 || validate_date4 || validate_date5 ){			         		
 
 						new PNotify({
 							title: 'Error!',

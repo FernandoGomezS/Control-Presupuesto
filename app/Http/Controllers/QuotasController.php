@@ -54,6 +54,7 @@ class QuotasController extends Controller
 				$request= request()->all();
 				
 				if($request['state_quota']=='A Pago'){
+
 					$quota=Quota::findOrFail($request['id']);	
 					$quota->number_certificate=$request['number_certificate'];
 					$quota->state_quota=$request['state_quota'];					
@@ -99,8 +100,7 @@ class QuotasController extends Controller
 					//agregar pago a contrato				
 					$contract->amount_paid=	$contract->amount_paid+$quota->amount;	
 					//verificar si estan todas  las cuotas pagadas
-					$quotas = Quota::where('state_quota','A Pago')
-					->where('state_quota','Por Pagar')
+					$quotas = Quota::where('state_quota','!=','Pagado')					
 					->get();
 					//cambiamos el estado en el contrato
 					if($quotas->count()==0){
