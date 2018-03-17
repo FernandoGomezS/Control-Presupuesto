@@ -25,8 +25,7 @@ class CreateQuotasTable extends Migration
             $table->bigInteger('number_ticket')->unsigned()->nullable();
             $table->date('date_paid')->nullable();
             $table->bigInteger('number_memo')->unsigned()->nullable();
-            $table->date('date_memo_to_pay')->nullable();     
-            $table->softDeletes();        
+            $table->date('date_memo_to_pay')->nullable();  
             $table->timestamps();
         });
     }

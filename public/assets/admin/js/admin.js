@@ -4162,10 +4162,7 @@ function init_JQVmap(){
 				if( typeof ($.fn.smartWizard) === 'undefined'){ return; }
 				console.log('init_SmartWizard');
 
-				$('#wizard_verticle').smartWizard({
-					transitionEffect: 'slide'
-				});
-
+				
 				$('#wizard').smartWizard({
 				  // Properties
 					selected: 0,  // Selected Step, 0 = first step   

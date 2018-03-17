@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
 
     	]);
     	//llama a las clases para cargar  BD
-         $this->call(BudgetsSeeder::class);
-         $this->call(ComponentsSeeder::class);
-         $this->call(Types_stagesSeeder::class);
-         $this->call(StagesSeeder::class);
+         //$this->call(BudgetsSeeder::class);
+         //$this->call(ComponentsSeeder::class);
+         //$this->call(Types_stagesSeeder::class);
+         //$this->call(StagesSeeder::class);
          $this->call(RolesSeeder::class);
          $this->call(UsersSeeder::class);
          $this->call(ResponsablesSeeder::class);

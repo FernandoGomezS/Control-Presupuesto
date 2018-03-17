@@ -30,7 +30,15 @@ class ContractsController extends Controller
 	public function search()
 	{        
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-			$contractAll= Contract::all();
+
+			$contractAll=null;
+				//buscando presupuesto activo 
+			$budget=Budget::where('state','Activo')->get();
+			if($budget->count() > 0)
+			{					
+				$contractAll= Contract::where('budget_id',$budget[0]->id)
+				->get();
+			}
 			return view('contracts.search')->with('contracts',$contractAll);
 		}
 	}

@@ -22,8 +22,8 @@
             <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Nombre</th> 
-                  <th>Apellido</th>                                         
+                  <th>Nombres</th> 
+                  <th>Apellidos</th>                                         
                   <th>Rut</th>  
                   <th>Correo</th>
                   <th>Acción</th>
@@ -54,12 +54,8 @@
                     {{ substr($employee->rut,0 ,10) . "..." }}
                     @endif
                   </td>  
-                  <td>               
-                    @if( strlen($employee->email) < 25 )
+                  <td> 
                     {{ $employee->email }}
-                    @else
-                    {{ substr($employee->email,0 ,10) . "..." }}
-                    @endif
                   </td>  
                   <td>                    
                     <a href="{{ route('employees.show',['id'=>$employee->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Ver </a>

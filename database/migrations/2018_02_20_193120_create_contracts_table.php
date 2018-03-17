@@ -20,7 +20,7 @@ class CreateContractsTable extends Migration
             $table->bigInteger('type_stage_id')->unsigned();
             $table->bigInteger('responsable_id')->unsigned()->index();  
             $table->bigInteger('employee_id')->unsigned()->index();
-            $table->bigInteger('budget_id')->unsigned()->onDelete('cascade');                
+            $table->bigInteger('budget_id')->unsigned();               
             $table->enum('function', ['Control de Competencia', 'Monitor','Gestor Territorial','Administrador Contable','Coordimador','Encargado','Apoyo al Programa','Técnico','Ayudante Técnico','Delegado','Mecánico']);
             $table->string('sport'); //deporte
             $table->string('program'); //programa
@@ -45,8 +45,7 @@ class CreateContractsTable extends Migration
             $table->bigInteger('amount_total')->unsigned();
             $table->bigInteger('amount_paid')->unsigned()->nullable();
             $table->bigInteger('amount_year')->unsigned();
-            $table->bigInteger('amount_month')->unsigned();
-            $table->softDeletes();
+            $table->bigInteger('amount_month')->unsigned();           
             $table->timestamps();
         });
     }
