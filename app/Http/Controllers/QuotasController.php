@@ -44,7 +44,8 @@ class QuotasController extends Controller
 				'date_to_pay' => 'date_format:d/m/Y',
 				'date_paid' => 'date_format:d/m/Y',
 				'number_memo' => 'max:255',
-				'number_certificate' => 'max:255',			
+				'number_certificate' => 'max:255',
+				'amount' => 'max:255',			
 			]);         
 			if ($validator->fails()) {
 				flash('Error, Por favor Ingresa valores correctos.')->error();				
@@ -59,7 +60,8 @@ class QuotasController extends Controller
 					$quota->number_certificate=$request['number_certificate'];
 					$quota->state_quota=$request['state_quota'];					
 					$date=Carbon::createFromFormat('d/m/Y', $request['date_to_pay'])->format('d/m/Y');									
-					$quota->date_to_pay=$date;					
+					$quota->date_to_pay=$date;
+					$quota->amount=	$request['amount'];				
 
 					$contract=Contract::findOrFail($quota->contract_id);					
 					$employee=Employee::findOrFail($contract->employee_id);

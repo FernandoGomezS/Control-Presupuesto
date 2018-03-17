@@ -156,21 +156,36 @@ class ContractsController extends Controller
 
 			if($request->ajax())
 			{				
-			   	//buscando presupuesto activo 
-				$budget=Budget::where('state','Activo')->get();
+				
+				if($request->stage==""){
+					$type_stage=TypeStage::where('id',$request->type_stages)->get();
+					if($type_stage->count() > 0){
 
-				if($budget->count() > 0)
-				{	
-					$disponible=$budget[0]->amount_total-$budget[0]->amount_spent;
+						$disponible=$type_stage[0]->amount_total-$type_stage[0]->amount_spent;
 
-					if($request->amount_year<=$disponible){
-						return Response('true');
-					}					
-
-					else{
-						return Response('false');
+						if($request->amount_year<=$disponible){
+							return Response('true');
+						}
+						else{
+							return Response('false');
+						}
 					}
-				}	
+				}
+				else{
+
+					$stage=Stage::where('id',$request->stage)->get();
+					if($stage->count() > 0){
+
+						$disponible=$stage[0]->amount_total-$stage[0]->amount_spent;
+
+						if($request->amount_year<=$disponible){
+							return Response('true');
+						}	
+						else{
+							return Response('false');
+						}
+					}
+				}
 			}	
 		}
 	}
@@ -194,7 +209,6 @@ class ContractsController extends Controller
 				'hours' => 'required|max:255',
 				'date_start' => 'required|date_format:d/m/Y',
 				'date_finish' => 'required|date_format:d/m/Y',
-
 				
 				'program' => 'required|max:255',
 				'responsable' => 'required',
@@ -444,9 +458,7 @@ class ContractsController extends Controller
 	}
 	public function createPdf(Contract $contract){
 
-
-
 		$pdf = PDF::loadView('layouts.pdf', compact('contract'));
-		return $pdf->download('invoice.pdf');
+		return $pdf->download('contrato_'.$contract->id.'.pdf');
 	}
 }

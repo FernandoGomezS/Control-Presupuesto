@@ -36,7 +36,7 @@
  											<span class="step_no">2</span>
  											<span class="step_descr">
  												Paso 2<br />
- 												<small>Datos contratación</small>
+ 												<small>Datos presupuesto</small>
  											</span>
  										</a>
  									</li>
@@ -45,7 +45,7 @@
  											<span class="step_no">3</span>
  											<span class="step_descr">
  												Paso 3<br />
- 												<small>Datos presupuesto</small>
+ 												<small>Datos contratación</small> 												
  											</span>
  										</a>
  									</li>
@@ -105,6 +105,82 @@
  									</div>
  								</div>
  								<div id="step-2">
+ 									<div class="ln_solid"></div>
+
+ 									<div class="item form-group">
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="program" >
+ 											Programa
+ 											<span class="required">*</span>
+ 										</label>
+ 										<div class="col-md-6 col-sm-6 col-xs-12">
+ 											<input id="program" value="{{ old('program') }}" type="text" class="form-control col-md-7 col-xs-12 @if($errors->has('program')) parsley-error @endif"
+ 											name="program"  required>
+ 											@if($errors->has('program'))
+ 											<ul class="parsley-errors-list filled">
+ 												@foreach($errors->get('program') as $error)
+ 												<li class="parsley-required">{{ $error }}</li>
+ 												@endforeach
+ 											</ul>
+ 											@endif
+ 										</div>
+ 									</div>  
+ 									<div class="item form-group">
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="responsable">Responsable <span class="required">*</span>
+ 										</label>
+ 										<div class="col-md-6 col-sm-6 col-xs-12">  
+ 											<select class='form-control' id='responsable' name="responsable" required="">
+ 												<option value="">-- Por favor seleccione --</option>                  
+ 												@foreach($responsables as $responsable)
+ 												<option  {{(old('responsable')==$responsable->id )?'selected' : ''}} value="{{ $responsable->id }}">{{ $responsable->names.' '.$responsable->last_name }}</option>
+ 												@endforeach
+ 											</select>                      
+ 										</div>
+ 									</div>  
+ 									<div class="item form-group">
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="component">Competencia <span class="required">*</span>
+ 										</label>
+ 										<div class="col-md-6 col-sm-6 col-xs-12">  
+ 											<select class='form-control' id='component' name="component" required="">
+ 												<option value="">-- Por favor seleccione --</option>                  
+ 												@foreach($components as $component)
+ 												<option  {{(old('component')==$component->id )?'selected' : ''}} value="{{ $component->id }}">{{ $component->name }}</option>
+ 												@endforeach
+ 											</select>                      
+ 										</div>
+ 									</div>
+ 									<div class="item form-group">
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type_stages">Tipo de Etapa <span class="required">*</span>
+ 										</label>
+ 										<div class="col-md-6 col-sm-6 col-xs-12">  
+ 											<select class='form-control' id='type_stages' name="type_stages" disabled required="">
+ 												<option value="">-- Por favor seleccione --</option>  
+ 											</select>                      
+ 										</div>
+ 									</div>
+ 									<div id="stage_div" class="item form-group " hidden >
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="stage">Etapa<span class="required">*</span>
+ 										</label>
+ 										<div class="col-md-6 col-sm-6 col-xs-12">  
+ 											<select class='form-control' id='stage' name="stage" disabled required="">
+ 												<option value="">-- Por favor seleccione --</option> 
+ 											</select>                      
+ 										</div>
+ 									</div> 
+ 									<div id="category_div" class="item form-group " hidden>
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="category">Categoria<span class="required">*</span>
+ 										</label>
+ 										<div class="col-md-6 col-sm-6 col-xs-12">  
+ 											<select class='form-control' id='category' name="category"  required="">
+ 												<option value="">-- Por favor seleccione --</option> 
+ 												<option {{(old('category')=='Sub14')?'selected' : ''}}  value="Sub14">Sub14</option>  
+ 												<option {{(old('category')=='Segunda Categoria')?'selected' : ''}}  value="Segunda Categoria">Segunda Categoria</option> 
+ 											</select>                      
+ 										</div>
+ 									</div>  									
+ 									<br>
+ 									<br>                             
+ 								</div>
+ 								<div id="step-3">
  									<div class="ln_solid"></div>  
 
  									<div class="item form-group">
@@ -189,7 +265,7 @@
  											</ul>
  											@endif
  											<ul id="errorAmount" class="parsley-errors-list hidden">                    
- 												<li class="parsley-required">Monto sobrepasa el presupuesto total.</li>
+ 												<li class="parsley-required">Monto Sobrepasa al Presupuesto Disponible.</li>
  											</ul>
  										</div>
  									</div> 
@@ -290,83 +366,7 @@
  											</ul>
  										</div>
  									</div>
- 								</div>
- 								<div id="step-3">
- 									<div class="ln_solid"></div>
-
- 									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="program" >
- 											Programa
- 											<span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">
- 											<input id="program" value="{{ old('program') }}" type="text" class="form-control col-md-7 col-xs-12 @if($errors->has('program')) parsley-error @endif"
- 											name="program"  required>
- 											@if($errors->has('program'))
- 											<ul class="parsley-errors-list filled">
- 												@foreach($errors->get('program') as $error)
- 												<li class="parsley-required">{{ $error }}</li>
- 												@endforeach
- 											</ul>
- 											@endif
- 										</div>
- 									</div>  
- 									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="responsable">Responsable <span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">  
- 											<select class='form-control' id='responsable' name="responsable" required="">
- 												<option value="">-- Por favor seleccione --</option>                  
- 												@foreach($responsables as $responsable)
- 												<option  {{(old('responsable')==$responsable->id )?'selected' : ''}} value="{{ $responsable->id }}">{{ $responsable->names.' '.$responsable->last_name }}</option>
- 												@endforeach
- 											</select>                      
- 										</div>
- 									</div>  
- 									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="component">Competencia <span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">  
- 											<select class='form-control' id='component' name="component" required="">
- 												<option value="">-- Por favor seleccione --</option>                  
- 												@foreach($components as $component)
- 												<option  {{(old('component')==$component->id )?'selected' : ''}} value="{{ $component->id }}">{{ $component->name }}</option>
- 												@endforeach
- 											</select>                      
- 										</div>
- 									</div>
- 									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type_stages">Tipo de Etapa <span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">  
- 											<select class='form-control' id='type_stages' name="type_stages" disabled required="">
- 												<option value="">-- Por favor seleccione --</option>  
- 											</select>                      
- 										</div>
- 									</div>
- 									<div id="stage_div" class="item form-group " hidden >
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="stage">Etapa<span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">  
- 											<select class='form-control' id='stage' name="stage" disabled required="">
- 												<option value="">-- Por favor seleccione --</option> 
- 											</select>                      
- 										</div>
- 									</div> 
- 									<div id="category_div" class="item form-group " hidden>
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="category">Categoria<span class="required">*</span>
- 										</label>
- 										<div class="col-md-6 col-sm-6 col-xs-12">  
- 											<select class='form-control' id='category' name="category"  required="">
- 												<option value="">-- Por favor seleccione --</option> 
- 												<option {{(old('category')=='Sub14')?'selected' : ''}}  value="Sub14">Sub14</option>  
- 												<option {{(old('category')=='Segunda Categoria')?'selected' : ''}}  value="Segunda Categoria">Segunda Categoria</option> 
- 											</select>                      
- 										</div>
- 									</div> 
- 									<br>
- 									<br>                             
- 								</div>
+ 								</div> 								
  								<div id="step-4">
  									<div class="row">
  										<div class="col-md-12">
@@ -439,12 +439,15 @@
 
  <script type="text/javascript">
  	$('#amount_year').focusout(function(){
- 		var amount_year = $( "#amount_year" ).val();   
+ 		var amount_year = $( "#amount_year" ).val(); 
+ 		var stage = $( "#stage" ).val(); 
+ 		var type_stages = $( "#type_stages" ).val();   
  		$.ajax({
  			type : 'get',
  			url : '{{URL::to('contratos/buscar/presupuesto')}}',
- 			data:{'amount_year':amount_year},
+ 			data:{'amount_year':amount_year,'stage':stage,'type_stages':type_stages},
  			success:function(data){ 
+ 				console.log(data);
  				if(data=="false"){
  					$('#errorAmount').removeClass('hidden');
  					$('#amount_year').addClass('parsley-error');

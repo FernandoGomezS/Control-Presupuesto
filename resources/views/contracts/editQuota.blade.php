@@ -89,7 +89,7 @@
 														</button>
 														<ul role="menu" class="dropdown-menu">
 															@if($quota->state_quota=='Por Pagar')
-															<li><a data-toggle="modal" data-target="#modal-1" onclick="toPaid('{{ route('quotas.update', $quota) }}','{{ $quota->id }}')"  class=" delete-court-button" >A Pago</a>
+															<li><a data-toggle="modal" data-target="#modal-1" onclick="toPaid('{{ route('quotas.update', $quota) }}','{{ $quota->id }}','{{ $quota->amount }}')"  class=" delete-court-button" >A Pago</a>
 															</li>
 															@endif
 															@if($quota->state_quota=='A Pago')
@@ -180,7 +180,20 @@
 										<li class="parsley-required">Fecha Incorrecta. (Día/Mes/Año).</li>                    
 									</ul>											
 								</div>
-							</div>	
+							</div>
+							<div class="item form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="amount" >
+									Confirmar Monto
+									<span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<input id="amount" type="number"  class="form-control col-md-7 col-xs-12 "
+									name="amount"  required> 
+									<ul id="errorAmount" class="parsley-errors-list hidden">                    
+										<li class="parsley-required">Fecha Incorrecta. (Día/Mes/Año).</li>                    
+									</ul>											
+								</div>
+							</div>		
 						</div>
 						<div class="modal-footer">	
 							<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -273,10 +286,12 @@
 <script src="{{asset('/assets/app/js/jquery.inputmask.bundle.js')}}"></script>
 <script src="{{asset('/assets/app/js/moment.js')}}"></script>
 <script type="text/javascript">
-	function toPaid(data,data2){
+	function toPaid(data,data2,data3){
 
 		$('#delete-court-form').attr('action', data);
-		$('#id_quota').attr('value', data2);	
+		$('#id_quota').attr('value', data2);
+		$('#amount').attr('value', data3);
+			
 	}
 
 	function paid(data,data2){

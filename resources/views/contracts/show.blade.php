@@ -96,7 +96,18 @@
 										@foreach( $quotas as $quota )  
 										<tr>
 											<td>{{$loop->iteration}}</td>
-											<td>{{ $quota->state_quota}}</td>
+											@if( $quota->state_quota=='Por Pagar')
+											<td><span class="label label-warning">{{ $quota->state_quota}}</span></td>	
+											@endif
+											@if( $quota->state_quota=='A Pago')
+											<td><span class="label label label-info">{{ $quota->state_quota}}</span></td>	
+											@endif
+											@if( $quota->state_quota=='Pagado')
+											<td><span class="label label label-success">{{ $quota->state_quota}}</span></td>	
+											@endif
+											@if( $quota->state_quota=='Anulada')
+											<td><span class="label label label-danger">{{ $quota->state_quota}}</span></td>
+											@endif
 											<td>{{  \Carbon\Carbon::createFromFormat('Y-m-d', $quota->date_to_pay)->format('d/m/Y') }}</td>
 											<td>$ {{ number_format($quota->amount,0,",",".")}}</td>			
 										</tr>												
@@ -134,9 +145,9 @@
 						</div>
 						<!-- /.col -->
 					</div>
-					 <a href="" class="btn btn-sm btn-primary">
-            Descargar  en PDF
-        </a>
+					<a href="" class="btn btn-sm btn-primary">
+						Descargar  en PDF
+					</a>
 				</div>
 			</div>
 		</div>
