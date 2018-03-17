@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quota extends Model
 {
-	use SoftDeletes;
+	
 	   /**
      * The attributes that are mass assignable.
      *

@@ -73,7 +73,7 @@ class BudgetsController extends Controller
 			else{
 				$data= request()->all();
 
-							
+
 				
 				if($data['state']=='Activo')
 				{
@@ -121,7 +121,7 @@ class BudgetsController extends Controller
 				$component3->amount_spent = 0;				
 				$component3->numbers_employees = $data['employees_school_sup_competition'];
 				$component3->contracted_employees = 0;				
-          		$component3->save();				
+				$component3->save();				
 
 				//tipos de etapa
 
@@ -201,9 +201,9 @@ class BudgetsController extends Controller
 					$stage = new Stage();
 					$stage->name = $data2[$i];
 					$stage->type_stage_id = $type_stages1->id;
- 					$stage->amount_total = $data['comunal_'.$i];
- 					$stage->amount_spent = 0;
- 					$stage->save();
+					$stage->amount_total = $data['comunal_'.$i];
+					$stage->amount_spent = 0;
+					$stage->save();
 					$i++;
 				}
 
@@ -215,9 +215,9 @@ class BudgetsController extends Controller
 					$stage = new Stage();
 					$stage->name = $data2[$i];
 					$stage->type_stage_id = $type_stages2->id;
- 					$stage->amount_total = $data['provincial_'.$i];
- 					$stage->amount_spent = 0;
- 					$stage->save();
+					$stage->amount_total = $data['provincial_'.$i];
+					$stage->amount_spent = 0;
+					$stage->save();
 					$i++;
 				}
 
@@ -229,9 +229,9 @@ class BudgetsController extends Controller
 					$stage = new Stage();
 					$stage->name = $data2[$i];
 					$stage->type_stage_id = $type_stages3->id;
- 					$stage->amount_total = $data['regional_'.$i];
- 					$stage->amount_spent = 0;
- 					$stage->save();
+					$stage->amount_total = $data['regional_'.$i];
+					$stage->amount_spent = 0;
+					$stage->save();
 					$i++;
 				}
 				
@@ -243,9 +243,9 @@ class BudgetsController extends Controller
 					$stage = new Stage();
 					$stage->name = $data2[$i];
 					$stage->type_stage_id = $type_stages4->id;
- 					$stage->amount_total = $data['nacional_'.$i];
- 					$stage->amount_spent = 0;
- 					$stage->save();
+					$stage->amount_total = $data['nacional_'.$i];
+					$stage->amount_spent = 0;
+					$stage->save();
 					$i++;
 				}
 
@@ -257,15 +257,11 @@ class BudgetsController extends Controller
 					$stage = new Stage();
 					$stage->name = $data2[$i];
 					$stage->type_stage_id = $type_stages5->id;
- 					$stage->amount_total = $data['juegos_'.$i];
- 					$stage->amount_spent = 0;
- 					$stage->save();
+					$stage->amount_total = $data['juegos_'.$i];
+					$stage->amount_spent = 0;
+					$stage->save();
 					$i++;
 				}
-
-
-
-
 
 				flash('Se Creó Correctamente el Presupuesto.')->success();
 				return redirect()->route('budgets.search');
@@ -303,7 +299,7 @@ class BudgetsController extends Controller
 				{
 					$budgetActive= Budget::where('state', 'Activo')->get();
 					 //Si no existe ningun activo
-					if(!$budgetActive->isEmpty()){
+					if(!$budgetActive->count()>0){
 						$budgetActive[0]->state='Inactivo';					 
 						$budgetActive[0]->save();
 					}					
@@ -318,8 +314,106 @@ class BudgetsController extends Controller
 				}	
 				$budget->state = $request->get('state');
 				$budget->save();
-				flash('Se Modificó Correctamente el Presupuesto.')->success();
-				return redirect()->intended(route('budgets.search'));
+
+				//Buscar componentes
+				$components=Component::where('budget_id',$request->id)->get();
+				
+				if($components->count() >0){
+
+					$components[0]->amount_total = $request->get('amount_school_competition');					
+					$components[0]->numbers_employees = $request->get('employees_school_competition');	
+					$components[0]->save();
+
+					$components[1]->amount_total = $request->get('amount_federated_competition');					
+					$components[1]->numbers_employees = $request->get('employees_federated_competition');	
+					$components[1]->save();
+
+					$components[2]->amount_total = $request->get('amount_school_sup_competition');					
+					$components[2]->numbers_employees = $request->get('employees_school_sup_competition');	
+					$components[2]->save();
+
+
+
+			//datos tipos de etapa
+					$typeStages1=TypeStage::where('component_id',$components[0]->id)->get();
+					$typeStages2=TypeStage::where('component_id',$components[1]->id)->get();
+					$typeStages3=TypeStage::where('component_id',$components[2]->id)->get();
+
+			//Componente Escolar
+					$typeStages1[0]->amount_total = $request->get('amount_stage_communal');			
+					$typeStages1[0]->save();
+					$typeStages1[1]->amount_total = $request->get('amount_stage_provincial');			
+					$typeStages1[1]->save();
+					$typeStages1[2]->amount_total = $request->get('amount_stage_regional');			
+					$typeStages1[2]->save();
+					$typeStages1[3]->amount_total = $request->get('amount_stage_national');			
+					$typeStages1[3]->save();
+					$typeStages1[4]->amount_total = $request->get('amount_stage_games');			
+					$typeStages1[4]->save();
+			//Componente Federado
+					$typeStages2[0]->amount_total = $request->get('amount_stage_preparation');			
+					$typeStages2[0]->save();
+					$typeStages2[1]->amount_total = $request->get('amount_stage_participation');			
+					$typeStages2[1]->save();
+			//Componente Ligas de Educación superior
+					$typeStages3[0]->amount_total = $request->get('amount_stage_regional_sup');			
+					$typeStages3[0]->save();
+					$typeStages3[1]->amount_total = $request->get('amount_stage_ldes');			
+					$typeStages3[1]->save();	
+
+
+			//datos etapas
+					$stages1=Stage::where('type_stage_id',$typeStages1[0]->id)->get();
+					$stages2=Stage::where('type_stage_id',$typeStages1[1]->id)->get();
+					$stages3=Stage::where('type_stage_id',$typeStages1[2]->id)->get();
+					$stages4=Stage::where('type_stage_id',$typeStages1[3]->id)->get();
+					$stages5=Stage::where('type_stage_id',$typeStages1[4]->id)->get();
+
+
+				//Etapa Comunal	
+					$i=1;
+					foreach ($stages1 as  $stage) {					
+						$stage->amount_total =  $request->get('comunal_'.$i); 				
+						$stage->save();
+						$i++;
+					}
+					//Etapa Provincial				
+					$i=1;
+					foreach ($stages2 as  $stage) {					
+						$stage->amount_total =  $request->get('provincial_'.$i); 				
+						$stage->save();
+						$i++;
+					}
+					//Etapa Regional				
+					$i=1;
+					foreach ($stages3 as  $stage) {					
+						$stage->amount_total =  $request->get('regional_'.$i); 				
+						$stage->save();
+						$i++;
+					}	
+					//Etapa Nacional				
+					$i=1;
+					foreach ($stages4 as  $stage) {					
+						$stage->amount_total =  $request->get('nacional_'.$i); 				
+						$stage->save();
+						$i++;
+					}					
+					//Etapa Juegos				
+					$i=1;
+					foreach ($stages5 as  $stage) {					
+						$stage->amount_total =  $request->get('juegos_'.$i); 				
+						$stage->save();
+						$i++;
+					}
+
+					flash('Se Modificó Correctamente el Presupuesto.')->success();
+					return redirect()->intended(route('budgets.search'));
+				}
+				else{
+					flash('Error, Se encuentra el Presupuesto. ')->error();
+					return redirect()->back()->withErrors($validator->errors())->withInput();
+
+				}
 			}
 
 		}

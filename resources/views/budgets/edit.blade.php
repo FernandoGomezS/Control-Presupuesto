@@ -18,8 +18,9 @@
 					</div>
 					<div class="x_content">  
 						@include('flash::message')  
-						<form class="form-horizontal form-label-left" role="form" method="POST" action="{{ url('/presupuestos/crear') }}">
+						<form class="form-horizontal form-label-left" role="form" method="POST" action="{{ url('/presupuestos/editar') }}">
 							{!! csrf_field() !!} 
+							{{ Form::hidden('id', $budget['id']) }}    
 							<div id="wizard_verticle" class="form_wizard wizard_verticle">
 								<ul class="list-unstyled wizard_steps">
 									<li>

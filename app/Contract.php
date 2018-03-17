@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends Model
 {
-	use SoftDeletes;
-    /**
+	    /**
      * The attributes that are mass assignable.
      *
      * @var array

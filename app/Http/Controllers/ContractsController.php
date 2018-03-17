@@ -35,9 +35,8 @@ class ContractsController extends Controller
 				//buscando presupuesto activo 
 			$budget=Budget::where('state','Activo')->get();
 			if($budget->count() > 0)
-			{					
-				$contractAll= Contract::where('budget_id',$budget[0]->id)
-				->get();
+			{		
+				$contractAll= Contract::where('budget_id',$budget[0]->id)->get();				
 			}
 			return view('contracts.search')->with('contracts',$contractAll);
 		}
