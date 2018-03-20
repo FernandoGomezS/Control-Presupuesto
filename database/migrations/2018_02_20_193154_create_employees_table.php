@@ -24,6 +24,7 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('commune');
+            $table->string('city');
             $table->bigInteger('afp_id')->unsigned();
             $table->bigInteger('health_id')->unsigned();
             $table->string('profession');

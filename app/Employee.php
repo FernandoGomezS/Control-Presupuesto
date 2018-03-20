@@ -13,7 +13,7 @@ class Employee extends Model
      * @var array
      */
     protected $fillable = [
-        'names', 'last_name','last_name_mother','birth_date','rut','email','phone','address','commune','afp_id','health_id','profession','quality_studies','semesters','url_certificate','url_identification'
+        'names', 'last_name','last_name_mother','birth_date','rut','email','phone','address','commune','city','afp_id','health_id','profession','quality_studies','semesters','url_certificate','url_identification'
     ];
    public function afps()
     {

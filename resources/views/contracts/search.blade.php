@@ -99,6 +99,11 @@
               @endforeach                
             </tbody>
           </table>
+          <div class="col-md-8 col-xs-12 invoice-col">
+                    <a href="{{ route('contracts.excel', $contract->budget_id) }}" class="btn btn-sm btn-success">
+            Generar Excel Contratos
+        </a>
+                  </div>
         </div>
       </div>
     </div>

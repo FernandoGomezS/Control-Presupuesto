@@ -77,8 +77,10 @@ Route::group(['middleware' => ['auth','web']], function()
 	Route::get('contratos/buscar/competencia', 'ContractsController@searchComponent');
 	Route::get('contratos/buscar/tipos', 'ContractsController@searchTypes');
 	Route::get('contratos/buscar/presupuesto', 'ContractsController@searchBudget');
- 
- Route::get('contratos/pdf/{contract}', 'ContractsController@createPdf')->name('contracts.pdf');
+ 	//pdf
+ 	Route::get('contratos/pdf/{contract}', 'ContractsController@createPdf')->name('contracts.pdf');
+ 	//excel
+ 	Route::get('contratos/excel/{budget}', 'ContractsController@createExcel')->name('contracts.excel');
 	//rutas cuota
 	Route::get('cuotas/editar/{contract}', 'QuotasController@edit')->name('quotas.edit');
 	Route::post('cuotas/editar/{quota}', 'QuotasController@update')->name('quotas.update');

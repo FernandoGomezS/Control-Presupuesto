@@ -208,9 +208,11 @@
 	</div>
 </div>
 @else
-<br>
-<h1> No Existe Presupuesto Activo.</h1>
+<div class="right_col" role="main">
+	<h1> No Existe Presupuesto Activo.</h1>
 <h1> Administrador Ir a Presupuesto->Buscar y activar un presupuesto.</h1>
+	</div>>
+<br>
 @endif
 @endsection
 @section('scripts')

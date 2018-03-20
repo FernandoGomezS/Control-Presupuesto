@@ -67,7 +67,8 @@ class EmployeesController extends Controller
 				'phone' => 'required|max:255',
 				'rut' => 'required|unique:employees,rut',
 				'email' => 'required|email|unique:employees,email',
-				'commune' => 'required|max:255',				
+				'commune' => 'required|max:255',	
+				'city' => 'required|max:255',				
 				'profession' => 'required|max:255',
 				'semesters' => 'max:255',
 				'file_certificado' => 'mimes:jpeg,jpg,png,pdf|required|max:5000', 
@@ -105,6 +106,7 @@ class EmployeesController extends Controller
 				$date = Carbon::createFromFormat('d/m/Y', $request['birth_date']);
 				$employee->birth_date = $date;       
 				$employee->commune = $request['commune']; 
+				$employee->city = $request['city']; 
 				$employee->profession = $request['profession']; 
 				if($request['semesters']!=null){
 					$employee->semesters = $request['semesters']; 
@@ -134,7 +136,8 @@ class EmployeesController extends Controller
 				'phone' => 'required|max:255',
 				'rut' => 'required|max:255',
 				'email' => 'required|email|max:255',
-				'commune' => 'required|max:255',				
+				'commune' => 'required|max:255',
+				'city' => 'required|max:255',				
 				'profession' => 'required|max:255',
 				'semesters' => 'max:255',
 				'file_certificado' => 'mimes:jpeg,jpg,png,pdf|max:5000', 
@@ -186,6 +189,7 @@ class EmployeesController extends Controller
 				$date = Carbon::createFromFormat('d/m/Y', $request['birth_date']);
 				$employee->birth_date = $date;       
 				$employee->commune = $request['commune']; 
+				$employee->city = $request['city']; 
 				$employee->profession = $request['profession']; 
 				if($request['semesters']!=null){
 					$employee->semesters = $request['semesters']; 
