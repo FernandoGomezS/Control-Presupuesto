@@ -15,7 +15,7 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned()->index(); 
-            $table->enum('state_contract', ['Pagado', 'Contratado','Cancelada','Firma contrato','Renuncia']);
+            $table->enum('state_contract', ['Pagado', 'Contratado','Cancelado','Firma contrato','Renuncia']);
             $table->bigInteger('stage_id')->unsigned()->nullable();
             $table->bigInteger('type_stage_id')->unsigned();
             $table->bigInteger('responsable_id')->unsigned()->index();  

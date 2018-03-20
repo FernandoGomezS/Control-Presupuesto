@@ -20,13 +20,18 @@ class HomeController extends Controller
         	$budget=Budget::where('state','Activo')->get();
         	if($budget->count() == 0){
         		$budget=null;
+        		$contracts=null;
         	}
-        	//ultimos 5 contratos
+        	else{
 
-			$contracts=Contract::where('budget_id',$budget[0]->id)
+        		$contracts=Contract::where('budget_id',$budget[0]->id)
 			->orderBy('created_at', 'desc')
                ->take(4)
                ->get();
+        	}
+        	//ultimos 5 contratos
+
+		
 
 			
         

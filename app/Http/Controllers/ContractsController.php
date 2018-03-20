@@ -57,47 +57,6 @@ class ContractsController extends Controller
 			return view('contracts.edit')->with('contract',$contract)->with('responsables',$responsablesAll)->with('components',$componentesAll);
 		}
 	}
-	public function editQuota(Contract $contract)
-	{
-		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-			//quotas del contrato
-			$quotas = Quota::where('contract_id', $contract->id)
-			->orderBy('date_to_pay', 'asc')              
-			->get();	
-			return view('contracts.editQuota')->with('contract',$contract)->with('quotas',$quotas);
-		}
-	}
-	public function updateQuota(Quota $quota, Request $request){       
-		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
-
-			$validator = Validator::make($request->all(), [
-				'number_ticket' => 'max:255',
-				'date_memo_to_pay' => 'date_format:d/m/Y',
-				'date_to_pay' => 'date_format:d/m/Y',
-				'date_paid' => 'date_format:d/m/Y',
-				'number_memo' => 'max:255',
-				'number_certificate' => 'max:255',			
-			]);         
-			if ($validator->fails()) {
-				flash('Error, Por favor Ingresa valores correctos.')->error();				
-				return redirect()->back()->withErrors($validator->errors())->withInput();
-			}           
-			else{
-				$request= request()->all();
-
-
-				
-				if($request['state_quota']=='A Pago'){
-
-					dd('hola');
-				}
-				else{
-
-
-				}
-			}
-		}
-	}
 
 	public function show(Contract $contract)
 	{
@@ -251,8 +210,22 @@ class ContractsController extends Controller
 				$contract->responsable_id = $request['responsable']; 					
 				$contract->type_stage_id= $request['type_stages']; 
 
+
+				$typeStage = TypeStage::findOrFail($request['type_stages']);
+				//agregamos el presupuesto
+				$typeStage->amount_spent = $typeStage->amount_spent+$request['amount_year'];				
+				$typeStage->save();
+				//agregamos a componente
+				$component = Component::findOrFail($typeStage->components->id);
+				$component->amount_spent = $component->amount_spent+$request['amount_year'];
+				$component->contracted_employees = $component->contracted_employees+1;
+				$component->save();
+
 				if( isset($request['stage'])){
 					$contract->stage_id = $request['stage']; 
+					$stage=Stage::findOrFail( $request['stage']);
+					$stage->amount_spent=$stage->amount_spent+$request['amount_year'];
+					$stage->save();
 				}
 				if( isset($request['category'])){
 					$contract->category = $request['category']; 
@@ -270,6 +243,7 @@ class ContractsController extends Controller
 					$budget[0]->contracted_employees=$budget[0]->contracted_employees+1;
 				}
 
+				//sumanos el total al presupuesto general y al presupuesto de la etapa
 				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
 				$budget[0]->save();		
 				
@@ -344,7 +318,7 @@ class ContractsController extends Controller
 				$contract->duration = $request['duration'];  
 				$contract->amount_year = $request['amount_year']; 
 				$contract->amount_month = $request['amount_month']; 
-				$contract->amount_total = $request['amount_year']; 
+
 				$contract->quotas = $request['quotas']; 
 				$contract->hours = $request['hours']; 			
 				$contract->budget_id= $budget[0]->id; 
@@ -355,40 +329,101 @@ class ContractsController extends Controller
 				$contract->date_finish = $date_finish;     
 
 				$contract->program = $request['program']; 
-				$contract->responsable_id = $request['responsable']; 					
-				$contract->type_stage_id= $request['type_stages']; 
+				$contract->responsable_id = $request['responsable'];
+
+
+
+				//buscamos el anterior tipo de etapa
+				$typeStage=TypeStage::findOrFail($contract->type_stage_id);
+				//eliminamos lo gastado
+				$typeStage->amount_spent=$typeStage->amount_spent-$contract->amount_total;
+				$typeStage->save();
+				//eliminar en componente
+				$component=Component::findOrFail($typeStage->components->id);
+				$component->amount_spent=$component->amount_spent-$contract->amount_total;
+				$component->save();
+				// el nuevo tipo de etapa
+				$contract->type_stage_id= $request['type_stages'];
+				$typeStage=TypeStage::findOrFail($request['type_stages']);
+				//agregamos 
+				$typeStage->amount_spent=$typeStage->amount_spent+$request['amount_year'];
+				$typeStage->save();
+				//agregamos a componente
+				$component=Component::findOrFail($typeStage->components->id);
+				$component->amount_spent=$component->amount_spent+$request['amount_year'];
+				$component->save();
+				
+				//eliminar gasto si existia etapa
+				if($contract->stage_id!=null){
+					$stage=Stage::findOrFail($contract->stage_id);
+					$stage->amount_spent=$stage->amount_spent-$contract->amount_total;
+					$stage->save();
+				} 
 
 				if( isset($request['stage'])){
-					$contract->stage_id = $request['stage']; 
+					$contract->stage_id = $request['stage'];
+					$stage=Stage::findOrFail( $request['stage']);
+					$stage->amount_spent=$stage->amount_spent+$request['amount_year'];
+					$stage->save();
+					if( isset($request['category'])){
+						$contract->category = $request['category']; 
+					}
+
 				}
-				if( isset($request['category'])){
-					$contract->category = $request['category']; 
-				}
+				else{
+					$contract->stage_id =null;
+					$contract->category =null;
+				}			
+				
+				//actualizamos el presupuesto con los datos del contrato
+				$budget[0]->amount_spent=$budget[0]->amount_spent-$contract->amount_total;
+				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
+				$budget[0]->save();	
+
+				$contract->amount_total = $request['amount_year'];
 				$contract->state_contract = 'Firma contrato';  
 				$contract->save();	
 
-				//actualizamos el presupuesto con los datos del contrato
-				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
-				$budget[0]->save();		
+				$quotas = Quota::where('contract_id', $contract->id)
+				->orderBy('date_to_pay', 'asc')              
+				->get();	
 
-				$i=0;
-				while ($i <$request['quotas']) {
-					$quota=new Quota();
-					$quota->contract_id=$contract->id;
-					$quota->amount=$request['amount_month'];
-					$quota->type_stage_id=$request['type_stages'];
-					$quota->date_to_pay=$date_start->addMonths(1); 
-					//estado inicial de la cuota
-					$quota->state_quota='Por Pagar'; 
-					if(isset($request['stage'])){
-						$quota->stage_id = $request['stage']; 
+				if($quotas->count() >0){
+					$i=1;
+					foreach ($quotas as  $quota) {
+						if($quota->state_quota!='Pagado' && $quota->state_quota!='Anulada'){
+							if($i <=$request['quotas']){
+								$quota->amount=$request['amount_month'];
+								$quota->type_stage_id=$request['type_stages'];
+								if(isset($request['stage'])){
+									$quota->stage_id = $request['stage']; 
+								}
+								$quota->save();
+							}
+							else{
+								$quota->delete();
+							}
+						}						
+						$i++;						
 					}
-					$quota->save();	
-					$i++; 				
+					while ($i <=$request['quotas']) {
+						$quota=new Quota();
+						$quota->contract_id=$contract->id;
+						$quota->amount=$request['amount_month'];
+						$quota->type_stage_id=$request['type_stages'];
+						$quota->date_to_pay=$date_start->addMonths(1); 
+						//estado inicial de la cuota
+						$quota->state_quota='Por Pagar'; 
+						if(isset($request['stage'])){
+							$quota->stage_id = $request['stage']; 
+						}
+						$quota->save();	
+						$i++; 
+					}	
 				}	
 
-				flash('Se Modificó Correctamente el empelado '.$contract->name.'.')->success();
-				return redirect()->intended(route('employees.search'));
+				flash('Se Modificó Correctamente el Contrato Nº'.$contract->id.'.')->success();
+				return redirect()->intended(route('contracts.search'));
 			}
 		}
 	}
