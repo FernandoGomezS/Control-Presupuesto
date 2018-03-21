@@ -27,7 +27,7 @@ class CreateContractsTable extends Migration
             $table->string('position');
             $table->string('matches_working')->nullable();             
             $table->enum('duration', ['Transitorio', 'Permanente']);
-            $table->enum('category', ['Sub14', 'Segunda Categoria'])->nullable();
+            $table->enum('category', ['Sub14', 'Segunda Categoria','Otros'])->nullable();
             
 
             $table->date('date_signature_contract')->nullable();

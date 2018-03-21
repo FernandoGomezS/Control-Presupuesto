@@ -306,7 +306,22 @@
 												@endforeach
 											</ul>
 											@endif
-										</div>	
+										</div>
+										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="amount_coordination">
+											Coordinación Interna
+											<span class="required">*</span>
+										</label>
+										<div class="col-md-3 col-sm-6 col-xs-12">
+											<input id="amount_coordination" value="{{$typeStages1[5]->amount_total}}" type="number" class="form-control col-md-7 col-xs-12 @if($errors->has('amount_coordination')) parsley-error @endif"
+											name="amount_coordination"  required>
+											@if($errors->has('amount_coordination'))
+											<ul class="parsley-errors-list filled">
+												@foreach($errors->get('amount_coordination') as $error)
+												<li class="parsley-required">{{ $error }}</li>
+												@endforeach
+											</ul>
+											@endif
+										</div>		
 									</div> 
 									<span class="section">Competencia Federada <h2 id="amount_federated_value" class="pull-right">$ 15.000.000 </h2></span>
 									<div class="item form-group">
@@ -1847,6 +1862,9 @@
      $('#amount_stage_games').keyup(function(){
      	validationEscolar();
      });
+     $('#amount_coordination').keyup(function(){
+     	validationEscolar();
+     });
 
      function validationEscolar(){
      	var amount_stage_communal = $("#amount_stage_communal").val();
@@ -1854,7 +1872,8 @@
      	var amount_stage_regional = $("#amount_stage_regional").val();
      	var amount_stage_national = $("#amount_stage_national").val();
      	var amount_stage_games = $("#amount_stage_games").val();
-     	var total=$("#amount_school_competition").val()-amount_stage_communal-amount_stage_provincial-amount_stage_regional-amount_stage_national-amount_stage_games;
+     	var amount_coordination = $("#amount_coordination").val();
+     	var total=$("#amount_school_competition").val()-amount_stage_communal-amount_stage_provincial-amount_stage_regional-amount_stage_national-amount_stage_games-amount_coordination;
      	$("#amount_school_value").html("$ "+total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
      };
 
@@ -2244,6 +2263,7 @@
 					 	var amount_stage_regional = $("#amount_stage_regional").val();
 					 	var amount_stage_national = $("#amount_stage_national").val();			         	
 					 	var amount_stage_games = $("#amount_stage_games").val();
+					 	var amount_coordination = $("#amount_coordination").val();
 					 	
 					 	var amount_stage_preparation = $("#amount_stage_preparation").val();
 					 	var amount_stage_participation = $("#amount_stage_participation").val();
@@ -2252,7 +2272,7 @@
 					 	var amount_stage_ldes= $("#amount_stage_ldes").val();
 
 
-					 	if(amount_stage_communal!="" && amount_stage_provincial!="" && amount_stage_regional!="" && amount_stage_national!="" && amount_stage_games!="" && amount_stage_preparation!="" && amount_stage_participation!="" && amount_stage_regional_sup!="" && amount_stage_ldes!="" ){
+					 	if(amount_stage_communal!="" && amount_stage_provincial!="" && amount_stage_regional!="" && amount_stage_national!="" && amount_stage_games!="" && amount_stage_preparation!="" && amount_stage_participation!="" && amount_stage_regional_sup!="" && amount_stage_ldes!="" && amount_coordination!="" ){
 
 					 		//todos los datos en 0
 					 		var amount_school_value= $("#amount_school_value").text().replace( /^\D+/g, '');

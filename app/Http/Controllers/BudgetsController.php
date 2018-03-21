@@ -8,6 +8,7 @@ use App\Budget;
 use App\Component;
 use App\TypeStage;
 use App\Stage;
+use App\Contract;
 
 class BudgetsController extends Controller
 {
@@ -162,6 +163,13 @@ class BudgetsController extends Controller
 				$type_stages5->amount_spent = 0;
 				$type_stages5->save();	
 
+				$type_stages10 = new TypeStage();
+				$type_stages10->name = 'Coordinación Interna';
+				$type_stages10->component_id = $component1->id ;
+				$type_stages10->amount_total = $data['amount_coordination'];
+				$type_stages10->amount_spent = 0;
+				$type_stages10->save();	
+
 				//Componente Federado
 				$type_stages6 = new TypeStage();
 				$type_stages6->name = 'Preparación';
@@ -299,7 +307,7 @@ class BudgetsController extends Controller
 				{
 					$budgetActive= Budget::where('state', 'Activo')->get();
 					 //Si no existe ningun activo
-					if(!$budgetActive->count()>0){
+					if($budgetActive->count()>0){
 						$budgetActive[0]->state='Inactivo';					 
 						$budgetActive[0]->save();
 					}					
@@ -350,6 +358,8 @@ class BudgetsController extends Controller
 					$typeStages1[3]->save();
 					$typeStages1[4]->amount_total = $request->get('amount_stage_games');			
 					$typeStages1[4]->save();
+					$typeStages1[5]->amount_total = $request->get('amount_coordination');			
+					$typeStages1[5]->save();
 			//Componente Federado
 					$typeStages2[0]->amount_total = $request->get('amount_stage_preparation');			
 					$typeStages2[0]->save();
@@ -424,12 +434,38 @@ class BudgetsController extends Controller
 		if(auth()->user()->hasRole('Administrador'))
 		{
 			if($budget->state=='Activo'){
-				flash('No Se puede eliminar el presupuesto, ya que esta activo actualmente..')->error();
+				flash('No Se puede eliminar el presupuesto, ya que esta activo.')->error();
 				return redirect()->intended(route('budgets.search'));
 			}
-			$budget->delete();
-			flash('Se eliminó Correctamente el Presupuesto.')->success();
-			return redirect()->intended(route('budgets.search'));
+			else{
+				$contracts=Contract::where('budget_id',$budget->id)->get();
+				if( $contracts->count()==0){
+
+					$components=Component::where('budget_id',$budget->id)->get();
+
+					$typeStages1=TypeStage::where('component_id',$components[0]->id)->get();
+					$typeStages2=TypeStage::where('component_id',$components[1]->id)->get();
+					$typeStages3=TypeStage::where('component_id',$components[2]->id)->get();
+					$stages1=Stage::where('type_stage_id',$typeStages1[0]->id)->delete();
+					$stages2=Stage::where('type_stage_id',$typeStages1[1]->id)->delete();
+					$stages3=Stage::where('type_stage_id',$typeStages1[2]->id)->delete();
+					$stages4=Stage::where('type_stage_id',$typeStages1[3]->id)->delete();
+					$stages5=Stage::where('type_stage_id',$typeStages1[4]->id)->delete();
+					$typeStages1=TypeStage::where('component_id',$components[0]->id)->delete();
+					$typeStages2=TypeStage::where('component_id',$components[1]->id)->delete();
+					$typeStages3=TypeStage::where('component_id',$components[2]->id)->delete();
+					$components=Component::where('budget_id',$budget->id)->delete();
+					$budget->delete();
+				
+				
+					flash('Se eliminó Correctamente el Presupuesto.')->success();
+					return redirect()->intended(route('budgets.search'));
+				}
+				else{
+					flash('No Se puede eliminar el presupuesto, ya que contiene contratos.')->error();
+					return redirect()->intended(route('budgets.search'));
+				}
+			}			
 		}
 	}
 }

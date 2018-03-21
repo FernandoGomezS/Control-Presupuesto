@@ -16,6 +16,8 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $request->user()->authorizeRoles(['Usuario', 'Administrador']);
+
+        	$sumPaid=0;
         	//presupuesto activo
         	$budget=Budget::where('state','Activo')->get();
         	if($budget->count() == 0){
@@ -23,18 +25,19 @@ class HomeController extends Controller
         		$contracts=null;
         	}
         	else{
-
+        		//ultimos 5 contratos
         		$contracts=Contract::where('budget_id',$budget[0]->id)
 			->orderBy('created_at', 'desc')
                ->take(4)
                ->get();
+
+               $contractsSum=Contract::where('budget_id',$budget[0]->id)->get();               
+               foreach ($contractsSum as $key => $value) {
+               	 $sumPaid=$value->amount_paid+$sumPaid;
+               }
         	}
-        	//ultimos 5 contratos
-
-		
-
-			
+        		
         
-        return view('web.index')->with('budget',$budget[0])->with('contracts',$contracts);
+        return view('web.index')->with('budget',$budget[0])->with('contracts',$contracts)->with('sumPaid',$sumPaid);
     }
 }

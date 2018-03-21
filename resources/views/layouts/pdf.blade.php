@@ -6,8 +6,6 @@
 
 	<link rel="stylesheet" href="{{ ltrim(elixir('assets/admin/css/bootstrap.min.css'), '/') }}" />   
 
-
-
 	<title> FORMULARIO RR.HH PROGRAMAS {{ $budget_active }} </title>
 
 </head>

@@ -3062,56 +3062,7 @@ function init_JQVmap(){
 	}  
 
 
-	function init_chart_doughnut(){
-
-		if( typeof (Chart) === 'undefined'){ return; }
-		
-		console.log('init_chart_doughnut');
-
-		if ($('.canvasDoughnut').length){
-			
-			var chart_doughnut_settings = {
-				type: 'doughnut',
-				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
-				data: {
-					labels: [	
-					"Por Pagar",						
-					"Libre",					
-					"A Pago",
-					"Pagado"
-					],
-					datasets: [{
-						data: [20,20, 20, 40],
-						backgroundColor: [						
-						"#9B59B6",
-						"#E74C3C",
-						"#26B99A",
-						"#3498DB"
-						],
-						hoverBackgroundColor: [						
-						"#B370CF",
-						"#E95E4F",
-						"#36CAAB",
-						"#49A9EA"
-						]
-					}]
-				},
-				options: { 
-					legend: false, 
-					responsive: false 
-				}
-			}
-
-			$('.canvasDoughnut').each(function(){
-				
-				var chart_element = $(this);
-				var chart_doughnut = new Chart( chart_element, chart_doughnut_settings);
-				
-			});			
-
-		}  
-
-	}
+	
 
 	function init_gauge() {
 
@@ -4244,7 +4195,7 @@ function init_JQVmap(){
 					 	var type_stages= $("#type_stages").val();
 					 	var type_stages_text = $("#type_stages option:selected").text();
 					 	if(program!="" && responsable!="" && component!="" && type_stages!="" ){
-					 		if(component==1){
+					 		if(component_text=="Escolar" && type_stages_text!="Coordinación Interna"){
 
 					 			var stage= $("#stage").val();
 					 			var stage_text = $("#stage option:selected").text();
@@ -4273,10 +4224,23 @@ function init_JQVmap(){
 
 							}
 							else{
-								$("#contract_datos5").html("<address> <br><b>Programa: </b>"+program+"<br><b>Responsable: </b>"
-									+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Tipo de Etapa: </b>"+type_stages_text+"</address> ");	
+								var category= $("#category").val();
+								var category_text = $("#category option:selected").text();
+								if( category!="" ){
+									$("#contract_datos5").html("<address> <br><b>Programa: </b>"+program+"<br><b>Responsable: </b>"
+										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Tipo de Etapa: </b>"+type_stages_text+"</address> ");	
+									$("#contract_datos6").html("<address><br><b>Categoria: </b>"
+										+category_text+"</address> ");
+									return true;
 
-								return true;
+								}
+								else{
+									$("#contract_datos5").html("<address> <br><b>Programa: </b>"+program+"<br><b>Responsable: </b>"
+										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Tipo de Etapa: </b>"+type_stages_text+"</address> ");	
+									return true;
+
+								}
+								
 							}
 						}
 						else{
@@ -4294,22 +4258,22 @@ function init_JQVmap(){
 					 if(stepnumber == 3){
 
 					 //si vuelve atras
-					 	if(toStep==2){
-					 		return true;
-					 	}	
+					 if(toStep==2){
+					 	return true;
+					 }	
 
-					 	var position= $("#position").val();
-					 	var functionn = $("#function").val();
-					 	var sport= $("#sport").val();
-					 	var duration= $("#duration").val();
-					 	var differential_month= $("#differential_month").val();
-					 	var differential_month_amount= $("#differential_month_amount").val();
-					 	var amount_month= $("#amount_month").val();
-					 	var amount_year= $("#amount_year").val();
-					 	var quotas= $("#quotas").val();
-					 	var hours= $("#hours").val();
-					 	var date_start= $("#date_start").val();
-					 	var date_finish= $("#date_finish").val();
+					 var position= $("#position").val();
+					 var functionn = $("#function").val();
+					 var sport= $("#sport").val();
+					 var duration= $("#duration").val();
+					 var differential_month= $("#differential_month").val();
+					 var differential_month_amount= $("#differential_month_amount").val();
+					 var amount_month= $("#amount_month").val();
+					 var amount_year= $("#amount_year").val();
+					 var quotas= $("#quotas").val();
+					 var hours= $("#hours").val();
+					 var date_start= $("#date_start").val();
+					 var date_finish= $("#date_finish").val();
 
 						//todos los datos ingresados
 						if(position!="" && functionn!="" && sport!="" && duration!="" && differential_month !="" && differential_month_amount!="" && 

@@ -174,6 +174,7 @@
  												<option value="">-- Por favor seleccione --</option> 
  												<option {{(old('category')=='Sub14')?'selected' : ''}}  value="Sub14">Sub14</option>  
  												<option {{(old('category')=='Segunda Categoria')?'selected' : ''}}  value="Segunda Categoria">Segunda Categoria</option> 
+ 												<option {{(old('category')=='Otros')?'selected' : ''}}  value="Otros">Otros</option>  
  											</select>                      
  										</div>
  									</div>  									
@@ -495,11 +496,13 @@
   $("select[name='component']").change(function(){
 
   	var idComponent = $( "#component" ).val(); 
+  	var Component=$("#component option:selected").text();
+  
       //validamos si no esta en la opcion inicial
-      if(idComponent!=""){ 
-      	if(idComponent==1){
+      if(Component!=""){ 
+      	if(Component=="Escolar"){
       		$("#category_div").show();
-      		$("#stage_div").show();        
+      		//$("#stage_div").show();        
       	}
       	else{
       		$('#category_div').hide();
@@ -514,7 +517,7 @@
       		type : 'get',
       		url : '{{URL::to('contratos/buscar/competencia')}}',
       		data:{'id_component':idComponent},
-      		success:function(data){ 
+      		success:function(data){       			
       			$("#type_stages").html(data);
       			$("#type_stages").prop("disabled", false);
       		}
@@ -535,11 +538,12 @@
   $("select[name='type_stages']").change(function(){
 
   	var id_type_stages = $( "#type_stages" ).val(); 
-  	var id_component = $( "#component" ).val(); 
+  	var typeStage=$("#type_stages option:selected").text();
+  	var Component=$("#component option:selected").text();
       //validamos si no esta en la opcion inicial
       
-      if(id_type_stages!="" && id_component==1){ 
-
+      if(id_type_stages!="" && typeStage!="Coordinación Interna" && Component=="Escolar"){
+      	$("#stage_div").show();
       	$.ajax({
       		type : 'get',
       		url : '{{URL::to('contratos/buscar/tipos')}}',
@@ -552,6 +556,7 @@
       }else{
       	$("#stage").prop("disabled", true);
       	$("#stage").val("").change();
+      	 $('#stage_div').hide();
       }
   });
 

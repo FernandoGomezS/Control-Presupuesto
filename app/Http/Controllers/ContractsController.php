@@ -21,7 +21,8 @@ class ContractsController extends Controller
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
 			$responsablesAll= Responsable::all();
-			$componentesAll= Component::all();
+			$budget=Budget::where('state','Activo')->get();
+			$componentesAll= Component::where('budget_id',$budget[0]->id)->get();
 
 			return view('contracts.create')->with('responsables',$responsablesAll)->with('components',$componentesAll);
 		}
@@ -46,7 +47,8 @@ class ContractsController extends Controller
 	{
 		if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Usuario') ){
 			$responsablesAll= Responsable::all();
-			$componentesAll= Component::all();
+			$budget=Budget::where('state','Activo')->get();
+			$componentesAll= Component::where('budget_id',$budget[0]->id)->get();
 
 			$date_finish = Carbon::createFromFormat('Y-m-d', $contract->date_finish);
 			//formato fecha
@@ -74,6 +76,7 @@ class ContractsController extends Controller
 
 			if($request->ajax())
 			{
+
 				
 				$output='<option value="">-- Por favor seleccione --</option>';					
 			   //buscamos empleado				   								
@@ -84,7 +87,8 @@ class ContractsController extends Controller
 						$output.= '<option  value="'.$type_stage->id.'">'.$type_stage->name.'</option>';
 					}
 					return Response($output);
-				}	
+				}
+				return Response($output);	
 			}			
 		}	
 	}

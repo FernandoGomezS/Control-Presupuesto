@@ -154,19 +154,19 @@
 										<td>
 											<p><i class="fa fa-square blue"></i>Pagado </p>
 										</td>
-										<td>40%</td>
+										<td>{{ ($sumPaid*100)/$budget->amount_total }}%</td>
 									</tr>
 									<tr>
 										<td>
 											<p><i class="fa fa-square green"></i>Por pagar</p>
 										</td>
-										<td>20%</td>
+										<td>{{ (($budget->amount_spent-$sumPaid)*100)/$budget->amount_total }}%</td>
 									</tr>
 									<tr>
 										<td>
 											<p><i class="fa fa-square red"></i>No Asignado </p>
 										</td>
-										<td>40%</td>
+										<td>{{ (($budget->amount_total-$budget->amount_spent)*100)/$budget->amount_total }}%</td>
 									</tr>                          
 								</table>
 							</td>
@@ -217,4 +217,55 @@
 @endsection
 @section('scripts')
 <script src="{{ asset('/assets/app/js/Chart.min.js')}}"></script>
+<script type="text/javascript">
+	
+	function init_chart_doughnut(){
+
+		if( typeof (Chart) === 'undefined'){ return; }
+		
+		console.log('init_chart_doughnut');
+
+		if ($('.canvasDoughnut').length){
+			
+			var chart_doughnut_settings = {
+				type: 'doughnut',
+				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+				data: {
+					labels: [
+					"Libre",	
+					"Por Pagar",	
+					"Pagado"
+					],
+					datasets: [{
+						data: [{{ (($budget->amount_total-$budget->amount_spent)*100)/$budget->amount_total }}, {{ (($budget->amount_spent-$sumPaid)*100)/$budget->amount_total }}, {{ ($sumPaid*100)/$budget->amount_total }}],
+						backgroundColor: [	
+						"#E74C3C",
+						"#26B99A",
+						"#3498DB"
+						],
+						hoverBackgroundColor: [				
+						
+						"#E95E4F",
+						"#36CAAB",
+						"#49A9EA"
+						]
+					}]
+				},
+				options: { 
+					legend: false, 
+					responsive: false 
+				}
+			}
+
+			$('.canvasDoughnut').each(function(){
+				
+				var chart_element = $(this);
+				var chart_doughnut = new Chart( chart_element, chart_doughnut_settings);
+				
+			});			
+
+		}  
+
+	}
+</script>
 @endsection
