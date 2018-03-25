@@ -38,8 +38,12 @@
                   <td>     
                     {{ $contract->id }}                    
                   </td> 
-                  <td>  
-                    {{ $contract->employees->names.' '.$contract->employees->last_name }}                         
+                  <td> 
+                   @if( strlen($contract->employees->names.' '.$contract->employees->last_name) < 20 )
+                    {{ $contract->employees->names.' '.$contract->employees->last_name }}   
+                    @else
+                    {{ substr($contract->employees->names.' '.$contract->employees->last_name,0 ,20) . "..." }}
+                    @endif                                           
                   </td>
                   <td>               
                     {{ $contract->responsables->names }}  
@@ -59,7 +63,7 @@
                   @if( $contract->state_contract=='Pagado')
                   <td><span class="label label label-success">{{ $contract->state_contract }}</span></td>  
                   @endif
-                   @if( $contract->state_contract=='Cancelado')
+                  @if( $contract->state_contract=='Cancelado')
                   <td><span class="label label label-danger">{{ $contract->state_contract }}</span></td>  
                   @endif
                   @if( $contract->state_contract=='Renuncia')
@@ -74,44 +78,46 @@
                       </button>
                       <ul role="menu" class="dropdown-menu">
                         @if( $contract->state_contract=='Firma contrato') 
-                       <li><a  data-toggle="modal" data-target="#modal-2" onclick="modalStateContract('{{ route('contracts.updateState', $contract) }}','{{ $contract->id }}')" class=" delete-court-button2">Contrato</a>
-                       </li>
-                       @endif  
-                       <li><a href="{{ route('quotas.edit',['id'=>$contract->id]) }}" >Cuotas</a>
-                       </li>                        
-                     </ul>
-                   </div>
+                        <li><a  data-toggle="modal" data-target="#modal-2" onclick="modalStateContract('{{ route('contracts.updateState', $contract) }}','{{ $contract->id }}')" class=" delete-court-button2">Contrato</a>
+                        </li>
+                        @endif  
+                        <li><a href="{{ route('quotas.edit',['id'=>$contract->id]) }}" >Cuotas</a>
+                        </li>                        
+                      </ul>
+                    </div>
 
-                   <div class="btn-group">
-                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-xs" type="button">Acciones <span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu">
-                      <li><a href="{{ route('contracts.show',['id'=>$contract->id]) }}">Ver</a>
-                      </li>
-                      <li><a href="{{ route('contracts.edit',['id'=>$contract->id]) }}">Editar</a>
-                      </li>
-                      <li><a data-toggle="modal" data-target="#modal-delete" onclick="modalCancel( '{{ route('contracts.destroy', $contract) }}' ) " class=" delete-court-button" >Cancelar</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <a href="{{ route('contracts.pdf', $contract) }}" class="btn btn-xs btn-primary">Formulario</a>
-                </td>
-              </tr>           
-              @endforeach                
-            </tbody>
-          </table>
-          @if (isset($contract))
+                    <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-xs" type="button">Acciones <span class="caret"></span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="{{ route('contracts.show',['id'=>$contract->id]) }}">Ver</a>
+                        </li>
+                        <li><a href="{{ route('contracts.edit',['id'=>$contract->id]) }}">Editar</a>
+                        </li>
+                        <li><a data-toggle="modal" data-target="#modal-delete" onclick="modalCancel( '{{ route('contracts.destroy', $contract) }}' ) " class=" delete-court-button" >Cancelar</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="btn-group">
+                      <a href="{{ route('contracts.pdf', $contract) }}" class="btn btn-xs btn-primary">Formulario</a>
+                    </div>
+                  </td>
+                </tr>           
+                @endforeach                
+              </tbody>
+            </table>
+            @if (isset($contract))
             <div class="col-md-8 col-xs-12 invoice-col">
-                    <a href="{{ route('contracts.excel', $contract->budget_id) }}" class="btn btn-sm btn-success">
-            Generar Excel Contratos
-        </a>
-                  </div>
-          @endif          
+              <a href="" class="btn btn-sm btn-success">
+                Generar Excel Contratos
+              </a>
+            </div>
+            @endif          
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 
@@ -220,67 +226,67 @@ function modalCancel(data){
 
 function modalStateContract(data,data2){ 
  $('#delete-court-form2').attr('action', data);
-  $('#id_quota2').attr('value', data2); 
+ $('#id_quota2').attr('value', data2); 
 };
 
 
-  $('#date_signature_contract').keyup(function(){
-    var date_signature_contract = $('#date_signature_contract').val();
-    if( date_signature_contract != "" ){     
+$('#date_signature_contract').keyup(function(){
+  var date_signature_contract = $('#date_signature_contract').val();
+  if( date_signature_contract != "" ){     
 
-      if( moment(date_signature_contract , 'DD/MM/YYYY',true).isValid()){
-        $('#errorDatePaid').addClass('hidden');
-        $('#date_signature_contract').removeClass('parsley-error'); 
-        var validate_date1 =$("#errorDateMemoToPay").is(":visible");
-        if(!validate_date1){
-          $('#button_2').prop('disabled', false);  
-        }         
-      }
-      else{
-        $('#errorDatePaid').removeClass('hidden');
-        $('#date_signature_contract').addClass('parsley-error');  
-        $('#button_2').prop('disabled', true);         
-      }       
-      $('#date_signature_contract').val( date_signature_contract );
-    }
-    else{            
-      $('#date_signature_contract').removeClass('parsley-error');
+    if( moment(date_signature_contract , 'DD/MM/YYYY',true).isValid()){
       $('#errorDatePaid').addClass('hidden');
+      $('#date_signature_contract').removeClass('parsley-error'); 
       var validate_date1 =$("#errorDateMemoToPay").is(":visible");
       if(!validate_date1){
         $('#button_2').prop('disabled', false);  
       }         
     }
-  });
-  $('#date_memo_contract').keyup(function(){
-    var date_memo_contract = $('#date_memo_contract').val();
-    if( date_memo_contract != "" ){     
+    else{
+      $('#errorDatePaid').removeClass('hidden');
+      $('#date_signature_contract').addClass('parsley-error');  
+      $('#button_2').prop('disabled', true);         
+    }       
+    $('#date_signature_contract').val( date_signature_contract );
+  }
+  else{            
+    $('#date_signature_contract').removeClass('parsley-error');
+    $('#errorDatePaid').addClass('hidden');
+    var validate_date1 =$("#errorDateMemoToPay").is(":visible");
+    if(!validate_date1){
+      $('#button_2').prop('disabled', false);  
+    }         
+  }
+});
+$('#date_memo_contract').keyup(function(){
+  var date_memo_contract = $('#date_memo_contract').val();
+  if( date_memo_contract != "" ){     
 
-      if( moment(date_memo_contract , 'DD/MM/YYYY',true).isValid()){
-        $('#errorDateMemoToPay').addClass('hidden');
-        $('#date_memo_contract').removeClass('parsley-error');
-        var validate_date1 =$("#errorDatePaid").is(":visible");
-        if(!validate_date1){
-          $('#button_2').prop('disabled', false);  
-        }
-
-      }
-      else{
-        $('#errorDateMemoToPay').removeClass('hidden');
-        $('#date_memo_contract').addClass('parsley-error');  
-        $('#button_2').prop('disabled', true);         
-      }       
-      $('#date_memo_contract').val( date_memo_contract );
-    }
-    else{            
-      $('#date_memo_contract').removeClass('parsley-error');
+    if( moment(date_memo_contract , 'DD/MM/YYYY',true).isValid()){
       $('#errorDateMemoToPay').addClass('hidden');
+      $('#date_memo_contract').removeClass('parsley-error');
       var validate_date1 =$("#errorDatePaid").is(":visible");
       if(!validate_date1){
         $('#button_2').prop('disabled', false);  
-      }       
+      }
+
     }
-  });
+    else{
+      $('#errorDateMemoToPay').removeClass('hidden');
+      $('#date_memo_contract').addClass('parsley-error');  
+      $('#button_2').prop('disabled', true);         
+    }       
+    $('#date_memo_contract').val( date_memo_contract );
+  }
+  else{            
+    $('#date_memo_contract').removeClass('parsley-error');
+    $('#errorDateMemoToPay').addClass('hidden');
+    var validate_date1 =$("#errorDatePaid").is(":visible");
+    if(!validate_date1){
+      $('#button_2').prop('disabled', false);  
+    }       
+  }
+});
 </script>
 @endsection
 

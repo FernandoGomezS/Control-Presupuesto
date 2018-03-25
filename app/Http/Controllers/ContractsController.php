@@ -439,7 +439,7 @@ class ContractsController extends Controller
 		{
 			//actualiza el presupuesto 
 			$budget=Budget::where('state','Activo')->get();	
-			$budget[0]->amount_spent=$budget[0]->amount_spent-$contract->amount_year;
+			$budget[0]->amount_spent=$budget[0]->amount_spent-$contract->amount_year+$contract->amount_paid;
 			$budget[0]->save();	
 
 			//cambiar estado cuotas quotas

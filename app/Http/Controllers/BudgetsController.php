@@ -303,23 +303,23 @@ class BudgetsController extends Controller
 				$budget->amount_total = $request->get('amount_total'); 
 				$budget->numbers_employees = $request->get('numbers_employees');
 				//Si el estado es activo , desactivamos en presupuesto activo.
-				if($request['state']=='Activo')
+
+				if ($budget->state=='Activo' && $request->get('state')=='Inactivo' ){
+					flash('Error, No se puede dejar sin un presupuesto activo. ')->error();
+					return redirect()->back()->withErrors($validator->errors())->withInput();
+
+				}				
+				if($request->get('state')=='Activo' && $budget->state=='Inactivo' )
 				{
 					$budgetActive= Budget::where('state', 'Activo')->get();
 					 //Si no existe ningun activo
 					if($budgetActive->count()>0){
 						$budgetActive[0]->state='Inactivo';					 
 						$budgetActive[0]->save();
-					}					
+					}	
 				}
-				else{
 
-					if($budget->state=='Activo'){
-						flash('Error, No se puede dejar sin un presupuesto activo. ')->error();
-						return redirect()->back()->withErrors($validator->errors())->withInput();
-
-					}
-				}	
+				
 				$budget->state = $request->get('state');
 				$budget->save();
 
@@ -456,8 +456,8 @@ class BudgetsController extends Controller
 					$typeStages3=TypeStage::where('component_id',$components[2]->id)->delete();
 					$components=Component::where('budget_id',$budget->id)->delete();
 					$budget->delete();
-				
-				
+
+
 					flash('Se eliminó Correctamente el Presupuesto.')->success();
 					return redirect()->intended(route('budgets.search'));
 				}
