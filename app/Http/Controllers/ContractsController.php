@@ -223,9 +223,8 @@ class ContractsController extends Controller
 				$typeStage->save();
 				//agregamos a componente
 				$component = Component::findOrFail($typeStage->components->id);
-				$component->amount_spent = $component->amount_spent+$request['amount_year'];
-				$component->contracted_employees = $component->contracted_employees+1;
-				$component->save();
+				$component->amount_spent = $component->amount_spent+$request['amount_year'];			
+				
 
 				if( isset($request['stage'])){
 					$contract->stage_id = $request['stage']; 
@@ -242,12 +241,15 @@ class ContractsController extends Controller
 
 				//actualizamos el presupuesto con los datos del contrato
 				$contracts=Contract::where('employee_id', $employee[0]->id)
+				->where('budget_id', $budget[0]->id)
 				->get();
 
 				//si tiene contratos no se suma a empelados
 				if($contracts->count()<=1){
 					$budget[0]->contracted_employees=$budget[0]->contracted_employees+1;
+					$component->contracted_employees = $component->contracted_employees+1;
 				}
+				$component->save();
 
 				//sumanos el total al presupuesto general y al presupuesto de la etapa
 				$budget[0]->amount_spent=$budget[0]->amount_spent+$request['amount_year'];
