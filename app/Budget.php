@@ -13,7 +13,7 @@ class Budget extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'year', 'amount_total','numbers_employees','state' 
+		'year', 'amount_total','numbers_employees','state', 'id' 
 	];
 	
 

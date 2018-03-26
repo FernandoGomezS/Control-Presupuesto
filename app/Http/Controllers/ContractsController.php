@@ -14,6 +14,8 @@ use App\Employee;
 use Validator;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\User;
 
 class ContractsController extends Controller
 {
@@ -500,4 +502,249 @@ class ContractsController extends Controller
 		$pdf = PDF::loadView('layouts.pdf', compact('contract'));
 		return $pdf->download('contrato_'.$contract->id.'.pdf');
 	}
+
+	public function createExcelContracts()
+	{
+		$budget=Budget::where('state','Activo')->get();
+
+		Excel::create('Contratos '.$budget[0]->year, function($excel)  {
+			$excel->sheet('Contratos', function($sheet) {
+
+				$sheet->row(1, [
+					'N°','FECHA','NOMBRE','RUT','DOMICILIO','COMUNA','CIUDAD','CARGO','PROGRAMA','COMPONENTE','HORAS/EVENTOS MENSUALES','N°CUOTAS','RENTA GLOBAL','RENTA GLOBAL (PALABRA)','RENTA MENSUAL','RENTA MENSUAL (PALABRA)','Transitorio/Permanente','INICIO','TERMINO','NOMBRE FIRMA','PROFESION/OFICIO','FUNCIONES 1','NAC.','AFP','SALUD','CORREO'
+				]);
+				$budget=Budget::where('state','Activo')->get();
+				$contracts=Contract::where('budget_id',$budget[0]->id)->get();
+				foreach($contracts as $index => $contract) {
+					$sheet->row($index+2, [
+						$contract->id ,  Carbon::createFromFormat('Y-m-d H:i:s', $contract->created_at )->format('d/m/Y') , $contract->employees->names.' '.$contract->employees->last_name.' '.$contract->employees->last_name_mother , $contract->employees->rut , $contract->employees->address , $contract->employees->commune , $contract->employees->city , $contract->function , $contract->program , $contract->type_stages->components->name , $contract->hours , $contract->quotas ,  $contract->amount_total ,  \NumeroALetras::convertir($contract->amount_total, 'pesos') , $contract->amount_month , \NumeroALetras::convertir($contract->amount_month, 'pesos') , $contract->duration , Carbon::createFromFormat('Y-m-d', $contract->date_start)->format('d/m/Y') , Carbon::createFromFormat('Y-m-d', $contract->date_finish)->format('d/m/Y') ,  $contract->employees->names.' '.$contract->employees->last_name.' '.$contract->employees->last_name_mother , $contract->employees->profession ,  $contract->function , Carbon::createFromFormat('Y-m-d', $contract->employees->birth_date )->format('d/m/Y') , $contract->employees->afps->name , $contract->employees->healths->name , $contract->employees->email ]); 
+				}
+				$i = 0;
+				$letra=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+				while ( $i<= 25) {
+					$j=1;
+					$sheet->cell($letra[$i].'1', function($cell) 
+					{
+						$cell->setFontWeight('bold');
+						$cell->setBackground('#cccccc');
+						$cell->setBorder('thin','thin','thin','thin');
+					});
+					while($j <= $contract->count()+1){
+						$sheet->cell($letra[$i].$j, function($cell) 
+						{		
+							$cell->setBorder('thin','thin','thin','thin');
+						});
+						$j++;
+					} 					
+					$i++;
+				}
+			});
+		})->export('xls');
+	}
+	public function createExcelBudgets()
+	{
+		$budget=Budget::where('state','Activo')->get();
+
+		Excel::create('Presupuestos '.$budget[0]->year, function($excel)  {
+			$excel->sheet('COMPETENCIA ESCOLAR', function($sheet) {
+
+				$budget=Budget::where('state','Activo')->get();
+				$sheet->row(1, ['COMPETENCIA','PRESUPUESTO INICIAL','PRESUPUESTO UTILIZADO','PRESUPUESTO DISPONIBLE' ]);
+				$competencia=Component::where('budget_id',$budget[0]->id )->where('name','Escolar')->get();			
+				$sheet->row(2, ['COMPETENCIA ESCOLAR',$competencia[0]->amount_total,$competencia[0]->amount_spent,$competencia[0]->amount_total-$competencia[0]->amount_spent ]);				
+				$typeStages=TypeStage::Where('component_id',$competencia[0]->id)->get();
+				$k=3;
+				foreach($typeStages as $index => $typeStage) {
+						$sheet->row($k, [ $typeStage->name, $typeStage->amount_total, $typeStage->amount_spent , $typeStage->amount_total -$typeStage->amount_spent ]);
+						$k++; 
+						$stages= Stage::where('type_stage_id',$typeStage->id)->get();
+						foreach($stages as $stage) {
+							$sheet->row($k, [ $stage->name, $stage->amount_total, $stage->amount_spent , $stage->amount_total -$stage->amount_spent ]);
+							$k++;
+						}
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {
+					$j=1;
+					$sheet->cell($letra[$i].'1', function($cell) 
+					{
+						$cell->setFontWeight('bold');
+						$cell->setBackground('#cccccc');
+						$cell->setBorder('thin','thin','thin','thin');
+					});
+					while($j <= 94){
+						$sheet->cell($letra[$i].$j, function($cell) 
+						{		
+							$cell->setBorder('thin','thin','thin','thin');
+						});
+						$j++;
+					} 					
+					$i++;
+				}				
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {					
+					$sheet->cell($letra[$i].'3', function($cell) 
+					{						
+						$cell->setBackground('#cccccc');						
+					});
+					$i++;
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {					
+					$sheet->cell($letra[$i].'56', function($cell) 
+					{						
+						$cell->setBackground('#cccccc');						
+					});
+					$i++;
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {					
+					$sheet->cell($letra[$i].'64', function($cell) 
+					{						
+						$cell->setBackground('#cccccc');						
+					});
+					$i++;
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {				
+					$sheet->cell($letra[$i].'77', function($cell) 
+					{						
+						$cell->setBackground('#cccccc');						
+					});
+					$i++;
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {					
+					$sheet->cell($letra[$i].'90', function($cell) 
+					{					
+						$cell->setBackground('#cccccc');						
+					});	
+					$i++;				
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {					
+					$sheet->cell($letra[$i].'94', function($cell) 
+					{						
+						$cell->setBackground('#cccccc');						
+					});
+					$i++;
+				}
+			});
+			$excel->sheet('COMPETENCIA FEDERADA ', function($sheet) {
+
+				$budget=Budget::where('state','Activo')->get();
+				$sheet->row(1, ['COMPETENCIA','PRESUPUESTO INICIAL','PRESUPUESTO UTILIZADO','PRESUPUESTO DISPONIBLE' ]);
+				$competencia=Component::where('budget_id',$budget[0]->id )->where('name','Federada')->get();			
+				$sheet->row(2, ['COMPETENCIA FEDERADA',$competencia[0]->amount_total,$competencia[0]->amount_spent,$competencia[0]->amount_total-$competencia[0]->amount_spent ]);				
+				$typeStages=TypeStage::Where('component_id',$competencia[0]->id)->get();
+				$k=3;
+				foreach($typeStages as $index => $typeStage) {
+						$sheet->row($k, [ $typeStage->name, $typeStage->amount_total, $typeStage->amount_spent , $typeStage->amount_total -$typeStage->amount_spent ]);
+						$k++; 						
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {
+					$j=1;
+					$sheet->cell($letra[$i].'1', function($cell) 
+					{
+						$cell->setFontWeight('bold');
+						$cell->setBackground('#cccccc');
+						$cell->setBorder('thin','thin','thin','thin');
+					});
+					while($j <= 4){
+						$sheet->cell($letra[$i].$j, function($cell) 
+						{		
+							$cell->setBorder('thin','thin','thin','thin');
+						});
+						$j++;
+					} 					
+					$i++;
+				}		
+				});
+
+			$excel->sheet('COMPETENCIA EDUCACION SUPERIOR', function($sheet) {
+
+				$budget=Budget::where('state','Activo')->get();
+				$sheet->row(1, ['COMPETENCIA','PRESUPUESTO INICIAL','PRESUPUESTO UTILIZADO','PRESUPUESTO DISPONIBLE' ]);
+				$competencia=Component::where('budget_id',$budget[0]->id )->where('name','Educación superior')->get();			
+				$sheet->row(2, ['COMPETENCIA LIGAS DE EDUCACION SUPERIOR',$competencia[0]->amount_total,$competencia[0]->amount_spent,$competencia[0]->amount_total-$competencia[0]->amount_spent ]);				
+				$typeStages=TypeStage::Where('component_id',$competencia[0]->id)->get();
+				$k=3;
+				foreach($typeStages as $index => $typeStage) {
+						$sheet->row($k, [ $typeStage->name, $typeStage->amount_total, $typeStage->amount_spent , $typeStage->amount_total -$typeStage->amount_spent ]);
+						$k++; 						
+				}
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {
+					$j=1;
+					$sheet->cell($letra[$i].'1', function($cell) 
+					{
+						$cell->setFontWeight('bold');
+						$cell->setBackground('#cccccc');
+						$cell->setBorder('thin','thin','thin','thin');
+					});
+					while($j <= 4){
+						$sheet->cell($letra[$i].$j, function($cell) 
+						{		
+							$cell->setBorder('thin','thin','thin','thin');
+						});
+						$j++;
+					} 					
+					$i++;
+				}		
+				});
+		})->export('xls');
+	}
+
+	public function createExcelEmployees()
+	{
+		$budget=Budget::where('state','Activo')->get();
+
+		Excel::create('Nº Empleados '.$budget[0]->year, function($excel)  {
+			$excel->sheet('Nº Empleados', function($sheet) {
+
+				$budget=Budget::where('state','Activo')->get();
+
+				$sheet->row(1, ['COMPETENCIA','Nº EMPLEADOS INICIAL','Nº EMPLEADOS CONTRATADOS','Nº EMPLEADOS DISPONIBLES' ]);
+				$competencias=Component::where('budget_id',$budget[0]->id )->get();	
+						foreach($competencias as $index => $competencia) {
+				$sheet->row($index+2, ['COMPETENCIA '.$competencia->name,$competencia->numbers_employees,$competencia->contracted_employees,$competencia->numbers_employees-$competencia->contracted_employees ]);	
+				}			
+				
+				$i = 0;
+				$letra=['A','B','C','D',];
+				while ( $i<= 3) {
+					$j=1;
+					$sheet->cell($letra[$i].'1', function($cell) 
+					{
+						$cell->setFontWeight('bold');
+						$cell->setBackground('#cccccc');
+						$cell->setBorder('thin','thin','thin','thin');
+					});
+					while($j <=4){
+						$sheet->cell($letra[$i].$j, function($cell) 
+						{		
+							$cell->setBorder('thin','thin','thin','thin');
+						});
+						$j++;
+					} 					
+					$i++;
+				}			
+							
+			});				
+		})->export('xls');
+	}
+
 }
+
+
+
