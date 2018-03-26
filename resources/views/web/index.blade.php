@@ -34,92 +34,30 @@
 		<div class="col-md-4 col-sm-4 col-xs-12">
 			<div class="x_panel tile fixed_height_320">
 				<div class="x_title">
-					<h2>Consumo del presupuesto</h2>                  
+					<h2>Competencias Saldos Disponibles</h2>                  
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<h4></h4>
-					<div class="widget_summary">
-						<div class="w_left w_25">
-							<span>Peñalolén</span>
-						</div>
-						<div class="w_center w_40">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 78%;">
-									<span class="sr-only">60% Complete</span>
-								</div>
-							</div>
-						</div>
-						<div class="w_right w_35">
-							<span>12.434.322</span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<div class="w_left w_25">
-							<span>Maipú</span>
-						</div>
-						<div class="w_center w_40">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-									<span class="sr-only">60% Complete</span>
-								</div>
-							</div>
-						</div>
-						<div class="w_right w_35">
-							<span>5.300.543</span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<div class="w_left w_25">
-							<span>Estación Central</span>
-						</div>
-						<div class="w_center w_40">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-									<span class="sr-only">60% Complete</span>
-								</div>
-							</div>
-						</div>
-						<div class="w_right w_35">
-							<span>2.332.133</span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<div class="w_left w_25">
-							<span>Pedro Aguirre Cerda</span>
-						</div>
-						<div class="w_center w_40">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
-									<span class="sr-only">60% Complete</span>
-								</div>
-							</div>
-						</div>
-						<div class="w_right w_35">
-							<span>2.000.000</span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<div class="w_left w_25">
-							<span>FÚTBOL</span>
-						</div>
-						<div class="w_center w_40">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-									<span class="sr-only">60% Complete</span>
-								</div>
-							</div>
-						</div>
-						<div class="w_right w_35">
-							<span>1.000.000</span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Competencia</th>
+								<th>Saldo Gastado</th>
+								<th>Saldo Diponible</th>                               
+							</tr>
+						</thead>
+						<tbody>
+							@foreach( $competencias as $competencia )  
+							<tr>                                  
+								<td>Competencia {{ $competencia->name }}</td>
+								<td>${{ number_format($competencia->amount_spent,0,",",".") }}</td>
+								<td>${{ number_format($competencia->amount_total-$competencia->amount_spent,0,",",".") }}</td>
+							</tr>
+							@endforeach
+							
+						</tbody>
+					</table>
+				</div>				
 			</div>
 		</div>
 
@@ -154,19 +92,19 @@
 										<td>
 											<p><i class="fa fa-square blue"></i>Pagado </p>
 										</td>
-										<td>{{ ($sumPaid*100)/$budget->amount_total }}%</td>
+										<td> {{  number_format( ($sumPaid*100)/$budget->amount_total ,2) }}%</td>
 									</tr>
 									<tr>
 										<td>
 											<p><i class="fa fa-square green"></i>Por pagar</p>
 										</td>
-										<td>{{ (($budget->amount_spent-$sumPaid)*100)/$budget->amount_total }}%</td>
+										<td>   {{ number_format( (($budget->amount_spent-$sumPaid)*100)/$budget->amount_total,2)  }}%</td>
 									</tr>
 									<tr>
 										<td>
 											<p><i class="fa fa-square red"></i>No Asignado </p>
 										</td>
-										<td>{{ (($budget->amount_total-$budget->amount_spent)*100)/$budget->amount_total }}%</td>
+										<td>  {{ number_format( (($budget->amount_total-$budget->amount_spent)*100)/$budget->amount_total  ,2) }}%</td>
 									</tr>                          
 								</table>
 							</td>
@@ -210,8 +148,8 @@
 @else
 <div class="right_col" role="main">
 	<h1> No Existe Presupuesto Activo.</h1>
-<h1> Administrador Ir a Presupuesto->Buscar y activar un presupuesto.</h1>
-	</div>>
+	<h1> Administrador Ir a Presupuesto->Buscar y activar un presupuesto.</h1>
+</div>>
 <br>
 @endif
 @endsection

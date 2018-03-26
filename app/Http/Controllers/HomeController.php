@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Budget;
 use App\Contract;
+use App\Component;
 
 
 class HomeController extends Controller
@@ -35,9 +36,11 @@ class HomeController extends Controller
                foreach ($contractsSum as $key => $value) {
                	 $sumPaid=$value->amount_paid+$sumPaid;
                }
+
+               $competencias=Component::where('budget_id',$budget[0]->id )->get();							
         	}
         		
         
-        return view('web.index')->with('budget',$budget[0])->with('contracts',$contracts)->with('sumPaid',$sumPaid);
+        return view('web.index')->with('budget',$budget[0])->with('contracts',$contracts)->with('sumPaid',$sumPaid)->with('competencias',$competencias);
     }
 }
