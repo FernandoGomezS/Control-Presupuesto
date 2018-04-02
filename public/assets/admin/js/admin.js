@@ -4205,7 +4205,7 @@ function init_JQVmap(){
 
 									//agregamos datos a la etapa 4
 									$("#contract_datos5").html("<address> <br><b>Programa: </b>"+program+"<br><b>Responsable: </b>"
-										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Tipo de Etapa: </b>"+type_stages_text+"</address> ");	
+										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Clasificación: </b>"+type_stages_text+"</address> ");	
 
 									$("#contract_datos6").html("<address> <br><b>Etapa: </b>"+stage_text+"<br><b>Categoria: </b>"
 										+category_text+"</address> ");
@@ -4228,7 +4228,7 @@ function init_JQVmap(){
 								var category_text = $("#category option:selected").text();
 								if( category!="" ){
 									$("#contract_datos5").html("<address> <br><b>Programa: </b>"+program+"<br><b>Responsable: </b>"
-										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Tipo de Etapa: </b>"+type_stages_text+"</address> ");	
+										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Clasificación: </b>"+type_stages_text+"</address> ");	
 									$("#contract_datos6").html("<address><br><b>Categoria: </b>"
 										+category_text+"</address> ");
 									return true;
@@ -4236,7 +4236,7 @@ function init_JQVmap(){
 								}
 								else{
 									$("#contract_datos5").html("<address> <br><b>Programa: </b>"+program+"<br><b>Responsable: </b>"
-										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Tipo de Etapa: </b>"+type_stages_text+"</address> ");	
+										+responsable_text+"<br><b>Competencia: </b>"+component_text+"<br><b>Clasificación: </b>"+type_stages_text+"</address> ");	
 									return true;
 
 								}

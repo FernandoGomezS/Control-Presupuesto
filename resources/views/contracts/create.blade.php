@@ -149,7 +149,7 @@
  										</div>
  									</div>
  									<div class="item form-group">
- 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type_stages">Tipo de Etapa <span class="required">*</span>
+ 										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type_stages">Clasificación <span class="required">*</span>
  										</label>
  										<div class="col-md-6 col-sm-6 col-xs-12">  
  											<select class='form-control' id='type_stages' name="type_stages" disabled required="">
@@ -211,7 +211,7 @@
  												<option {{(old('function')=='Monitor')?'selected' : ''}} value="Monitor">Monitor</option>                
  												<option {{(old('function')=='Gestor Territorial')?'selected' : ''}}  value="Gestor Territorial">Gestor Territorial</option> 
  												<option {{(old('function')=='Administrador Contable')?'selected' : ''}} value="Administrador Contable">Administrador Contable</option>
- 												<option {{(old('function')=='Coordimador')?'selected' : ''}} value="Coordimador">Coordimador</option>
+ 												<option {{(old('function')=='Coordinador')?'selected' : ''}} value="Coordinador">Coordinador</option>
  												<option {{(old('function')=='Encargado')?'selected' : ''}}  value="Encargado">Encargado</option> 
  												<option {{(old('function')=='Apoyo al Programa')?'selected' : ''}} value="Apoyo al Programa">Apoyo al Programa</option>
  												<option {{(old('function')=='Técnico')?'selected' : ''}} value="Técnico">Técnico</option>

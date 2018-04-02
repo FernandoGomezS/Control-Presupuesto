@@ -64,7 +64,7 @@
 									<br><b>Responsable: </b>{{ $contract->responsables->names.' '.$contract->responsables->last_name }}
 									
 									<br><b>Competencia: </b>{{ $contract->type_stages->components->name}}
-									<br><b>Tipo de Etapa: </b>{{ $contract->type_stages->name}}
+									<br><b>Clasificación: </b>{{ $contract->type_stages->name}}
 								</address> 
 							</div>
 							<!-- /.col -->

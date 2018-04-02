@@ -21,7 +21,7 @@ class CreateContractsTable extends Migration
             $table->bigInteger('responsable_id')->unsigned()->index();  
             $table->bigInteger('employee_id')->unsigned()->index();
             $table->bigInteger('budget_id')->unsigned();               
-            $table->enum('function', ['Control de Competencia', 'Monitor','Gestor Territorial','Administrador Contable','Coordimador','Encargado','Apoyo al Programa','Técnico','Ayudante Técnico','Delegado','Mecánico']);
+            $table->enum('function', ['Control de Competencia', 'Monitor','Gestor Territorial','Administrador Contable','Coordinador','Encargado','Apoyo al Programa','Técnico','Ayudante Técnico','Delegado','Mecánico']);
             $table->string('sport'); //deporte
             $table->string('program'); //programa
             $table->string('position');
