@@ -24,6 +24,7 @@ class HomeController extends Controller
         	if($budget->count() == 0){
         		$budget=null;
         		$contracts=null;
+        		$competencias=null;
         	}
         	else{
         		//ultimos 5 contratos

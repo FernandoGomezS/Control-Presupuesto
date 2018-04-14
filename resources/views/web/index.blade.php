@@ -147,9 +147,9 @@
 </div>
 @else
 <div class="right_col" role="main">
-	<h1> No Existe Presupuesto Activo.</h1>
-	<h1> Administrador Ir a Presupuesto->Buscar y activar un presupuesto.</h1>
-</div>>
+	<h1> No Existe Presupuesto .</h1>
+	<h1> Administrador Ir a Presupuesto y crear un presupuesto activo.</h1>
+</div>
 <br>
 @endif
 @endsection
@@ -175,7 +175,7 @@
 					"Pagado"
 					],
 					datasets: [{
-						data: [{{ (($budget->amount_total-$budget->amount_spent)*100)/$budget->amount_total }}, {{ (($budget->amount_spent-$sumPaid)*100)/$budget->amount_total }}, {{ ($sumPaid*100)/$budget->amount_total }}],
+						data: [@if($budget!=null ){{ (($budget->amount_total-$budget->amount_spent)*100)/$budget->amount_total }}, {{ (($budget->amount_spent-$sumPaid)*100)/$budget->amount_total }}, {{ ($sumPaid*100)/$budget->amount_total }}@endif],
 						backgroundColor: [	
 						"#E74C3C",
 						"#26B99A",
