@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,6 +160,18 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //Español laravel
+        Laraveles\Spanish\SpanishServiceProvider::class,
+        //From
+        Collective\Html\HtmlServiceProvider::class,
+        //flash mensajes
+        Laracasts\Flash\FlashServiceProvider::class,
+        //pdf
+        Barryvdh\DomPDF\ServiceProvider::class,
+        //excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        
+
     ],
 
     /*
@@ -208,6 +220,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

@@ -1,183 +1,117 @@
 @extends('layouts.home')
 @section('content')
 
-      <!-- page content -->
-      <div class="right_col" role="main">
-        <div class="">
-          <div class="page-title">
-                                 
-          </div>
-          <div class="clearfix"></div>
+<!-- page content -->
+<div class="right_col" role="main">
+	<div class="">
+		<div class="page-title">
 
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Responsable</h2>
-                    
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                
-          
-                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                      <thead>
-                        <tr>
-                          <th>Nombres</th>
-                          <th>Apellidos</th>                          
-                          <th>RUT</th>                          
-                          <th>Fecha Creación</th>  
-                          <th>Correo</th>
-                          <th>Acción</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Tiger</td>
-                          <td>Nixon</td>                          
-                          <td>12.345.678-9</td>                          
-                          <td>2011/04/25</td>   
-                          <td>t.nixon@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Garrett</td>
-                          <td>Winters</td>
-                         <td>12.345.678-9</td>         
-                          <td>2011/07/25</td>
-                          <td>g.winters@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Ashton</td>
-                          <td>Cox</td>
-                          <td>12.345.678-9</td>                            
-                          <td>2009/01/12</td>
-                          <td>a.cox@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Cedric</td>
-                          <td>Kelly</td>
-                         <td>12.345.678-9</td>                            
-                          <td>2012/03/29</td>                          
-                          <td>c.kelly@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Airi</td>
-                          <td>Satou</td>
-                         <td>12.345.678-9</td>      
-                          <td>2008/11/28</td>
-                          <td>a.satou@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Brielle</td>
-                          <td>Williamson</td>
-                          <td>12.345.678-9</td>                              
-                          <td>2012/12/02</td>   
-                          <td>b.williamson@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Herrod</td>
-                          <td>Chandler</td>
-                          <td>12.345.678-9</td>                           
-                          <td>2012/08/06</td>                       
-                          <td>h.chandler@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Rhona</td>
-                          <td>Davidson</td>
-                          <td>12.345.678-9</td>                             
-                          <td>2010/10/14</td>                      
-                          <td>r.davidson@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Colleen</td>
-                          <td>Hurst</td>
-                          <td>12.345.678-9</td>                         
-                          <td>2009/09/15</td>                      
-                          <td>c.hurst@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Sonya</td>
-                          <td>Frost</td>
-                          <td>12.345.678-9</td>                           
-                          <td>2008/12/13</td>                      
-                          <td>s.frost@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                       
+		</div>
+		<div class="clearfix"></div>
 
-                        </tr>
-                        <tr>
-                          <td>Jena</td>
-                          <td>Gaines</td>
-                          <td>12.345.678-9</td>                         
-                          <td>2008/12/19</td>                      
-                          <td>j.gaines@datatables.net</td>
-                          <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Ver </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Eliminar </a>
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-          
-          
-                  </div>
-                </div>
-              </div>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>Responsable</h2>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						@include('flash::message') 
+						<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Nombres</th> 
+									<th>Apellido</th>                                         
+									<th>Rut</th>  
+									<th>Email</th>
+									<th>Acción</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach( $responsables as $responsable )  
+								<tr>  
+									<td>               
+										@if( strlen($responsable->names) < 20 )
+										{{ $responsable->names }}
+										@else
+										{{ substr($responsable->names,0 ,10) . "..." }}
+										@endif
+									</td> 
+									<td>               
+										@if( strlen($responsable->last_name) < 20 )
+										{{ $responsable->last_name }}
+										@else
+										{{ substr($responsable->last_name,0 ,10) . "..." }}
+										@endif
+									</td> 
 
-        </div>
+									<td>               
+										@if( strlen($responsable->rut) < 20 )
+										{{ $responsable->rut}}
+										@else
+										{{ substr($responsable->rut,0 ,10) . "..." }}
+										@endif
+									</td>  
+									<td>               
+										@if( strlen($responsable->email) < 25 )
+										{{ $responsable->email }}
+										@else
+										{{ substr($responsable->email,0 ,10) . "..." }}
+										@endif
+									</td>  
+									<td>                    
+										<a href="{{ route('responsables.show',['id'=>$responsable->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Ver </a>
+										<a href="{{ route('responsables.edit',['id'=>$responsable->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Editar </a>
+										<button type="button" data-toggle="modal" data-target="#modal-delete" data-delete-link="{{ route('responsables.destroy', $responsable) }}" class="btn btn-danger btn-xs delete-court-button"><i class="fa fa-trash-o"></i> Eliminar</button>
+									</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- /page content -->
+
+<!-- Small modal -->
+<div class="modal fade bs-example-modal-sm" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel2">Confirmación</h4>
       </div>
-    </div>
-    <!-- /page content -->
+      <div class="modal-body">
+        <p>Está a punto de eliminar este responsable...¿Está seguro(a) de proceder?</p>                                                 
+      </div>
+      <div class="modal-footer">
+        <form  id="delete-court-form" method="POST" action="">
+          {{ csrf_field() }}
+          {{ method_field('DELETE') }}
+          <button type="button" class="btn btn-default" data-dismiss="modal">No, cancelar</button>
+          <button type="submit" class="btn btn-danger "> Si, Eliminar</button>    
 
+        </form>                      
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- /modals -->
+
+<!-- /page content -->
+@section('scripts')
+<script type="text/javascript">
+$('.delete-court-button').on('click', function () {
+    $('#delete-court-form').attr('action', $(this).data('delete-link'));
+});
+</script>
+@endsection
 @endsection

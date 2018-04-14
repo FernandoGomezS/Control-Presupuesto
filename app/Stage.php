@@ -12,6 +12,10 @@ class Stage extends Model
      * @var array
      */
     protected $fillable = [
-        'type_stage_id', 'name'
+        'type_stage_id', 'name','amount_spent','amount_total'
     ];   
+    public function type_stages()
+    {
+        return $this->belongsTo('App\TypeStage','type_stage_id');
+    }
 }

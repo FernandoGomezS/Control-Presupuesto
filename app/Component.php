@@ -12,5 +12,5 @@ class Component extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name','budget_id','amount_total','amount_spent','numbers_employees'
     ];}

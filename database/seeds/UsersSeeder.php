@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\User;
+use App\Role;
 
 class UsersSeeder extends Seeder
 {
@@ -12,11 +13,26 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-       DB::table('users')->insert([
-        	'name'=>'Administrador'	,
-        	'email'=>'admin@gmail.com',
-        	'password'=>bcrypt('admin'),
-        	'role_id'=>'1'
-        ]);       
+       
+
+        $role_user = Role::where('name', 'Usuario')->first();
+        $role_admin = Role::where('name', 'Administrador')->first();
+
+     
+        $user = new User();
+        $user->name = 'User';
+        $user->last_name = 'Last name';
+        $user->email = 'user@example.com';
+        $user->password = bcrypt('secret');
+        $user->save();
+        $user->roles()->attach($role_user);
+
+        $user = new User();
+        $user->name = 'Fernando';
+        $user->last_name = 'Gómez}';
+        $user->email = 'fernandorgs1089@gmail.com';
+        $user->password = bcrypt('12345');
+        $user->save();
+        $user->roles()->attach($role_admin);     
     }
 }

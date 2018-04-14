@@ -19,7 +19,11 @@ class TypeStage extends Model
      * @var array
      */
     protected $fillable = [
-        'component_id', 'name'
+        'component_id', 'name','amount_total','amount_spent'
     ];   
+    public function components()
+    {
+        return $this->belongsTo('App\Component','component_id');
+    }
 
-
+}

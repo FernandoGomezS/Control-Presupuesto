@@ -16,10 +16,10 @@ class ComponentsSeeder extends Seeder
         	'name'=>'Escolar'	
         ]);
          DB::table('components')->insert([
-        	'name'=>'Federado'	
+        	'name'=>'Federada'	
         ]);
           DB::table('components')->insert([
-        	'name'=>'Ligas de Educación superior'	
+        	'name'=>'Educación superior'	
         ]);         
     }
 }

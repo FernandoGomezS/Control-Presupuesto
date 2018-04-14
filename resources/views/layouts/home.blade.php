@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">         
     {{--CSRF Token--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">    
-
     {{--Common App Styles--}}
     <link rel="icon" href="{{ asset('images/favicon.ico')}}" type="image/ico" />
     <link href="{{ asset('/assets/app/css/app.css')}}" rel="stylesheet">
-    <link href="{{ asset('/assets/admin/css/admin.css')}}" rel="stylesheet">        
+    <link href="{{ asset('/assets/admin/css/admin.css')}}" rel="stylesheet">  
+     <link href="{{ asset('/assets/app/css/custom.css')}}" rel="stylesheet"> 
 
-
+     <link href="{{ asset('/assets/app/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/app/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
     {{--Styles--}}
     @yield('styles')
-
     {{--Head--}}
     @yield('head')
     <title>control de Presupuesto </title>
-
 </head>
 <body class="nav-md">
 
@@ -28,7 +30,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-archive"></i> <span>Presupuesto </span></a>
+            <a href="/" class="site_title"><i class="fa fa-archive"></i> <span>Presupuesto </span><small>{{ $budget_active}}</small></a>
         </div>
 
         <div class="clearfix"></div>
@@ -40,7 +42,7 @@
           </div>
           <div class="profile_info">
               <span>Bienvenido,</span>
-              <h2>Administrador</h2>
+              <h2>{{ auth()->user()->name }}</h2>
           </div>
       </div>
       <!-- /menu profile quick info -->
@@ -56,15 +58,10 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Contratos <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">      
-                          <li><a href="{{route('contracts.create') }} ">Crear contratos</a></li>                      
+                          <li><a href="{{route('contracts.create') }} ">Crear contrato</a></li>                      
                           <li><a href="{{ route('contracts.search') }}">Buscar contratos</a></li>                     
                       </ul>
-                  </li>
-                  <li><a><i class="fa fa-list-alt"></i> Presupuesto <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">                      
-                          <li><a href="{{ route('budgets.search') }}">Buscar Presupuestos</a></li>                      
-                      </ul>
-                  </li>
+                  </li>                 
                   <li><a><i class="fa fa-users"></i> Empleados <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                           <li><a href="{{ route('employees.create') }}">Crear Empleado</a></li>
@@ -79,6 +76,7 @@
                   </li>                    
               </ul>
           </div>
+         @if(auth()->user()->hasRole('Administrador'))
           <div class="menu_section">
               <h3>Administración</h3>
               <ul class="nav side-menu">
@@ -96,13 +94,11 @@
                   </li>                                               
               </ul>
           </div>
-
+        @endif
       </div>
       <!-- /sidebar menu -->
-
   </div>
 </div>
-
 <!-- top navigation -->
 <div class="top_nav">
   <div class="nav_menu">
@@ -110,16 +106,15 @@
           <div class="nav toggle">
               <a id="menu_toggle"><i class="fa fa-bars"></i></a>
           </div>
-
           <ul class="nav navbar-nav navbar-right">
               <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <img src="{{ asset('/images/user.png')}}" alt="">Administrador
+                      <img src="{{ asset('/images/user.png')}}" alt="">{{ auth()->user()->name.' '.auth()->user()->last_name }}
                       <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                      <li><a href="javascript:;"> Mi Perfil</a></li>
-                      <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
+                      <li> <a href="{{ route('users.show',['id'=>auth()->user()->id]) }}" > Mi Perfil </a></li>
+                      <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                   </ul>
               </li>
           </ul>
@@ -129,9 +124,8 @@
 <!-- /top navigation -->
 
 {{--Page--}}
+
 @yield('content')
-
-
 <!-- footer content -->
 <footer>
   <div class="pull-right">
@@ -147,8 +141,18 @@
 <script src="{{ asset('/assets/app/js/app.js')}}"></script>
 <script src="{{ asset('/assets/admin/js/admin.js')}}"></script>
 
-
-
+  <!-- Datatables -->
+  <script src="{{ asset('/assets/app/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ asset('/assets/app/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/buttons.bootstrap.min.js')}}"></script>
+        <script src="{{ asset('/assets/app/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/responsive.bootstrap.js')}}"></script>
+    <script src="{{ asset('/assets/app/js/dataTables.scroller.min.js')}}"></script>
+<script>
+    $('#flash-overlay-modal').modal();
+$('div.alert').not('.alert-important').delay(3000).fadeOut(550);
+</script>
 {{--Scripts--}}
 @yield('scripts')
 </body>

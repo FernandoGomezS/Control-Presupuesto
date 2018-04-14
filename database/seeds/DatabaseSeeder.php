@@ -14,16 +14,19 @@ class DatabaseSeeder extends Seeder
     {
     	//borra la base de datos
     	$this->truncateTables([
-    		'users','contracts','employees','roles','responsables','budgets','components','stages','type_stages','quotas'
+    		'users','contracts','afps','healths','employees','roles','role_user','responsables','budgets','components','stages','type_stages','quotas'
 
     	]);
     	//llama a las clases para cargar  BD
-         $this->call(ComponentsSeeder::class);
-         $this->call(Types_stagesSeeder::class);
-         $this->call(StagesSeeder::class);
+         //$this->call(BudgetsSeeder::class);
+         //$this->call(ComponentsSeeder::class);
+         //$this->call(Types_stagesSeeder::class);
+         //$this->call(StagesSeeder::class);
          $this->call(RolesSeeder::class);
          $this->call(UsersSeeder::class);
          $this->call(ResponsablesSeeder::class);
+         $this->call(AfpsSeeder::class);
+         $this->call(HealthsSeeder::class);
 
     }
 

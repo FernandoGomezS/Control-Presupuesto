@@ -15,7 +15,13 @@ class CreateComponentsTable extends Migration
     {
         Schema::create('components', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned()->index();
-            $table->string('name')->unique();
+            $table->bigInteger('budget_id')->unsigned();
+            $table->string('name');
+            $table->bigInteger('amount_total')->unsigned();
+            $table->bigInteger('amount_spent')->unsigned();
+            $table->bigInteger('numbers_employees')->unsigned();
+            $table->bigInteger('contracted_employees')->unsigned();
+            $table->foreign('budget_id')->references('id')->on('budgets');   
             $table->timestamps();
         });
     }
